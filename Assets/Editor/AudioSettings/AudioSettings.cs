@@ -18,12 +18,12 @@ public class AudioSettings : EditorWindow
     [MenuItem("Tools/" + TOOL_NAME)]
     static void Open()
     {
-        var window = GetWindow(typeof(AudioSettings)) as AudioSettings;
+        EditorWindow window = GetWindow(typeof(AudioSettings)) as AudioSettings;
         window.Show();
         window.titleContent = new GUIContent(TOOL_NAME);
 
 
-        var param = AssetDatabase.LoadAssetAtPath<AudioSettingsParam>(ASSET_PATH + TOOL_NAME + ".asset");
+        AudioSettingsParam param = AssetDatabase.LoadAssetAtPath<AudioSettingsParam>(ASSET_PATH + TOOL_NAME + ".asset");
         if (param != null)
         {
             param = paramData;
@@ -37,8 +37,7 @@ public class AudioSettings : EditorWindow
 
     void OnEnable()
     {
-        var param = AssetDatabase.LoadAssetAtPath<AudioSettingsParam>(ASSET_PATH + TOOL_NAME + ".asset");
-        param = paramData;
+        paramData = AssetDatabase.LoadAssetAtPath<AudioSettingsParam>(ASSET_PATH + TOOL_NAME + ".asset");
     }
 
     void OnGUI()
