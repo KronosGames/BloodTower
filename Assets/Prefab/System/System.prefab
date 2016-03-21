@@ -1,0 +1,152 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &124030
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 465434}
+  - 114: {fileID: 11437998}
+  - 114: {fileID: 11426254}
+  - 114: {fileID: 11474218}
+  - 114: {fileID: 11436736}
+  - 114: {fileID: 11470376}
+  m_Layer: 0
+  m_Name: System
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &465434
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 124030}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+--- !u!114 &11426254
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 124030}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 510dfe23b33eb0049893aa2e45c893b8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameSequenceList:
+  - sequence: 1
+    sceneName: BloodTower
+    loadMode: 0
+    isUnloadScene: 1
+  - sequence: 2
+    sceneName: Entry
+    loadMode: 1
+    isUnloadScene: 0
+  - sequence: 3
+    sceneName: Home
+    loadMode: 1
+    isUnloadScene: 0
+  - sequence: 4
+    sceneName: BattleMap
+    loadMode: 1
+    isUnloadScene: 0
+  - sequence: 5
+    sceneName: Camp
+    loadMode: 1
+    isUnloadScene: 0
+--- !u!114 &11436736
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 124030}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71cd4893ece6dad4094c79a44b89c437, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &11437998
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 124030}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9766fadb31be3d844a0160bc16b586bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &11470376
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 124030}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 116faed00b6c4744795d383b8843fe3d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inputSettingList:
+  - id: 0
+    name: PlayerMoveHorizontal
+    negative: a
+    positive: d
+    altNegative: 
+    altPositive: 
+    joyStickNum: 0
+    axisNum: 1
+    mouseButtonID: -1
+    isJoyPadAxisCreate: 1
+  - id: 1
+    name: PlayerMoveVertical
+    negative: w
+    positive: s
+    altNegative: 
+    altPositive: 
+    joyStickNum: 0
+    axisNum: 2
+    mouseButtonID: -1
+    isJoyPadAxisCreate: 1
+  - id: 2
+    name: PlayerAttack
+    negative: joystick button 1
+    positive: 
+    altNegative: 
+    altPositive: 
+    joyStickNum: 0
+    axisNum: 1
+    mouseButtonID: 0
+    isJoyPadAxisCreate: 0
+--- !u!114 &11474218
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 124030}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72c84a149bedf0b4db558478b3b04dc9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 124030}
+  m_IsPrefabParent: 1
