@@ -6,7 +6,8 @@ public enum DB_ID
 { 
     NONE,
     CHARACTER,
-    STEPDATA,
+    WEAPON,
+    SKILL
 }
 
 public class DatabaseLoadData
@@ -29,14 +30,13 @@ public class DatabaseManager : ManagerBase
         data.tableName = tableName;
         data.id = id;
 
-
         return data;
     }
 
     void Awake()
     {
-        databseList.Add(GetData(DB_ID.CHARACTER, "character" ,"characterTable"));
-        databseList.Add(GetData(DB_ID.STEPDATA, "step","stepTable"));
+        databseList.Add(GetData(DB_ID.WEAPON, "WeaponList" ,"WeaponTable"));
+        databseList.Add(GetData(DB_ID.SKILL, "SkillList" ,"SkillTable"));
     }
 
     void Start()

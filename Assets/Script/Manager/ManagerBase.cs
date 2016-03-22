@@ -9,8 +9,11 @@ public enum MANAGER_ID
     UI,
     DATABASE,
     GAME_MAIN,
+    BATTLE,
     EFFECT,
     INPUT,
+    WEAPON,
+    MAP,
 }
 
 // 管理データ
