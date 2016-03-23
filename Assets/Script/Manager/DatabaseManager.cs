@@ -44,6 +44,14 @@ public class DatabaseManager : ManagerBase
         InitManager(this, MANAGER_ID.DATABASE);
     }
 
+    // デバッグ用
+    public static DataTable DebugReqLoad(DB_ID id, string dbName, string tableName)
+    {
+        SqliteDatabase sqlDB = new SqliteDatabase(dbName + ".db");
+        string selectQuery = "SELECT * FROM " + tableName;
+        return sqlDB.ExecuteQuery(selectQuery);
+    }
+
     public static DataTable RequestLoad(DB_ID id)
     {
         for (int i = 0; i < databseList.Count; i++)

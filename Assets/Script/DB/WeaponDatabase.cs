@@ -9,13 +9,14 @@ public class WeaponTable
     public string name;     //< 名前
     public string explain;  //< 説明
     public string iconPath;     //< アイコンパス
+    public string materialPath;     //< マテリアルパス
 }
 
 public class WeaponDatabase : MonoBehaviour
 {
     static List<WeaponTable> weaponList = new List<WeaponTable>();
 
-	void Start ()
+    void Start()
     {
         weaponList.Clear();
 
@@ -29,7 +30,8 @@ public class WeaponDatabase : MonoBehaviour
             addData.type = data.GetInt("type");
             addData.name = data.GetString("name");
             addData.explain = data.GetString("explain");
-            addData.iconPath = data.GetString("icon");
+            addData.iconPath = data.GetString("iconPath");
+            addData.materialPath = data.GetString("materialPath");
 
             weaponList.Add(addData);
         }
