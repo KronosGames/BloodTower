@@ -9,6 +9,14 @@ public class WeaponInfo : MonoBehaviour {
     // Skill
     public SKILL_ID skillID = SKILL_ID.NONE;
 
+    // 種類
+    [HideInInspector]
+    public WEAPON_TYPE weaponType = WEAPON_TYPE.NONE;
+
+    //  -----------------------------------------------------
+    //  公開用関数
+    //  -----------------------------------------------------
+
     // 見た目を変更
     public void ChangeDraw()
     {

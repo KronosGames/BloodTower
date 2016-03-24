@@ -51,6 +51,13 @@ public class WeaponManager : ManagerBase
     static public void Setup(WeaponInfo[] infoList)
     {
         weaponList = infoList;
+
+        for (int i = 0; i < weaponList.Length; i++)
+        {
+            WeaponInfo info = weaponList[i];
+            WeaponTable table = WeaponDatabase.GetWeapon((int)info.weaponID);
+            info.weaponType = (WEAPON_TYPE)table.type;
+        }
     }
 
     // 現在の階層の武器一覧が取得できる。
@@ -59,32 +66,24 @@ public class WeaponManager : ManagerBase
         return weaponList;
     }
 
-    // IDからTypeに変換します。
-    static public WEAPON_TYPE GetWeaponType(WEAPON_ID id)
+    // 配置された武器の種類リスト
+    static public WeaponInfo[] GetWeaponTypeList(WEAPON_TYPE type)
     {
-        WeaponTable weapon = WeaponDatabase.GetWeapon((int)id);
+        List<WeaponInfo> infoList = new List<WeaponInfo>();
 
-        if (weapon.id >= 0 && weapon.id <= 19)
+        for (int i = 0; i < weaponList.Length; i++)
         {
-            return WEAPON_TYPE.ROD;
-        }
-        if (weapon.id >= 20 && weapon.id <= 39)
-        {
-            return WEAPON_TYPE.SWORD;
-        }
-        if (weapon.id >= 40 && weapon.id <= 59)
-        {
-            return WEAPON_TYPE.DAGGER;
-        }
-        if (weapon.id >= 60 && weapon.id <= 79)
-        {
-            return WEAPON_TYPE.SPEAR;
+            WeaponInfo info = weaponList[i];
+            if (info.weaponType == type)
+            {
+                infoList.Add(info);
+            }
         }
 
-        return WEAPON_TYPE.NONE;
+        return infoList.ToArray();
     }
 
-    // 武器のマテリアルを取得
+    // 配置された武器のマテリアルを取得
     static public Material GetWeaponMaterial(WEAPON_ID id,bool isInspectorEdit = false)
     {
         if (isInspectorEdit)
@@ -118,7 +117,7 @@ public class WeaponManager : ManagerBase
         return null;
     }
 
-    // 武器の画像を取得
+    // 配置された武器の画像を取得
     static public Sprite GetWeaponSprite(WEAPON_ID id, bool isInspectorEdit = false)
     {
 
