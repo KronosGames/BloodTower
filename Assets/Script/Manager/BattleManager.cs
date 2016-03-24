@@ -3,6 +3,9 @@ using System.Collections;
 
 public class BattleManager : ManagerBase
 {
+    [SerializeField]
+    Transform playerTrans = null;
+
     static BattleMapScene.CHANGE_SCENE_TYPE changeSceneType = BattleMapScene.CHANGE_SCENE_TYPE.NONE;
     static int currentCount = 0;
     static bool isChange = false;
@@ -101,4 +104,6 @@ public class BattleManager : ManagerBase
     {
         return changeSceneType;
     }
+
+
 }
