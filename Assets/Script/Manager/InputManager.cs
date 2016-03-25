@@ -29,6 +29,12 @@ public enum INPUT_ID
     CANCEL,
 }
 
+public enum AXIS_NUM
+{
+    HORIZONTAL = 1,
+    VERICAL = 2,
+}
+
 [System.Serializable]
 public class InputSettingData
 {
@@ -40,7 +46,7 @@ public class InputSettingData
     public string altPositive = "";
 
     public int joyStickNum = 0;
-    public int axisNum = 0;
+    public AXIS_NUM axisNum = AXIS_NUM.HORIZONTAL;
     public bool isJoyPadAxisCreate = false;
 }
 

@@ -28,7 +28,7 @@ public class InputManagerSetting : Editor
 
                 if (data.isJoyPadAxisCreate)
                 {
-                    generator.AddAxis(InputAxis.CreatePadAxis(data.name, data.joyStickNum, data.axisNum));
+                    generator.AddAxis(InputAxis.CreatePadAxis(data.name, data.joyStickNum, (int)data.axisNum));
                 }
             }
 

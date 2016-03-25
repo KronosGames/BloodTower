@@ -27,7 +27,6 @@ public class BattleMapScene : MonoBehaviour
     {
         seqState = SEQ_STATE.SETUP;
         changeSceneType = CHANGE_SCENE_TYPE.NONE;
-
     }
 	
 	void Update ()
