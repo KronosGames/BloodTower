@@ -5,6 +5,7 @@ using System.Collections.Generic;
 public enum DB_ID
 { 
     NONE,
+    GAMEUSER,
     CHARACTER,
     WEAPON,
     SKILL
@@ -35,6 +36,8 @@ public class DatabaseManager : ManagerBase
 
     void Awake()
     {
+        databseList.Add(GetData(DB_ID.GAMEUSER, "GameUser" ,"GameUserTable"));
+        databseList.Add(GetData(DB_ID.CHARACTER, "Character" ,"CharacterTable"));
         databseList.Add(GetData(DB_ID.WEAPON, "WeaponList" ,"WeaponTable"));
         databseList.Add(GetData(DB_ID.SKILL, "SkillList" ,"SkillTable"));
     }
