@@ -155,6 +155,11 @@ public class InputManager : ManagerBase
     //  公開用関数
     //  -----------------------------------------
 
+    static public bool IsAnyDown()
+    {
+        return Input.anyKeyDown;
+    }
+
     static public float GetAxis(INPUT_ID id)
     {
         return Input.GetAxis(GetInput(id).name);
@@ -179,7 +184,6 @@ public class InputManager : ManagerBase
     {
         return GetInput(id).state == InputData.STATE.UP;
     }
-
 
     public InputSettingData[] GetInputSettingList()
     {

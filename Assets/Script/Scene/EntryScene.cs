@@ -6,7 +6,7 @@ public class EntryScene : MonoBehaviour
     void Update()
     {
         // Test Code
-        if (InputManager.IsDown(INPUT_ID.SUBMIT))
+        if (InputManager.IsAnyDown())
         {
             GameMain.ChangeSequence(GAME_SEQUENCE.HOME);
         }

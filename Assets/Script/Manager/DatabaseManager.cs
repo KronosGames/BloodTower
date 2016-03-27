@@ -8,7 +8,8 @@ public enum DB_ID
     GAMEUSER,
     CHARACTER,
     WEAPON,
-    SKILL
+    SKILL,
+    GAMETEXT,
 }
 
 public class DatabaseLoadData
@@ -40,6 +41,7 @@ public class DatabaseManager : ManagerBase
         databseList.Add(GetData(DB_ID.CHARACTER, "Character" ,"CharacterTable"));
         databseList.Add(GetData(DB_ID.WEAPON, "WeaponList" ,"WeaponTable"));
         databseList.Add(GetData(DB_ID.SKILL, "SkillList" ,"SkillTable"));
+        databseList.Add(GetData(DB_ID.GAMETEXT, "GameText" , "GamTable"));
     }
 
     void Start()
