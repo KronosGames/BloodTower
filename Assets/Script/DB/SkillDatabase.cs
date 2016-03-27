@@ -2,26 +2,10 @@
 using System.Collections;
 using System.Collections.Generic;
 
-// スキルID
-public enum SKILL_ID
-{
-    NONE = -1,
-    FIRE_OUTPUT,   //< 炎を出す
-    ATK_UP,         //< 攻撃力アップ
-}
-
-
-public class SkillTable
-{
-    public int id;
-    public string name;
-    public string explain;
-}
-
 public class SkillDatabase : MonoBehaviour
 {
 
-    static List<SkillTable> skillList = new List<SkillTable>();
+    static List<SkillParam> skillList = new List<SkillParam>();
 
 	void Start ()
     {
@@ -31,12 +15,11 @@ public class SkillDatabase : MonoBehaviour
         for (int i = 0; i < dataTable.Rows.Count; i++)
         {
             DataRow data = dataTable.Rows[i];
-            SkillTable addData = new SkillTable();
+            SkillParam addData = new SkillParam();
 
-            addData.id = data.GetInt("id");
+            addData.id = (SKILL_ID)data.GetInt("id");
             addData.name = data.GetString("name");
             addData.explain = data.GetString("explain");
-
             skillList.Add(addData);
         }
     }
@@ -46,7 +29,7 @@ public class SkillDatabase : MonoBehaviour
     //  公開関数
     //  --------------------------------------------
 
-    static public SkillTable GetSkillByName(string name)
+    static public SkillParam GetSkillByName(string name)
     {
         for (int i = 0; i < skillList.Count; i++)
         {
@@ -59,7 +42,7 @@ public class SkillDatabase : MonoBehaviour
         return null;
     }
 
-    static public SkillTable GetSkillById(int id)
+    static public SkillParam GetSkillById(SKILL_ID id)
     {
         for (int i = 0; i < skillList.Count; i++)
         {

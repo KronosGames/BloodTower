@@ -4,14 +4,14 @@ using System.Collections;
 public class WeaponInfo : MonoBehaviour {
 
     // ID
-    public WEAPON_ID weaponID = WEAPON_ID.NONE;
+    public WEAPON_ID weaponID = WEAPON_ID.NULL;
 
     // Skill
-    public SKILL_ID skillID = SKILL_ID.NONE;
+    public SKILL_ID skillID = SKILL_ID.NULL;
 
     // 種類
     [HideInInspector]
-    public WEAPON_TYPE weaponType = WEAPON_TYPE.NONE;
+    public WEAPON_TYPE weaponType = WEAPON_TYPE.NULL;
 
     //  -----------------------------------------------------
     //  公開用関数

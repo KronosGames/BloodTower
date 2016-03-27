@@ -2,19 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class WeaponTable
-{
-    public int id;          //< ID
-    public int type;        //< 種類
-    public string name;     //< 名前
-    public string explain;  //< 説明
-    public string iconPath;     //< アイコンパス
-    public string materialPath;     //< マテリアルパス
-}
-
 public class WeaponDatabase : MonoBehaviour
 {
-    static List<WeaponTable> weaponList = new List<WeaponTable>();
+    static List<WeaponParam> weaponList = new List<WeaponParam>();
 
     void Start()
     {
@@ -24,10 +14,10 @@ public class WeaponDatabase : MonoBehaviour
         for (int i = 0; i < dataTable.Rows.Count; i++)
         {
             DataRow data = dataTable.Rows[i];
-            WeaponTable addData = new WeaponTable();
+            WeaponParam addData = new WeaponParam();
 
-            addData.id = data.GetInt("id");
-            addData.type = data.GetInt("type");
+            addData.id = (WEAPON_ID)data.GetInt("id");
+            addData.type = (WEAPON_TYPE)data.GetInt("type");
             addData.name = data.GetString("name");
             addData.explain = data.GetString("explain");
             addData.iconPath = data.GetString("iconPath");
@@ -41,11 +31,11 @@ public class WeaponDatabase : MonoBehaviour
     // 公開用関数
     // --------------------------------------------
 
-    static public WeaponTable GetWeapon(int id)
+    static public WeaponParam GetWeapon(WEAPON_ID id)
     {
         for (int i = 0; i < weaponList.Count; i++)
         {
-            WeaponTable data = weaponList[i];
+            WeaponParam data = weaponList[i];
             if (data.id == id)
             {
                 return data;
@@ -55,13 +45,13 @@ public class WeaponDatabase : MonoBehaviour
         return null;
     }
 
-    static public WeaponTable[] GetWeaponTypeList(int type)
+    static public WeaponParam[] GetWeaponTypeList(WEAPON_TYPE type)
     {
-        List<WeaponTable> weaponTypeList = new List<WeaponTable>();
+        List<WeaponParam> weaponTypeList = new List<WeaponParam>();
 
         for (int i = 0; i < weaponList.Count; i++)
         {
-            WeaponTable data = weaponList[i];
+            WeaponParam data = weaponList[i];
             if (data.type == type)
             {
                 weaponTypeList.Add(data);
@@ -71,13 +61,13 @@ public class WeaponDatabase : MonoBehaviour
         return weaponTypeList.ToArray();
     }
 
-    static public WeaponTable[] GetWeaponListByName(string name)
+    static public WeaponParam[] GetWeaponListByName(string name)
     {
-        List<WeaponTable> weaponList = new List<WeaponTable>();
+        List<WeaponParam> weaponList = new List<WeaponParam>();
 
         for (int i = 0; i < weaponList.Count; i++)
         {
-            WeaponTable data = weaponList[i];
+            WeaponParam data = weaponList[i];
             if (data.name == name)
             {
                 weaponList.Add(data);

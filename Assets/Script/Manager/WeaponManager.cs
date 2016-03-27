@@ -2,38 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public enum WEAPON_TYPE
-{
-    NONE = -1,  //< 未定
-    ROD,        //< 棒
-    SWORD,      //< 剣
-    DAGGER,     //< 短剣
-    SPEAR,      //< 槍
-}
-
-public enum WEAPON_ID
-{
-    NONE = -1,  //< 未定
-
-    //< 棒
-    ROD = 0,
-
-
-    //< 剣
-    SWORD = 20,
-
-
-    //< 短剣
-    DAGGER = 40,
-
-
-    //< 槍
-    SPEAR = 60,    
-    
-     
-}
-
-
 public class WeaponManager : ManagerBase
 {
     static WeaponInfo[] weaponList = null;
@@ -55,7 +23,7 @@ public class WeaponManager : ManagerBase
         for (int i = 0; i < weaponList.Length; i++)
         {
             WeaponInfo info = weaponList[i];
-            WeaponTable table = WeaponDatabase.GetWeapon((int)info.weaponID);
+            WeaponParam table = WeaponDatabase.GetWeapon(info.weaponID);
             info.weaponType = (WEAPON_TYPE)table.type;
         }
     }
@@ -108,7 +76,7 @@ public class WeaponManager : ManagerBase
         }
         else
         {
-            WeaponTable weapon = WeaponDatabase.GetWeapon((int)id);
+            WeaponParam weapon = WeaponDatabase.GetWeapon(id);
             if (weapon == null) return null;
 
             return Resources.Load(weapon.materialPath, typeof(Material)) as Material;
@@ -143,7 +111,7 @@ public class WeaponManager : ManagerBase
         }
         else
         {
-            WeaponTable weapon = WeaponDatabase.GetWeapon((int)id);
+            WeaponParam weapon = WeaponDatabase.GetWeapon(id);
             if (weapon == null) return null;
 
             return Resources.Load(weapon.iconPath, typeof(Sprite)) as Sprite;

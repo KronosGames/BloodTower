@@ -3,29 +3,28 @@ using System.Collections;
 using UnityEditor;
 using System.Collections.Generic;
 
-public class GameTextConverter : EditorWindow
+public class SkillConverter : EditorWindow
 {
-    public class GameTextConverterData
+    public class ConverterData
     {
         public int id;
         public string enumText;
         public string comment;
-        public string text;
     }
 
-    const string TITLE = "GameTextConverter";
+    const string TITLE = "SkillConverter";
     const string MENU_PATH = "Tools/SQLiteConverter/" + TITLE;
-    const string WRITE_PATH = "Assets/Script/DB/GameText.cs";
-    const string TABLE_NAME = "GameTextTable";
+    const string WRITE_PATH = "Assets/Script/DB/SkillParam.cs";
+    const string TABLE_NAME = "SkillTable";
 
     Object dbAsset = null;
     DataTable dataTable = null;
-    GameTextConverterData[] converterList = null;
+    ConverterData[] converterList = null;
 
     [MenuItem(MENU_PATH)]
     static void Open()
     {
-        EditorWindow window = GetWindow<GameTextConverter>();
+        EditorWindow window = GetWindow<SkillConverter>();
         window.titleContent = new GUIContent(TITLE);
         window.Show();
     }
@@ -33,7 +32,7 @@ public class GameTextConverter : EditorWindow
     void OnGUI()
     {
         EditorGUILayout.LabelField("データベースファイル");
-        dbAsset = EditorGUILayout.ObjectField(dbAsset, typeof(Object),false);
+        dbAsset = EditorGUILayout.ObjectField(dbAsset, typeof(Object), false);
 
         EditorGUILayout.Space();
 
@@ -48,16 +47,16 @@ public class GameTextConverter : EditorWindow
                 using (var sw = new System.IO.StreamWriter(WRITE_PATH))
                 {
                     sw.WriteLine("// -----------------------------------------");
-                    sw.WriteLine("// GameText データID");
+                    sw.WriteLine("// Skill データID");
                     sw.WriteLine("// -----------------------------------------");
                     sw.WriteLine("");
 
-                    sw.WriteLine("public enum GAMETEXT_ID");
+                    sw.WriteLine("public enum SKILL_ID");
                     sw.WriteLine("{");
 
                     for (int i = 0; i < converterList.Length; i++)
                     {
-                        GameTextConverterData data = converterList[i];
+                        ConverterData data = converterList[i];
                         sw.Write("    ");
                         sw.WriteLine(data.enumText + " = " + data.id + ",     //< " + data.comment);
                     }
@@ -66,10 +65,11 @@ public class GameTextConverter : EditorWindow
 
                     sw.WriteLine("");
 
-                    sw.WriteLine("public class GameText");
+                    sw.WriteLine("public class SkillParam");
                     sw.WriteLine("{");
-                    sw.WriteLine("    public GAMETEXT_ID id;");
-                    sw.WriteLine("    public string text;");
+                    sw.WriteLine("    public SKILL_ID id;");
+                    sw.WriteLine("    public string name;");
+                    sw.WriteLine("    public string explain;");
                     sw.WriteLine("}");
                 }
 
@@ -83,19 +83,18 @@ public class GameTextConverter : EditorWindow
 
 
 
-    GameTextConverterData[] GetConverterList(DataTable dataTable)
+    ConverterData[] GetConverterList(DataTable dataTable)
     {
-        List<GameTextConverterData> outputLust = new List<GameTextConverterData>();
+        List<ConverterData> outputLust = new List<ConverterData>();
 
         for (int i = 0; i < dataTable.Rows.Count; i++)
         {
             DataRow data = dataTable.Rows[i];
-            GameTextConverterData addData = new GameTextConverterData();
+            ConverterData addData = new ConverterData();
 
             addData.id = data.GetInt("id");
-            addData.enumText = data.GetString("enumName");
-            addData.comment = data.GetString("comment");
-            addData.text = data.GetString("text");
+            addData.enumText = data.GetString("enumID");
+            addData.comment = data.GetString("name");
 
             outputLust.Add(addData);
         }
@@ -104,7 +103,7 @@ public class GameTextConverter : EditorWindow
     }
 
 
-    DataTable GetDataTable(string dbName,string tableName)
+    DataTable GetDataTable(string dbName, string tableName)
     {
         SqliteDatabase sqlDB = new SqliteDatabase(dbName + ".db");
         string selectQuery = "SELECT * FROM " + tableName;
