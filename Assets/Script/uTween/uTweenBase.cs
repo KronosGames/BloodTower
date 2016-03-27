@@ -31,6 +31,7 @@ public class uTweenBase : MonoBehaviour
     protected float playTime = 0;       //< 再生時間
 
     public bool IsPlaying { get { return isTweening; } }
+    public float GetRate() { return rate; }
 
     public void Awake()
     {
@@ -97,6 +98,7 @@ public class uTweenBase : MonoBehaviour
         playTime = 0;
         pauseTime = 0;
         isTweening = false;
+        rate = 0;
     }
 
     protected float GetCurve()

@@ -28,13 +28,22 @@ public class GameSequenceData
 //  ゲームの根っこになる部分です。
 //  ここでは、ゲーム全体の制御をします。
 //  -----------------------------------------------------
-public class GameMain : ManagerBase 
+public class GameMain : ManagerBase
 {
+    enum TRANSACTION_STATE
+    {
+        NONE,
+        In,
+        Out,
+    }
+
     [SerializeField]
     List<GameSequenceData> gameSequenceList = new List<GameSequenceData>();
 
     static GAME_SEQUENCE sequence = GAME_SEQUENCE.SETUP;
-    static bool isChanged = false;
+    static bool isChanging = false;
+    static uTweenBase transactionTween = null;
+    static TRANSACTION_STATE tranState = TRANSACTION_STATE.NONE;
 
     GameSequenceData currentGameSequence = null;
 
@@ -43,19 +52,8 @@ public class GameMain : ManagerBase
         InitManager(this, MANAGER_ID.GAME_MAIN);
 
         sequence = GAME_SEQUENCE.SETUP;
-        isChanged = false;
+        isChanging = false;
 	}
-
-    bool IsChanged()
-    {
-        if (isChanged)
-        {
-            isChanged = false;
-            return true;
-        }
-
-        return false;
-    }
 
     // シーンを捨てる
     void UnloadScene()
@@ -64,6 +62,7 @@ public class GameMain : ManagerBase
         if (currentGameSequence.isUnloadScene) return;
 
         SceneManager.UnloadScene(currentGameSequence.sceneName);
+        OnUnloadSeq();
     }
 
     // シーンをロードする。
@@ -75,23 +74,100 @@ public class GameMain : ManagerBase
             if (data.sequence == sequence)
             {
                 SceneManager.LoadScene(data.sceneName, data.loadMode);
+                OnLoadSeq();
                 currentGameSequence = data;
             }
         }
     }
 
-	void Update ()
+    // シーンを削除する際に呼ばれる関数
+    void OnUnloadSeq()
     {
-        // 変更したらこの処理が来る。
-        if (IsChanged())
-        {
-            UnloadScene();
-            LoadScene();
-        }
-
         // 現在のシーケンス
         switch (sequence)
-        { 
+        {
+            case GAME_SEQUENCE.SETUP:
+
+                break;
+            case GAME_SEQUENCE.TITLE:
+
+                break;
+            case GAME_SEQUENCE.ENTRY:
+
+                break;
+            case GAME_SEQUENCE.HOME:
+
+                break;
+            case GAME_SEQUENCE.BATTLE_MAP:
+
+                break;
+            case GAME_SEQUENCE.CAMP:
+
+                break;
+            case GAME_SEQUENCE.END:
+
+                break;
+        }
+    }
+
+    // シーンを読み込む際に呼ばれる関数
+    void OnLoadSeq()
+    {
+        // 現在のシーケンス
+        switch (sequence)
+        {
+            case GAME_SEQUENCE.SETUP:
+
+                break;
+            case GAME_SEQUENCE.TITLE:
+
+                break;
+            case GAME_SEQUENCE.ENTRY:
+
+                break;
+            case GAME_SEQUENCE.HOME:
+
+                break;
+            case GAME_SEQUENCE.BATTLE_MAP:
+
+                break;
+            case GAME_SEQUENCE.CAMP:
+
+                break;
+            case GAME_SEQUENCE.END:
+
+                break;
+        }
+    }
+
+    void UpdateTransaction()
+    {
+        switch (tranState)
+        {
+            case TRANSACTION_STATE.In:
+                if (transactionTween.GetRate() >= 0.4)
+                {
+                    UnloadScene();
+                    LoadScene();
+                    tranState = TRANSACTION_STATE.Out;
+                }
+                break;
+            case TRANSACTION_STATE.Out:
+                if (!transactionTween.IsPlaying)
+                {
+                    isChanging = false;
+                    transactionTween.Stop();
+                    tranState = TRANSACTION_STATE.NONE;
+                }
+                break;
+        }
+    }
+
+    void UpdateSeq()
+    {
+        // 現在のシーケンス
+        switch (sequence)
+        {
             case GAME_SEQUENCE.SETUP:
                 ChangeSequence(GAME_SEQUENCE.ENTRY);
                 break;
@@ -114,6 +190,19 @@ public class GameMain : ManagerBase
 
                 break;
         }
+    }
+
+    void Update ()
+    {
+        // 変更したらこの処理が来る。
+        if (isChanging)
+        {
+            UpdateTransaction();
+        }
+        else
+        {
+            UpdateSeq();
+        }
 	}
 
     // ----------------------------------------------------
@@ -127,8 +216,12 @@ public class GameMain : ManagerBase
 
     static public void ChangeSequence(GAME_SEQUENCE changeSeq)
     {
+        if (isChanging) return;
+
         sequence = changeSeq;
-        isChanged = true;
+        isChanging = true;
+        tranState = TRANSACTION_STATE.In;
+        transactionTween = uTween.Play("TransactionTween");
     }
 
 }
