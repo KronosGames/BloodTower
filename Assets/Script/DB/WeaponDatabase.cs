@@ -23,6 +23,12 @@ public class WeaponDatabase : MonoBehaviour
             addData.iconPath = data.GetString("iconPath");
             addData.materialPath = data.GetString("materialPath");
 
+            addData.hp = data.GetInt("hp");
+            addData.attack = data.GetInt("attack");
+            addData.defence = data.GetInt("defence");
+            addData.moveSpeed = data.GetInt("moveSpeed");
+            addData.attackSpeed = data.GetInt("attackSpeed");
+
             weaponList.Add(addData);
         }
     }

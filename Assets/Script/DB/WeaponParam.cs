@@ -28,4 +28,9 @@ public class WeaponParam
     public string explain;
     public string iconPath;
     public string materialPath;
+    public int hp;
+    public int attack;
+    public int defence;
+    public int attackSpeed;
+    public int moveSpeed;
 }

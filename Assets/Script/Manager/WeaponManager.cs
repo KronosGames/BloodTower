@@ -23,9 +23,23 @@ public class WeaponManager : ManagerBase
         for (int i = 0; i < weaponList.Length; i++)
         {
             WeaponInfo info = weaponList[i];
-            WeaponParam table = WeaponDatabase.GetWeapon(info.weaponID);
-            info.weaponType = (WEAPON_TYPE)table.type;
+            info.Setup();
         }
+    }
+
+    static public WeaponInfo GetWeapon(WEAPON_ID id)
+    {
+        for (int i = 0; i < weaponList.Length; i++)
+        {
+            WeaponInfo info = weaponList[i];
+            WeaponParam param = info.GetParam();
+            if (param.id == id)
+            {
+                return info;
+            }
+        }
+
+        return null;
     }
 
     // 現在の階層の武器一覧が取得できる。
@@ -42,7 +56,8 @@ public class WeaponManager : ManagerBase
         for (int i = 0; i < weaponList.Length; i++)
         {
             WeaponInfo info = weaponList[i];
-            if (info.weaponType == type)
+            WeaponParam param = info.GetParam();
+            if (param.type == type)
             {
                 infoList.Add(info);
             }
@@ -76,7 +91,7 @@ public class WeaponManager : ManagerBase
         }
         else
         {
-            WeaponParam weapon = WeaponDatabase.GetWeapon(id);
+            WeaponParam weapon = GetWeapon(id).GetParam();
             if (weapon == null) return null;
 
             return Resources.Load(weapon.materialPath, typeof(Material)) as Material;
@@ -111,7 +126,7 @@ public class WeaponManager : ManagerBase
         }
         else
         {
-            WeaponParam weapon = WeaponDatabase.GetWeapon(id);
+            WeaponParam weapon = GetWeapon(id).GetParam();
             if (weapon == null) return null;
 
             return Resources.Load(weapon.iconPath, typeof(Sprite)) as Sprite;

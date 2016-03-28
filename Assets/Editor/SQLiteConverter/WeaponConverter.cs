@@ -84,10 +84,18 @@ public class WeaponConverter : EditorWindow
                     sw.WriteLine("{");
                     sw.WriteLine("    public WEAPON_ID id;");
                     sw.WriteLine("    public WEAPON_TYPE type;");
+
                     sw.WriteLine("    public string name;");
                     sw.WriteLine("    public string explain;");
                     sw.WriteLine("    public string iconPath;");
                     sw.WriteLine("    public string materialPath;");
+
+                    sw.WriteLine("    public int hp;");
+                    sw.WriteLine("    public int attack;");
+                    sw.WriteLine("    public int defence;");
+                    sw.WriteLine("    public int attackSpeed;");
+                    sw.WriteLine("    public int moveSpeed;");
+
                     sw.WriteLine("}");
                 }
 
