@@ -19,35 +19,21 @@ public class CharacterDatabase : MonoBehaviour
     void Start()
     {
         DataTable dataTable = DatabaseManager.RequestLoad(DB_ID.CHARACTER);
-        for (int i = 0; i < dataTable.Rows.Count; i++)
-        {
-            DataRow data = dataTable.Rows[i];
-            CharacterTable tableData = new CharacterTable();
 
-            tableData.id = data.GetInt("id");
-            tableData.hp = data.GetInt("hp");
-            tableData.attack = data.GetInt("attack");
-            tableData.defense = data.GetInt("defence");
-            tableData.attackSpeed = data.GetInt("attackSpeed");
-            tableData.moveSpeed = data.GetInt("moveSpeed");
-            tableData.maxHP = tableData.hp;
+        DataRow data = dataTable.Rows[0];
+        CharacterTable tableData = new CharacterTable();
 
-            characterTable = tableData;
-        }
+        tableData.id = data.GetInt("id");
+        tableData.hp = data.GetInt("hp");
+        tableData.attack = data.GetInt("attack");
+        tableData.defense = data.GetInt("defence");
+        tableData.attackSpeed = data.GetInt("attackSpeed");
+        tableData.moveSpeed = data.GetInt("moveSpeed");
+        tableData.maxHP = tableData.hp;
 
-        GameCharacterParam.Setup();
-    }
+        characterTable = tableData;
 
-
-
-    //  -------------------------------------------------
-    //  公開用関数
-    //  -------------------------------------------------
-
-    // キャラクター情報を取得
-    static public CharacterTable GetCharacterInfo()
-    {
-        return characterTable;
+        GameCharacterParam.Setup(ref characterTable);
     }
 
 }

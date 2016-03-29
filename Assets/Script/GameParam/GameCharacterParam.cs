@@ -4,11 +4,11 @@ using System.Collections;
 // キャラクター(プレイヤー用) パラメーター
 public static class GameCharacterParam
 {
-    static CharacterTable characterParam = null;
+    static CharacterTable characterParam = new CharacterTable();
 
-    static public void Setup()
+    static public void Setup(ref CharacterTable table)
     {
-        characterParam = CharacterDatabase.GetCharacterInfo();
+        characterParam = table;
     }
 
     static public void SetHp(int hp)

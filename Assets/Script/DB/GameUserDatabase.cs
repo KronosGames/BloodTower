@@ -16,32 +16,21 @@ public class GameUserDatabase : MonoBehaviour
     void Start()
     {
         DataTable dataTable = DatabaseManager.RequestLoad(DB_ID.GAMEUSER);
-        for (int i = 0; i < dataTable.Rows.Count; i++)
+
+        DataRow data = dataTable.Rows[0];
+        GameUserTable tableData = new GameUserTable();
+
+        tableData.name = data.GetString("name");
+
+        for (int itemIndex = 0; itemIndex < GameUserTable.ITEM_NUM; itemIndex++)
         {
-            DataRow data = dataTable.Rows[i];
-            GameUserTable tableData = new GameUserTable();
-
-            tableData.name = data.GetString("name");
-
-            for (int itemIndex = 0; itemIndex < GameUserTable.ITEM_NUM; itemIndex++)
-            {
-                tableData.itemList[itemIndex] = data.GetInt("itemID_" + itemIndex.ToString("00"));
-            }
-
-            gameUserTable = tableData;
+            tableData.itemList[itemIndex] = data.GetInt("itemID_" + itemIndex.ToString("00"));
         }
 
-        GameParam.Setup();
+        gameUserTable = tableData;
+
+        GameParam.Setup(ref gameUserTable);
     }
 
 
-    //  -------------------------------------------------
-    //  公開用関数
-    //  -------------------------------------------------
-
-    // ゲームユーザー情報を取得
-    static public GameUserTable GetGameUserInfo()
-    {
-        return gameUserTable;
-    }
 }

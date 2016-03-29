@@ -3,12 +3,12 @@ using System.Collections;
 
 public static class GameParam
 {
-    static GameUserTable gameUserData = null;
+    static GameUserTable gameUserData = new GameUserTable();
 
     // セットアップ処理
-    public static void Setup()
+    public static void Setup(ref GameUserTable table)
     {
-        gameUserData = GameUserDatabase.GetGameUserInfo();
+        gameUserData = table;
     }
 
     static public void SetUserName(string newName)

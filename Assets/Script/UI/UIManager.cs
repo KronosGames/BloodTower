@@ -9,6 +9,7 @@ using System.Reflection;
 public class UIManager : ManagerBase
 {
     static List<UIBase> baseList = new List<UIBase>();
+    static GameText[] gameTextList = null;
 
     // 登録する。
     static public void Register(UIBase uiBase)
@@ -60,4 +61,52 @@ public class UIManager : ManagerBase
 
         UIAnimation.UpdateAnim();
 	}
+
+    //  -----------------------------------------
+    //  公開用関数
+    //  -----------------------------------------
+
+    static public void SetupGameText(GameText[] setGameTextList)
+    {
+        gameTextList = setGameTextList;   
+    }
+
+    // ID から Textを取得
+    static public string GetText(GAMETEXT_ID id, bool isInspectorEdit = false)
+    {
+        if (isInspectorEdit)
+        {
+#if UNITY_EDITOR
+            DataTable dataTable = DatabaseManager.DebugReqLoad(DB_ID.GAMETEXT, "GameText", "GameTextTable");
+
+            for (int i = 0; i < dataTable.Rows.Count; i++)
+            {
+                DataRow data = dataTable.Rows[i];
+                GameText addData = new GameText();
+                addData.id = (GAMETEXT_ID)data.GetInt("id");
+                addData.text = data.GetString("text");
+
+                if (addData.id == id)
+                {
+                    return addData.text;
+                }
+            }
+#endif
+
+        }
+        else
+        {
+
+            for (int i = 0; i < gameTextList.Length; i++)
+            {
+                if (gameTextList[i].id == id)
+                {
+                    return gameTextList[i].text;
+                }
+            }
+        }
+
+        return "NULL";
+    }
+
 }
