@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class GameTextDatabase : MonoBehaviour {
 
-    List<GameText> gameTextList = new List<GameText>();
+    static List<GameText> gameTextList = new List<GameText>();
 
     void Start()
     {
@@ -22,9 +22,42 @@ public class GameTextDatabase : MonoBehaviour {
             gameTextList.Add(addData);
         }
 
-        UIManager.SetupGameText(gameTextList.ToArray());
     }
 
-    
+
+    // ID から Textを取得
+    static public string GetText(GAMETEXT_ID id, bool isInspectorEdit = false)
+    {
+        if (isInspectorEdit)
+        {
+#if UNITY_EDITOR
+            DataTable dataTable = DatabaseManager.DebugReqLoad(DB_ID.GAMETEXT, "GameText", "GameTextTable");
+
+            for (int i = 0; i < dataTable.Rows.Count; i++)
+            {
+                DataRow data = dataTable.Rows[i];
+                GAMETEXT_ID gameTextID = (GAMETEXT_ID)data.GetInt("id");
+
+                if (gameTextID == id)
+                {
+                    return data.GetString("text");
+                }
+            }
+#endif
+        }
+        else
+        {
+
+            for (int i = 0; i < gameTextList.Count; i++)
+            {
+                if (gameTextList[i].id == id)
+                {
+                    return gameTextList[i].text;
+                }
+            }
+        }
+
+        return "NULL";
+    }
 
 }

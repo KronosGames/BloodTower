@@ -19,4 +19,17 @@ public class UIEvent
         }
     }
 
+    // 通知Windowを開く
+    static public void OpenNotificationWindow(ref NotificationWindowParam param)
+    {
+        UIBase cBase = UIManager.GetUIBase(UI_TYPE_ID.NOTIFICATION_WINDOW_INFO);
+        UINotificationWindowInfo info = cBase as UINotificationWindowInfo;
+        if (info != null)
+        {
+            info.OpenWindow(ref param);
+        }
+    }
+
+    
+
 }

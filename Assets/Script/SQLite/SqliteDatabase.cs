@@ -126,10 +126,9 @@ public class SqliteDatabase
 			 
 				//validate the existens of the DB in the original folder (folder "streamingAssets")
 				if (System.IO.File.Exists (sourcePath)) {
-						
+					
 					//copy file - alle systems except Android
 					System.IO.File.Copy (sourcePath, pathDB, true);
-												
 				} else {
 					CanExQuery = false;
 					Debug.Log ("ERROR: the file DB named " + dbName + " doesn't exist in the StreamingAssets Folder, please copy it there.");

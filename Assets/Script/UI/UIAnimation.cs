@@ -24,14 +24,14 @@ public class UIAnimation
 
     static List<UIAnimationData> animationList = new List<UIAnimationData>();
     static List<UIAnimationData> playAnimationList = new List<UIAnimationData>();
-    static int m_nAnimationPlayHandel = 0;
+    static int animationPlayHandel = 0;
 
     // 初期化
     static public void Init()
     {
         playAnimationList.Clear();
         animationList.Clear();
-        m_nAnimationPlayHandel = 0;
+        animationPlayHandel = 0;
     }
 
     // アニメーションを登録する。
@@ -66,7 +66,7 @@ public class UIAnimation
                 cData.animPlayingName = strAnimName;
                 cData.animationState = cData.animation.PlayQueued(cData.animPlayingName);
                 cData.isPause = false;
-                cData.animHandel = m_nAnimationPlayHandel++;
+                cData.animHandel = animationPlayHandel++;
 
                 playAnimationList.Add(cData);
 
@@ -90,8 +90,7 @@ public class UIAnimation
                 cData.animPlayingName = strAnimName;
                 cData.animationState = cData.animation.PlayQueued(cData.animPlayingName);
                 cData.isPause = false;
-                cData.animHandel = m_nAnimationPlayHandel++;
-
+                cData.animHandel = animationPlayHandel++;
                 playAnimationList.Add(cData);
 
                 return cData.animHandel;

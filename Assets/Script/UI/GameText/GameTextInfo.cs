@@ -10,7 +10,7 @@ public class GameTextInfo : MonoBehaviour {
     public void Apply()
     {
         Text textComponent = GetComponent<Text>();
-        textComponent.text = UIManager.GetText(id,true);
+        textComponent.text = GameTextDatabase.GetText(id,true);
     }
 
 }

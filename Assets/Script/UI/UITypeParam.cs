@@ -10,4 +10,11 @@ public enum UI_TYPE_ID
     // Common
     SCROLL_CONTENT,
 
+    // Battle
+    PLAYER_INFO,
+    BOSS_ENEMY_INFO,
+    WEAPON_INFO,
+    NOTIFICATION_WINDOW_INFO,
+    HOLYWATER_INFO,
+
 }
