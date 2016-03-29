@@ -34,6 +34,8 @@ public class CharacterDatabase : MonoBehaviour
 
             characterTable = tableData;
         }
+
+        GameCharacterParam.Setup();
     }
 
 
@@ -43,7 +45,7 @@ public class CharacterDatabase : MonoBehaviour
     //  -------------------------------------------------
 
     // キャラクター情報を取得
-    static public CharacterTable GetCHaracterInfo()
+    static public CharacterTable GetCharacterInfo()
     {
         return characterTable;
     }

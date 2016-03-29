@@ -30,6 +30,8 @@ public class GameUserDatabase : MonoBehaviour
 
             gameUserTable = tableData;
         }
+
+        GameParam.Setup();
     }
 
 

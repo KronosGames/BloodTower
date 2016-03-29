@@ -1,11 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class GameParam : MonoBehaviour
+public static class GameParam
 {
     static GameUserTable gameUserData = null;
 
-    void Start()
+    // セットアップ処理
+    public static void Setup()
     {
         gameUserData = GameUserDatabase.GetGameUserInfo();
     }
