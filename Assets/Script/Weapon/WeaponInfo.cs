@@ -32,7 +32,7 @@ public class WeaponInfo : MonoBehaviour {
         // TODO メッシュを変更する。
 
         // material変更
-        Material material = WeaponDatabase.GetWeaponMaterial(weaponID, true);
+        Material material = WeaponDatabase.LoadWeaponMaterial(weaponID, true);
 
         if (material == null)
         {

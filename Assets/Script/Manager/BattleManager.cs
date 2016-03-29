@@ -41,12 +41,14 @@ public class BattleManager : ManagerBase
 
         if (InputManager.IsDown(INPUT_ID.SUBMIT))
         {
-            NotificationWindowParam param = new NotificationWindowParam();
-            param.title = "武器 取得";
-            param.name = "ドラえもん";
-            param.exlpain = "猫型ロボット製品";
+            //NotificationWindowParam param = new NotificationWindowParam();
+            //param.title = "武器 取得";
+            //param.name = "ドラえもん";
+            //param.exlpain = "猫型ロボット製品";
 
-            UIEvent.OpenNotificationWindow(ref param);
+            //UIEvent.OpenNotificationWindow(ref param);
+
+            UIEvent.ChangeEquipWeapon();
         }
     }
 

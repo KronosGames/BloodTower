@@ -50,7 +50,7 @@ public class WeaponConverter : EditorWindow
                     sw.WriteLine("// -----------------------------------------");
                     sw.WriteLine("// Weapon データID");
                     sw.WriteLine("// -----------------------------------------");
-                    sw.WriteLine("using UnityEngine;");
+                    sw.WriteLine("");
 
                     sw.WriteLine("public enum WEAPON_TYPE");
                     sw.WriteLine("{");
@@ -96,9 +96,6 @@ public class WeaponConverter : EditorWindow
                     sw.WriteLine("    public int defence;");
                     sw.WriteLine("    public int attackSpeed;");
                     sw.WriteLine("    public int moveSpeed;");
-
-                    sw.WriteLine("    public Sprite iconSprite;");
-                    sw.WriteLine("    public Material material;");
 
                     sw.WriteLine("}");
                 }

@@ -4,9 +4,9 @@ using UnityEngine.UI;
 
 public class UIWeaponData
 {
-
     public Transform trans = null;
     public Image iconImage = null;
+    public Text nameText = null;
 }
     
 
@@ -28,6 +28,7 @@ public class UIWeaponInfo : UIBase
 
             data.trans = UIUtility.GetTrans(transform,"Info" + i.ToString("00"));
             data.iconImage = UIUtility.GetImage(data.trans, "Image_Icon");
+            data.nameText = UIUtility.GetText(data.trans, "Text_Name");
 
             weaponInfoData[i] = data;
         }
@@ -40,7 +41,8 @@ public class UIWeaponInfo : UIBase
             WeaponParam[] weaponList = GameCharacterParam.GetEquipWeaponParam();
             WeaponParam weapon = weaponList[i];
 
-            weaponInfoData[i].iconImage.sprite = WeaponDatabase.GetWeaponIconSprite(weapon.id);
+            weaponInfoData[i].iconImage.sprite = UIManager.GetWeaponIcon(weapon.id);
+            weaponInfoData[i].nameText.text= weapon.name;
         }
 
         if (UIAnimation.IsStop(animHandel))
@@ -56,7 +58,7 @@ public class UIWeaponInfo : UIBase
     // 武器を変更する。
     public void ChangeWeapon()
     {
-        equipID = equipID == 0 ? 1 : 0;
         animHandel = UIAnimation.Play(this,"anim_weapon_change" + equipID.ToString("00"));
+        equipID = equipID == 0 ? 1 : 0;
     }
 }

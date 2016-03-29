@@ -98,6 +98,8 @@ public class UINotificationWindowInfo : UIBase
     // Windowを開く
     public void OpenWindow(ref NotificationWindowParam param)
     {
+        UIAnimation.Stop(ref animHandel);
+
         state = STATE.OPEN;
         animHandel = UIAnimation.Play(this, "anim_notification_in");
 
@@ -105,7 +107,7 @@ public class UINotificationWindowInfo : UIBase
         windowInfoData.nameText.text = param.name;
         windowInfoData.exlpainText.text = param.exlpain;
 
-        // windowInfoData.iconImage.sprite = UIManager.GetIcon(param.iconID);
+        //windowInfoData.iconImage.sprite = UIManager.GetWeaponIcon();
     }
 
 }

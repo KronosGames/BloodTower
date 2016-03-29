@@ -34,6 +34,4 @@ public class WeaponParam
     public int defence;
     public int attackSpeed;
     public int moveSpeed;
-    public Sprite iconSprite;
-    public Material material;
 }
