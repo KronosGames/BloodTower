@@ -69,7 +69,7 @@ public class UINotificationWindowInfo : UIBase
 
                 if (UIAnimation.IsStop(animHandel))
                 {
-                    animHandel = -1;
+                    UIAnimation.Stop(ref animHandel);
                     state = STATE.UPDATE;
                 }
                 break;
@@ -82,7 +82,7 @@ public class UINotificationWindowInfo : UIBase
 
                 if (UIAnimation.IsStop(animHandel))
                 {
-                    animHandel = -1;
+                    UIAnimation.Stop(ref animHandel);
                     state = STATE.NULL;
                 }
                 break;

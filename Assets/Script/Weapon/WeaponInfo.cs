@@ -18,10 +18,12 @@ public class WeaponInfo : MonoBehaviour {
     //  -----------------------------------------------------
 
     public WeaponParam GetParam() { return param; }
+    public SKILL_ID GetSkillID() { return skillID; }
 
     public void Setup()
     {
         param = WeaponDatabase.GetWeapon(weaponID);
+        param.skillID = skillID;
     }
 
     // 見た目を変更
@@ -30,7 +32,7 @@ public class WeaponInfo : MonoBehaviour {
         // TODO メッシュを変更する。
 
         // material変更
-        Material material = WeaponManager.GetWeaponMaterial(weaponID, true);
+        Material material = WeaponDatabase.GetWeaponMaterial(weaponID, true);
 
         if (material == null)
         {

@@ -3,6 +3,8 @@ using System.Collections;
 
 public class CharacterTable
 {
+    public const int EQUIP_WEAPON_MAX = 2;
+
     public int id;
     public int hp;
     public int maxHP;
@@ -14,6 +16,9 @@ public class CharacterTable
     public int moveSpeed;
     public int holyWaterNum;
     public int maxHolyWaterNum;
+
+    public int[] equipWeaponID = new int[EQUIP_WEAPON_MAX];
+    public int[] equipWeaponSkillID = new int[EQUIP_WEAPON_MAX];
 }
 
 public class CharacterDatabase : MonoBehaviour
@@ -35,6 +40,11 @@ public class CharacterDatabase : MonoBehaviour
         tableData.attackSpeed = data.GetInt("attackSpeed");
         tableData.moveSpeed = data.GetInt("moveSpeed");
         tableData.holyWaterNum = data.GetInt("holyWaterNum");
+
+        tableData.equipWeaponID[0] = data.GetInt("equipWeaponID00");
+        tableData.equipWeaponID[1] = data.GetInt("equipWeaponID01");
+        tableData.equipWeaponSkillID[0] = data.GetInt("equipWeaponSkillID00");
+        tableData.equipWeaponSkillID[1] = data.GetInt("equipWeaponSkillID01");
 
         tableData.maxHP = tableData.hp;
         tableData.maxStamina = tableData.stamina;

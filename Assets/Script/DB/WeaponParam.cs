@@ -1,7 +1,7 @@
 // -----------------------------------------
 // Weapon データID
 // -----------------------------------------
-
+using UnityEngine;
 public enum WEAPON_TYPE
 {
     NULL = -1,     //< NULL
@@ -24,6 +24,7 @@ public class WeaponParam
 {
     public WEAPON_ID id;
     public WEAPON_TYPE type;
+    public SKILL_ID skillID;
     public string name;
     public string explain;
     public string iconPath;
@@ -33,4 +34,6 @@ public class WeaponParam
     public int defence;
     public int attackSpeed;
     public int moveSpeed;
+    public Sprite iconSprite;
+    public Material material;
 }

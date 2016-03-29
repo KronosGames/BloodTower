@@ -30,6 +30,16 @@ public class UIEvent
         }
     }
 
-    
+    // 通知Windowを開く
+    static public void ChangeWeapon()
+    {
+        UIBase cBase = UIManager.GetUIBase(UI_TYPE_ID.WEAPON_INFO);
+        UIWeaponInfo info = cBase as UIWeaponInfo;
+        if (info != null)
+        {
+            info.ChangeWeapon();
+        }
+    }
+
 
 }
