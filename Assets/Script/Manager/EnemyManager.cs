@@ -122,4 +122,18 @@ public class EnemyManager : ManagerBase
         EnemyParam param = data.GetParam();
         return param.hp <= 0;
     }
+
+
+    static public Transform[] GetEnemyTransList()
+    {
+        List<Transform> transList = new List<Transform>();
+
+        for (int i = 0; i < enemyList.Length; i++)
+        {
+            EnemyInfo data = enemyList[i];
+            transList.Add(data.transform);
+        }
+
+        return transList.ToArray();
+    }
 }

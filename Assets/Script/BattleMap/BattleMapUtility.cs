@@ -11,7 +11,7 @@ public class NearstWeaponData
 public static class BattleMapUtility
 {
     // 一番近い武器を取得
-    static public NearstWeaponData GetNearstWeapon(Transform trans)
+    static public NearstWeaponData GetNearstWeapon(ref Transform trans)
     {
         float distance = float.MaxValue;
         NearstWeaponData nearstWeaponData = new NearstWeaponData();
@@ -35,4 +35,26 @@ public static class BattleMapUtility
         return nearstWeaponData;
     }
 
+    // 一番近い敵Transformを取得
+    static public Transform GetNearstEnemy(ref Transform trans)
+    {
+        float distance = float.MaxValue;
+        Transform nearsetEnnemyTrans = null;
+
+        Transform[] enemyTransList = EnemyManager.GetEnemyTransList();
+        for (int i = 0; i < enemyTransList.Length; i++)
+        {
+            Transform enemyTrans = enemyTransList[i];
+            if (enemyTrans == null) continue;
+
+            float tempDist = Vector3.Distance(trans.position, enemyTrans.position);
+            if (distance > tempDist)
+            {
+                distance = tempDist;
+                nearsetEnnemyTrans = enemyTrans;
+            }
+        }
+
+        return nearsetEnnemyTrans;
+    }
 }
