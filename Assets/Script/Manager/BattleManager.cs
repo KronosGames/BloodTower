@@ -33,8 +33,10 @@ public class BattleManager : ManagerBase
         BossEnemyInfo bossEnemyInfo = currentMapData.trans.GetComponentInChildren<BossEnemyInfo>();
         BossEnemyManager.Setup(ref bossEnemyInfo);
 
+        // エネミーリスト
+        EnemyInfo[] enemyList = currentMapData.trans.GetComponentsInChildren<EnemyInfo>();
+        EnemyManager.Setup(ref enemyList);
     }
-
 
     void Update()
     {
@@ -44,17 +46,6 @@ public class BattleManager : ManagerBase
             isChange = false;
         }
 
-        if (InputManager.IsDown(INPUT_ID.SUBMIT))
-        {
-            //NotificationWindowParam param = new NotificationWindowParam();
-            //param.title = "武器 取得";
-            //param.name = "ドラえもん";
-            //param.exlpain = "猫型ロボット製品";
-
-            //UIEvent.OpenNotificationWindow(ref param);
-
-            //UIEvent.ChangeEquipWeapon();
-        }
     }
 
     //  ----------------------------------------------

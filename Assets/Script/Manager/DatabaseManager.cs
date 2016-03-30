@@ -45,6 +45,7 @@ public class DatabaseManager : ManagerBase
         databseList.Add(GetData(DB_ID.SKILL, "SkillList" ,"SkillTable"));
         databseList.Add(GetData(DB_ID.GAMETEXT, "GameText" , "GameTextTable"));
         databseList.Add(GetData(DB_ID.BOSS_ENEMY, "BossEnemyList", "BossEnemyTable"));
+        databseList.Add(GetData(DB_ID.ENEMY, "EnemyList", "EnemyTable"));
     }
 
     void Start()

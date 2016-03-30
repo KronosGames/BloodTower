@@ -13,7 +13,16 @@ public class BossEnemyInfo : MonoBehaviour
     // 初期化
     public void Setup()
     {
-        param = BossEnemyDatabase.GetBossEnemyData(id);
+        BossEnemyParam temp = BossEnemyDatabase.GetBossEnemyData(id);
+
+        param = new BossEnemyParam();
+        param.id = temp.id;
+        param.name = temp.name;
+        param.hp = temp.hp;
+        param.maxHp = temp.maxHp;
+        param.attack = temp.attack;
+        param.defense = temp.defense;
+        param.moveSpeed = temp.moveSpeed;
     }
 
 
