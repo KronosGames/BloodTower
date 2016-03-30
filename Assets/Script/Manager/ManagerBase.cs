@@ -14,6 +14,7 @@ public enum MANAGER_ID
     INPUT,
     WEAPON,
     MAP,
+    BOSS_ENEMY,
 }
 
 // 管理データ

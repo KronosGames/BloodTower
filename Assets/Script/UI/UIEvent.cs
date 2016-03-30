@@ -41,5 +41,25 @@ public class UIEvent
         }
     }
 
+    // ボスエネミー情報を開く
+    static public void OpenBossEnemyinfo()
+    {
+        UIBase cBase = UIManager.GetUIBase(UI_TYPE_ID.BOSS_ENEMY_INFO);
+        UIBossEnemyInfo info = cBase as UIBossEnemyInfo;
+        if (info != null)
+        {
+            info.OpenBossEnemyUI();
+        }
+    }
 
+    // ボスエネミー情報を閉じる
+    static public void CloseBossEnemyinfo()
+    {
+        UIBase cBase = UIManager.GetUIBase(UI_TYPE_ID.BOSS_ENEMY_INFO);
+        UIBossEnemyInfo info = cBase as UIBossEnemyInfo;
+        if (info != null)
+        {
+            info.CloseBossEnemyUI();
+        }
+    }
 }

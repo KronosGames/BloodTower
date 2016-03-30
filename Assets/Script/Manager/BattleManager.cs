@@ -27,7 +27,12 @@ public class BattleManager : ManagerBase
 
         // 子オブジェクトにある武器すべてをセットアップする。
         WeaponInfo[] weaponList = currentMapData.trans.GetComponentsInChildren<WeaponInfo>();
-        WeaponManager.Setup(weaponList);
+        WeaponManager.Setup(ref weaponList);
+
+        // ボス
+        BossEnemyInfo bossEnemyInfo = currentMapData.trans.GetComponentInChildren<BossEnemyInfo>();
+        BossEnemyManager.Setup(ref bossEnemyInfo);
+
     }
 
 
@@ -48,7 +53,7 @@ public class BattleManager : ManagerBase
 
             //UIEvent.OpenNotificationWindow(ref param);
 
-            UIEvent.ChangeEquipWeapon();
+            //UIEvent.ChangeEquipWeapon();
         }
     }
 

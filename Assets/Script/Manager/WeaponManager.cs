@@ -16,7 +16,7 @@ public class WeaponManager : ManagerBase
     //  -----------------------------------------
     
     // 初期化
-    static public void Setup(WeaponInfo[] infoList)
+    static public void Setup(ref WeaponInfo[] infoList)
     {
         weaponList = infoList;
 
