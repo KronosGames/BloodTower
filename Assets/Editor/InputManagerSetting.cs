@@ -24,7 +24,9 @@ public class InputManagerSetting : Editor
             for (int i = 0; i < inputList.Length; i++)
             {
                 var data = inputList[i];
-                generator.AddAxis(InputAxis.CreateKeyAxis(data.name, data.negative, data.positive,data.altNegative,data.altPositive));
+
+                AxisType type = data.isMouseMovementCreate ? AxisType.MouseMovement : AxisType.KeyOrMouseButton;
+                generator.AddAxis(InputAxis.CreateKeyAxis(data.name, data.negative, data.positive, type, data.altNegative,data.altPositive));
 
                 if (data.isJoyPadAxisCreate)
                 {
@@ -128,7 +130,7 @@ public class InputAxis
     /// <param name="negativeButton">Negative button.</param>
     /// <param name="positiveButton">Positive button.</param>
     /// <param name="axisNum">Axis number.</param>
-    public static InputAxis CreateKeyAxis(string name, string negativeButton, string positiveButton, string altNegativeButton = "", string altPositiveButton = "")
+    public static InputAxis CreateKeyAxis(string name, string negativeButton, string positiveButton, AxisType type, string altNegativeButton = "", string altPositiveButton = "")
     {
         var axis = new InputAxis();
         axis.name = name;
@@ -139,7 +141,7 @@ public class InputAxis
         axis.gravity = 3;
         axis.sensitivity = 3;
         axis.dead = 0.001f;
-        axis.type = AxisType.KeyOrMouseButton;
+        axis.type = type;
 
         return axis;
     }

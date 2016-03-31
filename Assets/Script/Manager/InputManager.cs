@@ -7,6 +7,13 @@ using System.Collections.Generic;
 public enum INPUT_ID
 { 
     NULL = -1,                  //< 未定義 
+
+    // EventSystem
+    HORIZONTAL,
+    VERTICAL,
+    SUBMIT,
+    CANCEL,
+
     PLAYER_MOVE_HORIZONTAL,     //< 横移動
     PLAYER_MOVE_VERTICAL,       //< 縦移動
     PLAYER_ATTACK,              //< 攻撃
@@ -20,19 +27,21 @@ public enum INPUT_ID
     ITEM_SELECT_VERTICAL,       //< アイテムの選択
     ITEM_SELECT_HORIZONTAL,     //< アイテムの選択
     SKILL_SELECT_HORIZONTAL,     //< スキルの選択
-    SKILL_SELECT_VERTIVAL,     //< スキルの選択
+    SKILL_SELECT_VERTICAL,     //< スキルの選択
+    CAMERA_ROTATE_HORIZONTAL,   //< カメラ横回転
+    CAMERA_ROTATE_VERTICAL,     //< カメラ縦回転
 
-    // EventSystem
-    HORIZONTAL,
-    VERTIVAL,
-    SUBMIT,
-    CANCEL,
 }
 
 public enum AXIS_NUM
 {
-    HORIZONTAL = 1,
-    VERICAL = 2,
+    AXIS_X = 1,
+    AXIS_Y = 2,
+    AXIS_LT_RT = 3,
+    AXIS_RIGHT_X = 4,
+    AXIS_RIGHT_Y = 5,
+    AXIS_DPAD_X = 6,
+    AXIS_DPAD_Y = 7,
 }
 
 [System.Serializable]
@@ -45,8 +54,9 @@ public class InputSettingData
     public string altNegative = "";
     public string altPositive = "";
 
+    public AXIS_NUM axisNum = AXIS_NUM.AXIS_X;
     public int joyStickNum = 0;
-    public AXIS_NUM axisNum = AXIS_NUM.HORIZONTAL;
+    public bool isMouseMovementCreate = false;
     public bool isJoyPadAxisCreate = false;
 }
 
