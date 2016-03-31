@@ -30,6 +30,8 @@ public enum INPUT_ID
     SKILL_SELECT_VERTICAL,     //< スキルの選択
     CAMERA_ROTATE_HORIZONTAL,   //< カメラ横回転
     CAMERA_ROTATE_VERTICAL,     //< カメラ縦回転
+    PLAYER_SPRINT,              //< ダッシュ
+    PLAYER_ROLLING
 
 }
 

@@ -26,6 +26,18 @@ public class PlayerMovementController : MonoBehaviour {
     float moveSpeed = 10f;
 
     /// <summary>
+    /// ダッシュ時の移動速度倍率
+    /// </summary>
+    [SerializeField, Tooltip("ダッシュ時の移動速度の倍率")]
+    float sprintRate = 1.5f;
+
+    /// <summary>
+    /// 空中での移動速度
+    /// </summary>
+    [SerializeField, Tooltip("空中での移動速度")]
+    float FallingMoveRate = 0.5f;
+
+    /// <summary>
     /// プレイヤーの状態一覧
     /// </summary>
     enum STATE
@@ -34,12 +46,23 @@ public class PlayerMovementController : MonoBehaviour {
         Active = 1,
     }
 
+    enum MOVE_TYPE
+    {
+        IDOLING,
+        WALKING,
+        ROLLING,
+        JUMPING,
+    }
+
+    MOVE_TYPE moveType = MOVE_TYPE.IDOLING;
+
+
     /// <summary>
     /// プレイヤーの状態を管理する
     /// </summary>
     STATE state = STATE.Unactive;
 
-    [SerializeField,Tooltip("開始時にプレイヤーを操作可能かどうか")]
+    [SerializeField, Tooltip("開始時にプレイヤーを操作可能かどうか")]
     bool ActiveOnAwake = true;
 
     /// <summary>
@@ -66,8 +89,24 @@ public class PlayerMovementController : MonoBehaviour {
     /// </summary>
     bool isTouchingFloor = true;
 
+    /// <summary>
+    /// ローリングの速度
+    /// </summary>
+    [SerializeField]
+    float rollingSpeed = 3f;
 
-    void Start () {
+    /// <summary>
+    /// 水平方向の移動入力値
+    /// </summary>
+    float horizontalInput = 0;
+
+    /// <summary>
+    /// 垂直方向の移動入力値
+    /// </summary>
+    float verticalInput = 0;
+
+
+    void Start() {
 
         Physics.gravity = new Vector3(0, gravityPower, 0);
 
@@ -79,24 +118,91 @@ public class PlayerMovementController : MonoBehaviour {
         {
             state = STATE.Active;
         }
-	}
-	
-	void FixedUpdate () {
+    }
 
-        switch (state)
+    /// <summary>
+    /// 入力の更新
+    /// </summary>
+    void RefreshInputValues()
+    {
+        horizontalInput = InputManager.GetAxisRaw(INPUT_ID.PLAYER_MOVE_HORIZONTAL);
+        verticalInput = InputManager.GetAxisRaw(INPUT_ID.PLAYER_MOVE_VERTICAL);
+
+        if (moveType != MOVE_TYPE.ROLLING && moveType != MOVE_TYPE.JUMPING)
         {
-            case STATE.Unactive:
-                break;
+            if (horizontalInput == 0 && verticalInput == 0)
+            {
+                moveType = MOVE_TYPE.IDOLING;
 
-            case STATE.Active:
+                if (InputManager.IsUp(INPUT_ID.PLAYER_ROLLING))
+                {
+                    moveType = MOVE_TYPE.ROLLING;
+                    moveVelocity = transform.forward;
+                }
+
+            }
+            else
+            {
                 RefreshVelocity();
-                Move();
+                moveType = MOVE_TYPE.WALKING;
+
+                if (InputManager.IsUp(INPUT_ID.PLAYER_ROLLING))
+                {
+                    moveType = MOVE_TYPE.ROLLING;
+                    myRigid.AddForce(moveVelocity * rollingSpeed, ForceMode.VelocityChange);
+                }
+
+            }
+
+        }
+
+    }
+
+    void FixedUpdate()
+    {
+        if (state == STATE.Unactive) return;
+
+        RefreshInputValues();
+
+        switch (moveType)
+        {
+            case MOVE_TYPE.IDOLING:
                 Jump();
 
                 break;
+
+            case MOVE_TYPE.WALKING:
+
+                if (InputManager.IsPress(INPUT_ID.PLAYER_SPRINT))
+                {
+                    Move(moveSpeed * sprintRate);
+                }
+                else
+                {
+                    Move(moveSpeed);
+                }
+
+                Jump();
+
+                break;
+
+            case MOVE_TYPE.ROLLING:
+                Rolling();
+                break;
+
+            case MOVE_TYPE.JUMPING:
+
+                Move(moveSpeed * FallingMoveRate);
+
+                if (isTouchingFloor)
+                {
+                    moveType = MOVE_TYPE.IDOLING;
+                }
+                break;
         }
 
-	}
+    }
+
 
     /// <summary>
     /// GetComponent()等あてはめ処理を行います。
@@ -117,24 +223,54 @@ public class PlayerMovementController : MonoBehaviour {
 
     }
 
+
     /// <summary>
     /// 入力等をもとにプレイヤーの移動方向を決定する
     /// </summary>
     void RefreshVelocity()
     {
-        moveVelocity = cameraTransform.right * InputManager.GetAxisRaw(INPUT_ID.PLAYER_MOVE_HORIZONTAL) - cameraTransform.forward * InputManager.GetAxisRaw(INPUT_ID.PLAYER_MOVE_VERTICAL);
+        moveVelocity = cameraTransform.right * horizontalInput - cameraTransform.forward * verticalInput;
         moveVelocity = new Vector3(moveVelocity.x, 0, moveVelocity.z).normalized;
     }
 
     /// <summary>
     /// 移動させる
     /// </summary>
-    void Move()
+    void Move(float _speed)
     {
-        //RigidBodyを使う場合の処理
-        myRigid.AddForce(moveVelocity * moveSpeed, ForceMode.VelocityChange);
+        myRigid.AddForce(moveVelocity * _speed, ForceMode.VelocityChange);
 
     }
+
+
+    /// <summary>
+    /// ローリング１回の時間
+    /// </summary>
+    [SerializeField]
+    float rollingInterval = 1f;
+
+    /// <summary>
+    /// ローリング開始してからの時間
+    /// </summary>
+    float rollingTime = 0f;
+
+    /// <summary>
+    /// ローリング
+    /// </summary>
+    void Rolling()
+    {
+        myRigid.AddForce(moveVelocity * rollingSpeed, ForceMode.VelocityChange);
+
+
+        rollingTime += Time.deltaTime;
+
+        if (rollingTime >= rollingInterval)
+        {
+            rollingTime = 0;
+            moveType = MOVE_TYPE.IDOLING;
+        }
+    }
+
 
     /// <summary>
     /// ジャンプ
@@ -145,6 +281,7 @@ public class PlayerMovementController : MonoBehaviour {
         {
             myRigid.AddForce(Vector3.up * jumpPower, ForceMode.VelocityChange);
             isTouchingFloor = false;
+            moveType = MOVE_TYPE.JUMPING;
         }
     }
 
