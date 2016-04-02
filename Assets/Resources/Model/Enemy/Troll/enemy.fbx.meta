@@ -1,0 +1,200 @@
+fileFormatVersion: 2
+guid: c6cccd880703c6d45bbcfd0d59485d4b
+timeCreated: 1459587814
+licenseType: Free
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: barriga
+    100002: cabeza
+    100004: cadera_der
+    100006: cadera_izq
+    100008: cintura
+    100010: codo_der
+    100012: codo_izq
+    100014: corazon1_der
+    100016: corazon1_izq
+    100018: corazon2_der
+    100020: corazon2_izq
+    100022: corazon3_der
+    100024: corazon3_izq
+    100026: corazon4_der
+    100028: corazon4_izq
+    100030: cuello
+    100032: //RootNode
+    100034: gordo1_der
+    100036: gordo1_izq
+    100038: gordo2_der
+    100040: gordo2_izq
+    100042: gordo3_der
+    100044: gordo3_izq
+    100046: hombro_der
+    100048: hombro_izq
+    100050: indice1_der
+    100052: indice1_izq
+    100054: indice2_der
+    100056: indice2_izq
+    100058: indice3_der
+    100060: indice3_izq
+    100062: indice4_der
+    100064: indice4_izq
+    100066: jointFfd1Base1
+    100068: jointFfd1LatticeGroup1
+    100070: jointFfd4Base1
+    100072: jointFfd4LatticeGroup1
+    100074: jointFfd7Base1
+    100076: jointFfd7LatticeGroup1
+    100078: mano_der
+    100080: mano_izq
+    100082: "me\xF1ique1_der"
+    100084: "me\xF1ique1_izq"
+    100086: "me\xF1ique2_der"
+    100088: "me\xF1ique2_izq"
+    100090: "me\xF1ique3_der"
+    100092: "me\xF1ique3_izq"
+    100094: "me\xF1ique4_der"
+    100096: "me\xF1ique4_izq"
+    100098: mostruo2:polySurface7
+    100100: "mu\xF1eca_der"
+    100102: "mu\xF1eca_izq"
+    100104: Pecho
+    100106: perone_der
+    100108: perone_izq1
+    100110: pie_der
+    100112: pie_izq
+    100114: puntapie_der
+    100116: puntapie_izq
+    100118: rodilla1_der
+    100120: rodilla1_izq
+    100122: rodilla2_der
+    100124: rodilla2_izq
+    400000: barriga
+    400002: cabeza
+    400004: cadera_der
+    400006: cadera_izq
+    400008: cintura
+    400010: codo_der
+    400012: codo_izq
+    400014: corazon1_der
+    400016: corazon1_izq
+    400018: corazon2_der
+    400020: corazon2_izq
+    400022: corazon3_der
+    400024: corazon3_izq
+    400026: corazon4_der
+    400028: corazon4_izq
+    400030: cuello
+    400032: //RootNode
+    400034: gordo1_der
+    400036: gordo1_izq
+    400038: gordo2_der
+    400040: gordo2_izq
+    400042: gordo3_der
+    400044: gordo3_izq
+    400046: hombro_der
+    400048: hombro_izq
+    400050: indice1_der
+    400052: indice1_izq
+    400054: indice2_der
+    400056: indice2_izq
+    400058: indice3_der
+    400060: indice3_izq
+    400062: indice4_der
+    400064: indice4_izq
+    400066: jointFfd1Base1
+    400068: jointFfd1LatticeGroup1
+    400070: jointFfd4Base1
+    400072: jointFfd4LatticeGroup1
+    400074: jointFfd7Base1
+    400076: jointFfd7LatticeGroup1
+    400078: mano_der
+    400080: mano_izq
+    400082: "me\xF1ique1_der"
+    400084: "me\xF1ique1_izq"
+    400086: "me\xF1ique2_der"
+    400088: "me\xF1ique2_izq"
+    400090: "me\xF1ique3_der"
+    400092: "me\xF1ique3_izq"
+    400094: "me\xF1ique4_der"
+    400096: "me\xF1ique4_izq"
+    400098: mostruo2:polySurface7
+    400100: "mu\xF1eca_der"
+    400102: "mu\xF1eca_izq"
+    400104: Pecho
+    400106: perone_der
+    400108: perone_izq1
+    400110: pie_der
+    400112: pie_izq
+    400114: puntapie_der
+    400116: puntapie_izq
+    400118: rodilla1_der
+    400120: rodilla1_izq
+    400122: rodilla2_der
+    400124: rodilla2_izq
+    4300000: mostruo2:polySurface7
+    9500000: //RootNode
+    13700000: mostruo2:polySurface7
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
