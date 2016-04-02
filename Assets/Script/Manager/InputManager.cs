@@ -60,6 +60,8 @@ public class InputSettingData
     public int joyStickNum = 0;
     public bool isMouseMovementCreate = false;
     public bool isJoyPadAxisCreate = false;
+
+    public bool isFoldout = false;
 }
 
 public class InputManager : ManagerBase
@@ -79,7 +81,6 @@ public class InputManager : ManagerBase
         public STATE state = STATE.NONE;
     }
 
-    [SerializeField]
     List<InputSettingData> inputSettingList = new List<InputSettingData>();
 
     static List<InputData> inputDataList = new List<InputData>();
@@ -197,9 +198,9 @@ public class InputManager : ManagerBase
         return GetInput(id).state == InputData.STATE.UP;
     }
 
-    public InputSettingData[] GetInputSettingList()
+    public List<InputSettingData> GetInputSettingList()
     {
-        return inputSettingList.ToArray();
+        return inputSettingList;
     }
 
 }

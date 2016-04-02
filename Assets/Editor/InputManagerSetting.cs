@@ -11,19 +11,55 @@ public class InputManagerSetting : Editor
 
     public override void OnInspectorGUI()
     {
-        base.OnInspectorGUI();
-
         InputManager manager = target as InputManager;
+
+        List<InputSettingData> dataList = manager.GetInputSettingList();
+        
+        for (int i = 0; i < dataList.Count; i++)
+        {
+            InputSettingData data = dataList[i];
+
+            using (new EditorGUILayout.HorizontalScope())
+            {
+                data.isFoldout = EditorGUILayout.Foldout(data.isFoldout, data.name);
+
+                if (GUILayout.Button("削除",GUILayout.Width(50.0f)))
+                {
+                    dataList.RemoveAt(i);
+                    return;
+                }
+            }
+
+            if (data.isFoldout)
+            {
+                data.id = (INPUT_ID)EditorGUILayout.EnumPopup("ID : ", data.id);
+                data.name = EditorGUILayout.TextField("Name : ", data.name);
+                data.negative = EditorGUILayout.TextField("Negative : ", data.negative);
+                data.positive = EditorGUILayout.TextField("Positive : ", data.positive);
+                data.altNegative = EditorGUILayout.TextField("AltNegative : ", data.altNegative);
+                data.altPositive = EditorGUILayout.TextField("AltPositive : ", data.altPositive);
+                data.axisNum = (AXIS_NUM)EditorGUILayout.EnumPopup("AxisNum : ", data.axisNum);
+                data.joyStickNum = EditorGUILayout.IntField("JoystickNum : ", data.joyStickNum);
+                data.isJoyPadAxisCreate = EditorGUILayout.Toggle("JoypadAxisを作成する？ : ", data.isJoyPadAxisCreate);
+                data.isMouseMovementCreate = EditorGUILayout.Toggle("MouseAxisを作成する？ : ", data.isMouseMovementCreate);
+
+            }
+        }
+
+        if (GUILayout.Button("追加"))
+        {
+            dataList.Add(new InputSettingData());
+        }
+
         if (GUILayout.Button("反映"))
         {
             generator = new InputManagerGenerator();
 
             generator.Clear();
 
-            var inputList = manager.GetInputSettingList();
-            for (int i = 0; i < inputList.Length; i++)
+            for (int i = 0; i < dataList.Count; i++)
             {
-                var data = inputList[i];
+                InputSettingData data = dataList[i];
 
                 AxisType type = data.isMouseMovementCreate ? AxisType.MouseMovement : AxisType.KeyOrMouseButton;
                 generator.AddAxis(InputAxis.CreateKeyAxis(data.name, data.negative, data.positive, type, data.altNegative,data.altPositive));
@@ -82,27 +118,6 @@ public class InputAxis
     public int joyNum = 0;
 
     /// <summary>
-    /// 押すと1になるキーの設定データを作成する
-    /// </summary>
-    /// <returns>The button.</returns>
-    /// <param name="name">Name.</param>
-    /// <param name="positiveButton">Positive button.</param>
-    /// <param name="altPositiveButton">Alternate positive button.</param>
-    public static InputAxis CreateButton(string name, string positiveButton, string altPositiveButton)
-    {
-        var axis = new InputAxis();
-        axis.name = name;
-        axis.positiveButton = positiveButton;
-        axis.altPositiveButton = altPositiveButton;
-        axis.gravity = 1000;
-        axis.dead = 0.001f;
-        axis.sensitivity = 1000;
-        axis.type = AxisType.KeyOrMouseButton;
-
-        return axis;
-    }
-
-    /// <summary>
     /// ゲームパッド用の軸の設定データを作成する
     /// </summary>
     /// <returns>The joy axis.</returns>
@@ -114,7 +129,8 @@ public class InputAxis
         var axis = new InputAxis();
         axis.name = name;
         axis.dead = 0.2f;
-        axis.sensitivity = 1;
+        axis.gravity = 3;
+        axis.sensitivity = 1.0f;
         axis.type = AxisType.JoystickAxis;
         axis.axis = axisNum;
         axis.joyNum = joystickNum;
@@ -130,7 +146,8 @@ public class InputAxis
     /// <param name="negativeButton">Negative button.</param>
     /// <param name="positiveButton">Positive button.</param>
     /// <param name="axisNum">Axis number.</param>
-    public static InputAxis CreateKeyAxis(string name, string negativeButton, string positiveButton, AxisType type, string altNegativeButton = "", string altPositiveButton = "")
+    public static InputAxis CreateKeyAxis(string name, string negativeButton, string positiveButton, 
+        AxisType type, string altNegativeButton = "", string altPositiveButton = "")
     {
         var axis = new InputAxis();
         axis.name = name;
@@ -139,8 +156,8 @@ public class InputAxis
         axis.altNegativeButton = altNegativeButton;
         axis.altPositiveButton = altPositiveButton;
         axis.gravity = 3;
-        axis.sensitivity = 3;
-        axis.dead = 0.001f;
+        axis.sensitivity = 1.0f;
+        axis.dead = 0.2f;
         axis.type = type;
 
         return axis;
