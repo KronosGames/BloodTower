@@ -16,12 +16,20 @@ public enum GAME_SEQUENCE
 }
 
 [System.Serializable]
+public class ChildSequenceData
+{
+    public string sceneName = "";
+    public bool isUnloadScene = false;
+}
+
+[System.Serializable]
 public class GameSequenceData
 {
     public GAME_SEQUENCE sequence = GAME_SEQUENCE.SETUP;
     public string sceneName = "";
     public LoadSceneMode loadMode = LoadSceneMode.Additive;
     public bool isUnloadScene = false;
+    public List<ChildSequenceData> childSeqList = new List<ChildSequenceData>();
 }
 
 //  -----------------------------------------------------
@@ -30,6 +38,8 @@ public class GameSequenceData
 //  -----------------------------------------------------
 public class GameMain : ManagerBase
 {
+    const string PLAYER_STATUS_MENU_SCENE = "PlayerStatusMenuUI";
+
     enum TRANSACTION_STATE
     {
         NONE,
@@ -62,6 +72,15 @@ public class GameMain : ManagerBase
         if (currentGameSequence.isUnloadScene) return;
 
         SceneManager.UnloadScene(currentGameSequence.sceneName);
+
+        for (int childIndex = 0; childIndex < currentGameSequence.childSeqList.Count; childIndex++)
+        {
+            ChildSequenceData childData = currentGameSequence.childSeqList[childIndex];
+            if (childData.isUnloadScene) continue;
+
+            SceneManager.UnloadScene(childData.sceneName);
+        }
+
         OnUnloadSeq();
     }
 
@@ -74,6 +93,13 @@ public class GameMain : ManagerBase
             if (data.sequence == sequence)
             {
                 SceneManager.LoadScene(data.sceneName, data.loadMode);
+
+                for (int childIndex = 0; childIndex < data.childSeqList.Count; childIndex++)
+                {
+                    ChildSequenceData childData = data.childSeqList[childIndex];
+                    SceneManager.LoadScene(childData.sceneName, LoadSceneMode.Additive);
+                }
+
                 OnLoadSeq();
                 currentGameSequence = data;
             }
@@ -105,10 +131,12 @@ public class GameMain : ManagerBase
 
                 break;
             case GAME_SEQUENCE.END:
+                SceneManager.UnloadScene(PLAYER_STATUS_MENU_SCENE);
 
                 break;
         }
     }
+
 
     // シーンを読み込む際に呼ばれる関数
     void OnLoadSeq()
@@ -126,6 +154,7 @@ public class GameMain : ManagerBase
 
                 break;
             case GAME_SEQUENCE.HOME:
+                SceneManager.LoadScene(PLAYER_STATUS_MENU_SCENE, LoadSceneMode.Additive);
 
                 break;
             case GAME_SEQUENCE.BATTLE_MAP:

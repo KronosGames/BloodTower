@@ -11,45 +11,47 @@ public class InputManagerSetting : Editor
 
     public override void OnInspectorGUI()
     {
+        base.OnInspectorGUI();
+
         InputManager manager = target as InputManager;
 
         List<InputSettingData> dataList = manager.GetInputSettingList();
         
-        for (int i = 0; i < dataList.Count; i++)
-        {
-            InputSettingData data = dataList[i];
+        //for (int i = 0; i < dataList.Count; i++)
+        //{
+        //    InputSettingData data = dataList[i];
 
-            using (new EditorGUILayout.HorizontalScope())
-            {
-                data.isFoldout = EditorGUILayout.Foldout(data.isFoldout, data.name);
+        //    using (new EditorGUILayout.HorizontalScope())
+        //    {
+        //        data.isFoldout = EditorGUILayout.Foldout(data.isFoldout, data.name);
 
-                if (GUILayout.Button("削除",GUILayout.Width(50.0f)))
-                {
-                    dataList.RemoveAt(i);
-                    return;
-                }
-            }
+        //        if (GUILayout.Button("削除",GUILayout.Width(50.0f)))
+        //        {
+        //            dataList.RemoveAt(i);
+        //            return;
+        //        }
+        //    }
 
-            if (data.isFoldout)
-            {
-                data.id = (INPUT_ID)EditorGUILayout.EnumPopup("ID : ", data.id);
-                data.name = EditorGUILayout.TextField("Name : ", data.name);
-                data.negative = EditorGUILayout.TextField("Negative : ", data.negative);
-                data.positive = EditorGUILayout.TextField("Positive : ", data.positive);
-                data.altNegative = EditorGUILayout.TextField("AltNegative : ", data.altNegative);
-                data.altPositive = EditorGUILayout.TextField("AltPositive : ", data.altPositive);
-                data.axisNum = (AXIS_NUM)EditorGUILayout.EnumPopup("AxisNum : ", data.axisNum);
-                data.joyStickNum = EditorGUILayout.IntField("JoystickNum : ", data.joyStickNum);
-                data.isJoyPadAxisCreate = EditorGUILayout.Toggle("JoypadAxisを作成する？ : ", data.isJoyPadAxisCreate);
-                data.isMouseMovementCreate = EditorGUILayout.Toggle("MouseAxisを作成する？ : ", data.isMouseMovementCreate);
+        //    if (data.isFoldout)
+        //    {
+        //        data.id = (INPUT_ID)EditorGUILayout.EnumPopup("ID : ", data.id);
+        //        data.name = EditorGUILayout.TextField("Name : ", data.name);
+        //        data.negative = EditorGUILayout.TextField("Negative : ", data.negative);
+        //        data.positive = EditorGUILayout.TextField("Positive : ", data.positive);
+        //        data.altNegative = EditorGUILayout.TextField("AltNegative : ", data.altNegative);
+        //        data.altPositive = EditorGUILayout.TextField("AltPositive : ", data.altPositive);
+        //        data.axisNum = (AXIS_NUM)EditorGUILayout.EnumPopup("AxisNum : ", data.axisNum);
+        //        data.joyStickNum = EditorGUILayout.IntField("JoystickNum : ", data.joyStickNum);
+        //        data.isJoyPadAxisCreate = EditorGUILayout.Toggle("JoypadAxisを作成する？ : ", data.isJoyPadAxisCreate);
+        //        data.isMouseMovementCreate = EditorGUILayout.Toggle("MouseAxisを作成する？ : ", data.isMouseMovementCreate);
 
-            }
-        }
+        //    }
+        //}
 
-        if (GUILayout.Button("追加"))
-        {
-            dataList.Add(new InputSettingData());
-        }
+        //if (GUILayout.Button("追加"))
+        //{
+        //    dataList.Add(new InputSettingData());
+        //}
 
         if (GUILayout.Button("反映"))
         {
