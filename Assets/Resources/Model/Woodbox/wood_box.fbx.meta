@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 4457be51b1af9f54d970771ea76f9f99
-timeCreated: 1459565786
+timeCreated: 1460209780
 licenseType: Free
 ModelImporter:
   serializedVersion: 19
@@ -222,7 +222,7 @@ ModelImporter:
     isReadable: 1
   meshes:
     lODScreenPercentages: []
-    globalScale: 2
+    globalScale: 1
     meshCompression: 0
     addColliders: 0
     importBlendShapes: 1
@@ -241,7 +241,7 @@ ModelImporter:
     normalSmoothAngle: 60
     normalImportMode: 0
     tangentImportMode: 3
-  importAnimation: 0
+  importAnimation: 1
   copyAvatar: 0
   humanDescription:
     human: []
