@@ -32,17 +32,23 @@ public class WeaponCatchReleaseController : MonoBehaviour {
     /// </summary>
     Transform weaponPrevParent = null;
 
+    [SerializeField]
+    float inputThreshold = 0.3f;
 
-	// Use this for initialization
-	void Start () {
+    PlayerAttackController attackController = null;
+
+    // Use this for initialization
+    void Start () {
         myTransform = transform;
-	}
+        attackController = GetComponent<PlayerAttackController>();
+
+    }
 
 	// Update is called once per frame
 	void Update () {
     	if(equipedWeapon == null)
         {
-            if(Input.GetKeyDown(KeyCode.O))
+            if(InputManager.GetAxisRaw(INPUT_ID.PLAYER_GET_WEAPON) < -inputThreshold)
             {
                 CatchWeapon();
             }
@@ -50,10 +56,11 @@ public class WeaponCatchReleaseController : MonoBehaviour {
         }
         else
         {
-            if(Input.GetKeyDown(KeyCode.P)/* 武器を捨てる入力 */)
+            if(InputManager.GetAxisRaw(INPUT_ID.PLAYER_GET_WEAPON) > inputThreshold)
             {
                 ReleaseWeapon();
             }
+
         }
 
 
@@ -70,7 +77,7 @@ public class WeaponCatchReleaseController : MonoBehaviour {
             equipedWeapon.GetComponent<Rigidbody>().isKinematic = true;
 
             IsEquiped = true;
-
+            attackController.SetAggressionController(equipedWeapon.GetComponent<AggressionController>());
             equipedWeapon.transform.position = weaponTransform.position;
             weaponPrevParent = equipedWeapon.transform.parent;
             equipedWeapon.transform.SetParent(weaponTransform);
@@ -108,10 +115,7 @@ public class WeaponCatchReleaseController : MonoBehaviour {
         ThroughWeapon();
         equipedWeapon = null;
         IsEquiped = false;
-
-
-
-
+        attackController.SetAggressionController(null);
     }
     
     [SerializeField]
