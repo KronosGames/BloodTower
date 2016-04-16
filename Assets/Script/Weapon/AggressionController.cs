@@ -23,12 +23,9 @@ public class AggressionController : MonoBehaviour {
     /// </summary>
     public bool IsFlying { get; set; }
 
-    CapsuleCollider myCollider = null;
-
     void Start()
     {
         IsFlying = IsActive = false;
-        myCollider = GetComponent<CapsuleCollider>();
     }
 
     /// <summary>
