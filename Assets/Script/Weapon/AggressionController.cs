@@ -23,6 +23,8 @@ public class AggressionController : MonoBehaviour {
     /// </summary>
     public bool IsFlying { get; set; }
 
+    public WeaponParam MyWeaponParam { get; set; }
+
     void Start()
     {
         IsFlying = IsActive = false;
@@ -92,10 +94,29 @@ public class AggressionController : MonoBehaviour {
     /// </summary>
     void SwingCollEvents(ref Collider coll)
     {
+        if(MyWeaponParam == null)
+        {
+            Debug.Log("MyWeaponParam is null!");
+            return;
+        }
+
         switch (coll.tag)
         {
             case "Enemy":
-                Debug.Log("Enemyに当たった！");
+                Debug.Log(coll.name + "に当たった！");
+                EnemyStatusManager esm = coll.GetComponent<EnemyStatusManager>();
+                if(esm != null)
+                {
+                    Debug.Log(coll.name + "に" + MyWeaponParam.attack + "のダメージ！");
+                    esm.AddHealth(-MyWeaponParam.attack);
+                }
+
+                BossEnemyStatusManager besm = coll.GetComponent<BossEnemyStatusManager>();
+                if(besm != null)
+                {
+                    Debug.Log(coll.name + "に" + MyWeaponParam.attack + "のダメージ！");
+                    besm.AddHealth(-MyWeaponParam.attack);
+                }
                 break;
         }
     }

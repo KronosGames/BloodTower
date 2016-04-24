@@ -23,6 +23,15 @@ public class BossEnemyInfo : MonoBehaviour
         param.attack = temp.attack;
         param.defense = temp.defense;
         param.moveSpeed = temp.moveSpeed;
+
+        // 状態異常の初期化
+        for (int index = 0;index < (int)BOSS_ENEMY_STATUS.SENTINEL;++index)
+        {
+            param.canInTheStatus[index] = temp.canInTheStatus[index];
+            param.statusResistance[index] = temp.statusResistance[index];
+
+        }
+        
     }
 
 

@@ -23,6 +23,7 @@ public class PlayerAttackController : MonoBehaviour {
 
     public void SetAggressionController(AggressionController aggr)
     {
+
         aggressionController = aggr;
     }
 

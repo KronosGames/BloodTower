@@ -3,28 +3,13 @@ using System.Collections;
 
 public class PlayerStateManager : MonoBehaviour {
 
-    // 実行部 ///////////////////////////////////////
-
-    void Start()
-    {
-        IsALive = true;
-        InitializeStatusArray();
-
-        InitializeHealth();
-    }
-
-    void FixedUpdate()
-    {
-        CheckDead();
-    }
-
     // 状態管理部 ////////////////////////////////////
 
     /// <summary>
     /// 生きているかどうか
     /// true...生きている　false...死んでいる
     /// </summary>
-    public bool IsALive { get; private set; }
+    public bool IsAlive { get; private set; }
 
     /// <summary>
     /// 状態異常管理
@@ -34,9 +19,25 @@ public class PlayerStateManager : MonoBehaviour {
         Burn = 0,   // やけど、燃焼
         Poison,     // 毒
         Frozen,     // 凍結      
-        BloodLoss,  // 出欠
+        BloodLoss,  // 出血
 
         SENTINEL    // 番兵
+    }
+
+
+    // 実行部 ///////////////////////////////////////
+
+    void Start()
+    {
+        IsAlive = true;
+        InitializeStatusArray();
+
+        InitializeHealth();
+    }
+
+    void FixedUpdate()
+    {
+        CheckDead();
     }
 
     /// <summary>
@@ -84,7 +85,7 @@ public class PlayerStateManager : MonoBehaviour {
     /// <param name="health">生きている状態にした際のHP</param>
     public void Revive(int health)
     {
-        IsALive = true;
+        IsAlive = true;
         nowHealth = health;
     }
 
@@ -93,9 +94,9 @@ public class PlayerStateManager : MonoBehaviour {
     /// </summary>
     void CheckDead()
     {
-        if (nowHealth <= 0)
+        if (IsHealthUnderZero())
         {
-            IsALive = false;
+            IsAlive = false;
         }
     }
 

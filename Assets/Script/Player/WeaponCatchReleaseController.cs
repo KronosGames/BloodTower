@@ -77,7 +77,18 @@ public class WeaponCatchReleaseController : MonoBehaviour {
             equipedWeapon.GetComponent<Rigidbody>().isKinematic = true;
 
             IsEquiped = true;
-            attackController.SetAggressionController(equipedWeapon.GetComponent<AggressionController>());
+
+            AggressionController ac = equipedWeapon.GetComponent<AggressionController>();
+            if(ac != null)
+            {
+                WeaponInfo wi = ac.GetComponent<WeaponInfo>();
+                if(wi != null)
+                {
+                    ac.MyWeaponParam = wi.GetParam();
+                    attackController.SetAggressionController(ac);
+                }
+
+            }
             equipedWeapon.transform.position = weaponTransform.position;
             weaponPrevParent = equipedWeapon.transform.parent;
             equipedWeapon.transform.SetParent(weaponTransform);
