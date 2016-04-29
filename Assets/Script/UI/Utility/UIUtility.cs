@@ -2,7 +2,7 @@
 using System.Collections;
 using UnityEngine.UI;
 
-public class UIUtility 
+public class UIUtility
 {
     static public RectTransform GetRectTrans(Transform parentTrans, string objName)
     {

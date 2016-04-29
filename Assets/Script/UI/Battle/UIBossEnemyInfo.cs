@@ -23,11 +23,11 @@ public class UIBossEnemyInfo : UIBase
     }
 
     STATE state = STATE.NULL;
-    int animHandel = -1;
+    int animHandle = -1;
 
     void Start()
     {
-        InitUI(this, gameObject, UI_TYPE_ID.BOSS_ENEMY_INFO);
+        InitUI(this, UI_TYPE_ID.BOSS_ENEMY_INFO, UI_SCREEN_TYPE.BOSS_ENEMY_INFO);
 
         infoData.trans = transform;
         infoData.hpBarImage = UIUtility.GetImage(infoData.trans, "Image_HpBar");
@@ -50,9 +50,9 @@ public class UIBossEnemyInfo : UIBase
             case STATE.OPEN:
                 SetAllDirty();
 
-                if (UIAnimation.IsStop(animHandel))
+                if (UIAnimation.IsStop(animHandle))
                 {
-                    UIAnimation.Stop(ref animHandel);
+                    UIAnimation.Stop(ref animHandle);
                     state = STATE.UPDATE;
                 }
                 break;
@@ -66,9 +66,9 @@ public class UIBossEnemyInfo : UIBase
             case STATE.CLOSE:
                 SetAllDirty();
 
-                if (UIAnimation.IsStop(animHandel))
+                if (UIAnimation.IsStop(animHandle))
                 {
-                    UIAnimation.Stop(ref animHandel);
+                    UIAnimation.Stop(ref animHandle);
                     state = STATE.NULL;
                 }
                 break;
@@ -80,17 +80,20 @@ public class UIBossEnemyInfo : UIBase
     //  公開用関数
     //  --------------------------------------------------
 
-    public void OpenBossEnemyUI()
+    public override void SetupUI()
     {
         infoData.nameText.text = BossEnemyManager.GetName();
+    }
 
-        animHandel = UIAnimation.Play(this,"anim_bossenemy_in");
+    public override void Open()
+    {
+        animHandle = UIAnimation.Play(this,"anim_bossenemy_in");
         state = STATE.OPEN;
     }
 
-    public void CloseBossEnemyUI()
+    public override void Close()
     {
-        animHandel = UIAnimation.Play(this,"anim_bossenemy_out");
+        animHandle = UIAnimation.Play(this,"anim_bossenemy_out");
         state = STATE.CLOSE;
     }
 }

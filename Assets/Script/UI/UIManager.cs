@@ -16,6 +16,7 @@ public class UIManager : ManagerBase
 {
     static List<UIBase> baseList = new List<UIBase>();
     static List<UIWeaponIconData> weaponIconList = new List<UIWeaponIconData>();
+    static UIScreenControl screenControl = new UIScreenControl();
 
     void OnDestroy()
     {
@@ -25,6 +26,7 @@ public class UIManager : ManagerBase
 
     void Awake()
     {
+        screenControl.Setup();
         weaponIconList.Clear();
         UIAnimation.Init();
     }
@@ -32,16 +34,17 @@ public class UIManager : ManagerBase
     void Start() 
     {
         InitManager(this, MANAGER_ID.UI);
+
     }
 
     void Update()
     {
+        UIAnimation.UpdateAnim();
+
         for (int i = 0; i < baseList.Count; i++)
         {
             baseList[i].UpdateUIBase();
         }
-
-        UIAnimation.UpdateAnim();
 	}
 
     //  -----------------------------------------
@@ -49,9 +52,13 @@ public class UIManager : ManagerBase
     //  -----------------------------------------
 
     // 登録する。
-    static public void Register(UIBase uiBase)
+    static public void Register(UIBase uiBase,UI_SCREEN_TYPE screenType)
     {
         baseList.Add(uiBase);
+
+        if (screenType == UI_SCREEN_TYPE.NONE) return;
+
+        screenControl.Rigster(screenType,uiBase);
     }
 
     // UIBaseを取得

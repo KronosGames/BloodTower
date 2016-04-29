@@ -39,7 +39,7 @@ public class UIWeaponStatusData
     public Text daggerValueText = null;
 }
 
-public class UIPlayerStatusData
+public class UIPlayerStatusMenuData
 {
     public Transform trans = null;
     public UIUserNameData userNameData = new UIUserNameData();
@@ -63,13 +63,15 @@ public class UIPlayerStatusMenuInfo : UIBase {
 
     const int WEAPON_MAX = 2;
 
-    UIPlayerStatusData statusData = new UIPlayerStatusData();
+    UIPlayerStatusMenuData statusData = new UIPlayerStatusMenuData();
     UIWeaponStatusData weaponStatusData = new UIWeaponStatusData();
     UIWeaponExlpainInfo[] weaponExlpainList = new UIWeaponExlpainInfo[WEAPON_MAX];
 
+    int animationHandle = -1;
+
     void Start()
     {
-        InitUI(this, gameObject, UI_TYPE_ID.PLAYER_STATUS_INFO);
+        InitUI(this, UI_TYPE_ID.PLAYER_STATUS_MENU_INFO, UI_SCREEN_TYPE.PLAYER_STATUS_MENU_INFO);
 
         // Status
         statusData.trans = UIUtility.GetTrans(transform,"Info00");
@@ -138,9 +140,42 @@ public class UIPlayerStatusMenuInfo : UIBase {
 
     }
 
+    void AnimationWaitStop()
+    {
+        if (animationHandle == -1) return;
+
+        if (UIAnimation.IsStop(animationHandle))
+        {
+            UIAnimation.Stop(ref animationHandle);
+        }
+    }
+
     protected override void UpdateUI()
+    {
+        AnimationWaitStop();
+    }
+
+
+    protected override void OnButtonClickProcess(Button clickButton)
+    {
+        if (clickButton.name == "Button_Close")
+        {
+            UIScreenControl.BackScreen();
+        }
+    }
+
+    public override void SetupUI()
     {
 
     }
 
+    public override void Open()
+    {
+        animationHandle = UIAnimation.Play(this, "anim_player_status_menu_open");
+    }
+
+    public override void Close()
+    {
+        animationHandle = UIAnimation.Play(this, "anim_player_status_menu_close");
+    }
 }

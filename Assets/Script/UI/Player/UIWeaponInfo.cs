@@ -15,12 +15,13 @@ public class UIWeaponInfo : UIBase
     public const int WEAPON_MAX = 2;
 
     UIWeaponData[] weaponInfoData = new UIWeaponData[WEAPON_MAX];
-    int animHandel = -1;
+    int changeAnimHandle = -1;
+    int screenAnimHandle = -1;
     int equipID = 0;
 
     void Start()
     {
-        InitUI(this, gameObject, UI_TYPE_ID.WEAPON_INFO);
+        InitUI(this, UI_TYPE_ID.WEAPON_INFO, UI_SCREEN_TYPE.PLAYER_INFO);
 
         for (int i = 0; i < WEAPON_MAX; i++)
         {
@@ -34,8 +35,21 @@ public class UIWeaponInfo : UIBase
         }
     }
 
+    void AnimationWaitStop(ref int animHandle)
+    {
+        if (animHandle == -1) return;
+
+        if (UIAnimation.IsStop(animHandle))
+        {
+            UIAnimation.Stop(ref animHandle);
+        }
+    }
+
     protected override void UpdateUI()
     {
+        AnimationWaitStop(ref screenAnimHandle);
+        AnimationWaitStop(ref changeAnimHandle);
+
         for (int i = 0; i < WEAPON_MAX; i++)
         {
             WeaponParam[] weaponList = GameCharacterParam.GetEquipWeaponParam();
@@ -43,11 +57,6 @@ public class UIWeaponInfo : UIBase
 
             weaponInfoData[i].iconImage.sprite = UIManager.GetWeaponIcon(weapon.id);
             weaponInfoData[i].nameText.text= weapon.name;
-        }
-
-        if (UIAnimation.IsStop(animHandel))
-        {
-            UIAnimation.Stop(ref animHandel);
         }
     }
 
@@ -58,7 +67,17 @@ public class UIWeaponInfo : UIBase
     // 武器を変更する。
     public void ChangeWeapon()
     {
-        animHandel = UIAnimation.Play(this,"anim_weapon_change" + equipID.ToString("00"));
+        changeAnimHandle = UIAnimation.Play(this,"anim_weapon_change" + equipID.ToString("00"));
         equipID = equipID == 0 ? 1 : 0;
+    }
+
+    public override void Open()
+    {
+        screenAnimHandle = UIAnimation.Play(this, "anim_weapon_info_open");
+    }
+
+    public override void Close()
+    {
+        screenAnimHandle = UIAnimation.Play(this, "anim_weapon_info_close");
     }
 }
