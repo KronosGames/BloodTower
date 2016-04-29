@@ -22,19 +22,20 @@ public class HomeScene : MonoBehaviour {
 
     void Update()
     {
-
         switch (seqState)
         {
             case SEQ_STATE.SETUP:
                 seqState = SEQ_STATE.OPEN;
                 break;
             case SEQ_STATE.OPEN:
+                UIScreenControl.AdditiveScreen(UI_SCREEN_TYPE.PLAYER_INFO);
                 seqState = SEQ_STATE.UPDATE;
                 break;
             case SEQ_STATE.UPDATE:
                 break;
             case SEQ_STATE.CLOSE:
                 seqState = SEQ_STATE.END;
+                UIScreenControl.AllCloseScreen();
                 break;
             case SEQ_STATE.END:
 

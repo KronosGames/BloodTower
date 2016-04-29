@@ -30,7 +30,8 @@ public class BossEnemyManager : ManagerBase
         }
 
         currentBossEnemy.Setup();
-        UIEvent.OpenBossEnemyinfo();
+        UIScreenControl.AdditiveScreen(UI_SCREEN_TYPE.BOSS_ENEMY_INFO);
+
     }
 
     static public void SetHp(int hp)

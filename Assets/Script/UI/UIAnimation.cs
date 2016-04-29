@@ -7,7 +7,7 @@ public class UIAnimation
 {
     const int ERROR_CODE = -1;
 
-    struct UIAnimationData
+    class UIAnimationData
     {
         public UIBase uiBase ;
         public Transform trans ;
@@ -23,21 +23,19 @@ public class UIAnimation
     }
 
     static List<UIAnimationData> animationList = new List<UIAnimationData>();
-    static List<UIAnimationData> playAnimationList = new List<UIAnimationData>();
     static int animationPlayHandel = 0;
 
     // 初期化
     static public void Init()
     {
-        playAnimationList.Clear();
         animationList.Clear();
         animationPlayHandel = 0;
     }
 
     // アニメーションを登録する。
-    static public void Register(UIBase cUIBase, GameObject cRoot)
+    static public void Register(UIBase cUIBase)
     {
-        Animation[] animations = cRoot.GetComponentsInChildren<Animation>();
+        Animation[] animations = cUIBase.GetComponentsInChildren<Animation>();
 
         for (int i = 0; i < animations.Length; i++) 
         {
@@ -52,31 +50,7 @@ public class UIAnimation
         }
 
     }
-
-    // 再生する。
-    // 子オブジェクトについているアニメーションを使いたい場合はこれを使用してください。
-    static public int Play(Transform cTrans, string strAnimName)
-    {
-        for (int i = 0; i < animationList.Count; i++)
-        {
-            UIAnimationData cData = animationList[i];
-
-            if (cData.trans == cTrans)
-            {
-                cData.animPlayingName = strAnimName;
-                cData.animationState = cData.animation.PlayQueued(cData.animPlayingName);
-                cData.isPause = false;
-                cData.animHandel = animationPlayHandel++;
-
-                playAnimationList.Add(cData);
-
-                return cData.animHandel;
-            }
-        }
-
-        return -1;
-    }
-
+    
     // 再生する。
     // 自分自身のアニメーションを再生したい場合は、こちらを使用してください
     static public int Play(UIBase cUIBase,string strAnimName)
@@ -87,11 +61,20 @@ public class UIAnimation
 
             if (cData.uiBase == cUIBase)
             {
+                if (cData.isActive) return cData.animHandel;
+
                 cData.animPlayingName = strAnimName;
                 cData.animationState = cData.animation.PlayQueued(cData.animPlayingName);
+                if (cData.animationState == null) return -1;
+
+                cData.animationState.normalizedTime = 0;
+                cData.animSpeed = cData.animationState.normalizedSpeed;
+                cData.animTime = cData.animationState.normalizedTime;
+
                 cData.isPause = false;
+                cData.isActive = true;
+
                 cData.animHandel = animationPlayHandel++;
-                playAnimationList.Add(cData);
 
                 return cData.animHandel;
             }
@@ -103,9 +86,11 @@ public class UIAnimation
     // アニメーションが停止させる。
     static public void Stop(ref int nHandel)
     {
-        for (int i = 0; i < playAnimationList.Count; i++)
+        if (nHandel == ERROR_CODE) return;
+
+        for (int i = 0; i < animationList.Count; i++)
         {
-            UIAnimationData cData = playAnimationList[i];
+            UIAnimationData cData = animationList[i];
 
             if (cData.animHandel == ERROR_CODE) continue;
 
@@ -113,12 +98,15 @@ public class UIAnimation
             {
                 cData.isActive = false;
                 cData.isPause = false;
-                cData.animation.Stop();
+                cData.animSpeed = 0;
+                cData.animTime = 0;
+                cData.animPlayingName = "";
                 cData.animationState = null;
+                cData.animation.Stop();
 
+                cData.animHandel = ERROR_CODE;
                 nHandel = ERROR_CODE;
 
-                playAnimationList.RemoveAt(i);
                 return;
             }
         }
@@ -127,9 +115,11 @@ public class UIAnimation
     // アニメーションが停止したかどうか
     static public bool IsStop(int nHandel)
     {
-        for (int i = 0; i < playAnimationList.Count; i++)
+        if (nHandel == ERROR_CODE) return false;
+
+        for (int i = 0; i < animationList.Count; i++)
         {
-            UIAnimationData cData = playAnimationList[i];
+            UIAnimationData cData = animationList[i];
 
             if (cData.animHandel == ERROR_CODE) continue;
             if (cData.animPlayingName == null) continue;
@@ -149,9 +139,11 @@ public class UIAnimation
     // アニメーションを一時停止状態にする。
     static public void Pause(int nHandel)
     {
-        for (int i = 0; i < playAnimationList.Count; i++)
+        if (nHandel == ERROR_CODE) return;
+
+        for (int i = 0; i < animationList.Count; i++)
         {
-            UIAnimationData cData = playAnimationList[i];
+            UIAnimationData cData = animationList[i];
 
             if (cData.animHandel == ERROR_CODE) continue;
             if (!cData.isActive) continue;
@@ -167,8 +159,6 @@ public class UIAnimation
                 cData.animSpeed = cData.animationState.normalizedSpeed;
 
                 cData.animation.Stop();
-
-                playAnimationList[i] = cData;
             }
         }
     }
@@ -176,9 +166,11 @@ public class UIAnimation
     // 一時停止しているアニメーションを再再生させる。
     static public void Resume(int nHandel)
     {
-        for (int i = 0; i < playAnimationList.Count; i++)
+        if (nHandel == ERROR_CODE) return;
+
+        for (int i = 0; i < animationList.Count; i++)
         {
-            UIAnimationData cData = playAnimationList[i];
+            UIAnimationData cData = animationList[i];
 
             if (cData.animHandel == ERROR_CODE) continue;
             if (!cData.isActive) continue;
@@ -192,9 +184,7 @@ public class UIAnimation
 
                 cData.animationState.normalizedTime = cData.animTime;
                 cData.animationState.normalizedSpeed = cData.animSpeed;
-
-                playAnimationList[i] = cData;
-
+                
                 return;
             }
         }
@@ -216,24 +206,20 @@ public class UIAnimation
     // UIManagerで呼ばれています。
     static public void UpdateAnim()
     {
-        for (int i = 0; i < playAnimationList.Count; i++)
+        for (int i = 0; i < animationList.Count; i++)
         {
-            UIAnimationData cData = playAnimationList[i];
+            UIAnimationData cData = animationList[i];
 
             if (cData.animHandel == ERROR_CODE) continue;
+            if (!cData.isActive) continue;
 
-            cData.isPlaying = cData.animation.isPlaying;
-            playAnimationList[i] = cData;
+            cData.isPlaying = cData.animTime <= 1.0f;
 
             if (cData.isPause) continue;
             if (cData.animationState == null) continue;
-
-            cData.isActive = cData.isPlaying;
-
+            
             cData.animSpeed = cData.animationState.normalizedSpeed;
             cData.animTime = cData.animationState.normalizedTime;
-
-            playAnimationList[i] = cData;
         }
     }
 }

@@ -38,16 +38,18 @@ public class BattleMapScene : MonoBehaviour
                 seqState = SEQ_STATE.OPEN;
                 break;
             case SEQ_STATE.OPEN:
+                UIScreenControl.AdditiveScreen(UI_SCREEN_TYPE.PLAYER_INFO);
                 seqState = SEQ_STATE.UPDATE;
                 break;
             case SEQ_STATE.UPDATE:
-                if(BattleManager.GetChangeSceneType() != CHANGE_SCENE_TYPE.NONE)
+                if (BattleManager.GetChangeSceneType() != CHANGE_SCENE_TYPE.NONE)
                 {
                     Close(BattleManager.GetChangeSceneType());
                 }
                 break;
             case SEQ_STATE.CLOSE:
                 seqState = SEQ_STATE.END;
+                UIScreenControl.AllCloseScreen();
                 break;
             case SEQ_STATE.END:
                 // 次のシーンに移行
@@ -62,7 +64,6 @@ public class BattleMapScene : MonoBehaviour
                 break;
         }
 	}
-
 
     void Close(CHANGE_SCENE_TYPE sceneType)
     {

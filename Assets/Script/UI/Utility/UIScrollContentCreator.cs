@@ -14,7 +14,7 @@ public class UIScrollContentCreator : UIBase
 
 	void Start () 
     {
-        InitUI(this, gameObject, UI_TYPE_ID.SCROLL_CONTENT);
+        InitUI(this, UI_TYPE_ID.SCROLL_CONTENT);
 
         trans = transform as RectTransform;
 

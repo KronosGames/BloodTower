@@ -8,6 +8,7 @@ public class UINotificationWindowData
     public Image bgImage = null;
     public Image iconImage = null;
     public Image iconBGImage = null;
+    public Image[] lineImageList = new Image[2];
     public Text titleText = null;
     public Text nameText = null;
     public Text exlpainText = null;
@@ -38,7 +39,7 @@ public class UINotificationWindowInfo : UIBase
 
     void Start()
     {
-        InitUI(this, gameObject, UI_TYPE_ID.NOTIFICATION_WINDOW_INFO);
+        InitUI(this, UI_TYPE_ID.NOTIFICATION_WINDOW_INFO);
 
         windowInfoData.trans = transform;
         windowInfoData.bgImage = UIUtility.GetImage(windowInfoData.trans, "Image_BG");
@@ -47,6 +48,11 @@ public class UINotificationWindowInfo : UIBase
         windowInfoData.titleText = UIUtility.GetText(windowInfoData.trans, "Text_Title");
         windowInfoData.nameText = UIUtility.GetText(windowInfoData.trans, "Text_Name");
         windowInfoData.exlpainText = UIUtility.GetText(windowInfoData.trans, "Text_Exlpain");
+
+        for (int i = 0; i < windowInfoData.lineImageList.Length; i++)
+        {
+            windowInfoData.lineImageList[i] = UIUtility.GetImage(windowInfoData.trans, "Image_Line" + i.ToString("00"));
+        }
     }
 
     // すべて表示系を反映
@@ -58,6 +64,11 @@ public class UINotificationWindowInfo : UIBase
         windowInfoData.titleText.SetAllDirty();
         windowInfoData.nameText.SetAllDirty();
         windowInfoData.exlpainText.SetAllDirty();
+
+        for (int i = 0; i < windowInfoData.lineImageList.Length; i++)
+        {
+            windowInfoData.lineImageList[i].SetAllDirty();
+        }
     }
 
     protected override void UpdateUI()
@@ -74,8 +85,7 @@ public class UINotificationWindowInfo : UIBase
                 }
                 break;
             case STATE.UPDATE:
-                animHandel = UIAnimation.Play(this, "anim_notification_out");
-                state = STATE.CLOSE;
+                Close();
                 break;
             case STATE.CLOSE:
                 SetAllDirty();
@@ -95,19 +105,28 @@ public class UINotificationWindowInfo : UIBase
     //  公開用関数
     //  -------------------------------------------
 
+    public override void Open()
+    {
+        state = STATE.OPEN;
+        animHandel = UIAnimation.Play(this, "anim_notification_in");
+    }
+
+    public override void Close()
+    {
+        state = STATE.CLOSE;
+        animHandel = UIAnimation.Play(this, "anim_notification_out");
+    }
+
     // Windowを開く
     public void OpenWindow(ref NotificationWindowParam param)
     {
-        UIAnimation.Stop(ref animHandel);
-
-        state = STATE.OPEN;
-        animHandel = UIAnimation.Play(this, "anim_notification_in");
-
         windowInfoData.titleText.text = param.title;
         windowInfoData.nameText.text = param.name;
         windowInfoData.exlpainText.text = param.exlpain;
 
         //windowInfoData.iconImage.sprite = UIManager.GetWeaponIcon();
+
+        Open();
     }
 
 }

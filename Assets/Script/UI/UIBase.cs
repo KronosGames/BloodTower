@@ -21,10 +21,10 @@ public class UIBase : MonoBehaviour
     protected virtual void DestroyUI() { }
 
     // UIを初期化する。
-    protected void InitUI(UIBase behaviour, GameObject root, UI_TYPE_ID id)
+    protected void InitUI(UIBase behaviour, UI_TYPE_ID id,UI_SCREEN_TYPE screenType = UI_SCREEN_TYPE.NONE)
     {
-        Button[] buttons = root.GetComponentsInChildren<Button>();
-        UIInput[] uiInputs = root.GetComponentsInChildren<UIInput>();
+        Button[] buttons = behaviour.GetComponentsInChildren<Button>();
+        UIInput[] uiInputs = behaviour.GetComponentsInChildren<UIInput>();
 
         for (int i = 0; i < buttons.Length; i++)
         {
@@ -37,8 +37,8 @@ public class UIBase : MonoBehaviour
 
         this.id = id;
 
-        UIManager.Register(this);
-        UIAnimation.Register(this,root);
+        UIManager.Register(behaviour, screenType);
+        UIAnimation.Register(behaviour);
         
     }
 
@@ -48,8 +48,6 @@ public class UIBase : MonoBehaviour
         UIManager.Remove(this);
         UIAnimation.Remove(this);
     }
-
-
 
     protected void ResetButton(UIBase root)
     {
@@ -99,4 +97,13 @@ public class UIBase : MonoBehaviour
         UpdateUI();
     }
 
+
+    // UIのセットアップ
+    public virtual void SetupUI() { }
+
+    // UIを開く処理
+    public virtual void Open() { }
+
+    // UIを閉じる処理
+    public virtual void Close() { }
 }
