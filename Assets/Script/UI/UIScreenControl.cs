@@ -101,7 +101,12 @@ public class UIScreenControl {
         for (int i = 0; i < maxCount; i++)
         {
             UI_SCREEN_TYPE screenType = currentScreenList[i];
-            CloseScreen(screenType);
+            UIBase[] uiBaseList = screenDict[screenType].ToArray();
+
+            for (int ii = 0; ii < uiBaseList.Length; ii++)
+            {
+                uiBaseList[ii].Close();
+            }
         }
 
         currentScreenList.Clear();

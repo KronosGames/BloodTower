@@ -3,49 +3,81 @@ using System.Collections;
 
 public class BattleManager : ManagerBase
 {
-    static BattleMapScene.CHANGE_SCENE_TYPE changeSceneType = BattleMapScene.CHANGE_SCENE_TYPE.NONE;
-    static int currentCount = 0;
-    static bool isChange = false;
-    static MapInfoData currentMapData = null;
-
-	void Start ()
+    enum SEQ_STATE
     {
+        NONE,
+        CHANGE_MAP,
+        UPDATE,
+        YOU_DIED,
+    }
+
+    [SerializeField]
+    float youDiedWaitTime = 3.0f;
+
+    static BattleManager myThis = null;
+
+    MapInfoData currentMapData = null;
+    SEQ_STATE seqState = SEQ_STATE.NONE;
+    BattleMapScene.CHANGE_SCENE_TYPE changeSceneType = BattleMapScene.CHANGE_SCENE_TYPE.NONE;
+    float youDiedTime = 0.0f;
+    int currentCount = 0;
+
+    void Start ()
+    { 
         InitManager(this, MANAGER_ID.BATTLE);
 
+        myThis = this;
     }
 
     // マップ情報を変更
     static void ChangeMapData()
     {
-        if (currentMapData != null)
+        if (myThis.currentMapData != null)
         {
-            currentMapData.trans.gameObject.SetActive(false);
+            myThis.currentMapData.trans.gameObject.SetActive(false);
         }
 
-        currentMapData = MapManager.GetMapInfo(currentCount);
-        currentMapData.trans.gameObject.SetActive(true);
+        myThis.currentMapData = MapManager.GetMapInfo(myThis.currentCount);
+        myThis.currentMapData.trans.gameObject.SetActive(true);
 
         // 子オブジェクトにある武器すべてをセットアップする。
-        WeaponInfo[] weaponList = currentMapData.trans.GetComponentsInChildren<WeaponInfo>();
+        WeaponInfo[] weaponList = myThis.currentMapData.trans.GetComponentsInChildren<WeaponInfo>();
         WeaponManager.Setup(ref weaponList);
 
         // ボス
-        BossEnemyInfo bossEnemyInfo = currentMapData.trans.GetComponentInChildren<BossEnemyInfo>();
+        BossEnemyInfo bossEnemyInfo = myThis.currentMapData.trans.GetComponentInChildren<BossEnemyInfo>();
         BossEnemyManager.Setup(ref bossEnemyInfo);
 
         // エネミーリスト
-        EnemyInfo[] enemyList = currentMapData.trans.GetComponentsInChildren<EnemyInfo>();
+        EnemyInfo[] enemyList = myThis.currentMapData.trans.GetComponentsInChildren<EnemyInfo>();
         EnemyManager.Setup(ref enemyList);
     }
 
     void Update()
     {
-        if (isChange)
+        switch (seqState)
         {
-            ChangeMapData();
-            isChange = false;
+            case SEQ_STATE.CHANGE_MAP:
+                ChangeMapData();
+                myThis.seqState = SEQ_STATE.UPDATE;
+                break;
+            case SEQ_STATE.UPDATE:
+                // TEST CODE
+                if (Input.GetKeyDown(KeyCode.L))
+                {
+                    UIScreenControl.AdditiveScreen(UI_SCREEN_TYPE.YOU_DIED_INFO);
+                    myThis.seqState = SEQ_STATE.YOU_DIED;
+                    youDiedTime = youDiedWaitTime;
+                }
+                break;
+            case SEQ_STATE.YOU_DIED:
+                youDiedTime -= Time.deltaTime;
+                if (youDiedTime <= 0.0f)
+                {
+                    myThis.changeSceneType = BattleMapScene.CHANGE_SCENE_TYPE.HOME;
+                }
+                break;
         }
-
     }
 
     //  ----------------------------------------------
@@ -55,10 +87,10 @@ public class BattleManager : ManagerBase
     // 初期化
     static public void Setup()
     {
-        currentCount = 0;
-        currentMapData = null;
-        isChange = false;
-        changeSceneType = BattleMapScene.CHANGE_SCENE_TYPE.NONE;
+        myThis.currentCount = 0;
+        myThis.currentMapData = null;
+        myThis.seqState = SEQ_STATE.UPDATE;
+        myThis.changeSceneType = BattleMapScene.CHANGE_SCENE_TYPE.NONE;
 
         ChangeMapData();
     }
@@ -67,10 +99,10 @@ public class BattleManager : ManagerBase
     // 上の階層に行くときに呼んでください。
     static public void ChangeUpFloor()
     {
-        if (MapManager.GetMapCount() - 1 <= currentCount) return;
+        if (MapManager.GetMapCount() - 1 <= myThis.currentCount) return;
 
-        isChange = true;
-        currentCount++;
+        myThis.seqState = SEQ_STATE.CHANGE_MAP;
+        myThis.currentCount++;
 
         // キャンプに行く条件文を記述する。
         //if()
@@ -82,27 +114,27 @@ public class BattleManager : ManagerBase
     // 下の階層、行く時に呼んでください。
     static public void ChangeDownFloor()
     {
-        isChange = true;
-        currentCount--;
+        myThis.seqState = SEQ_STATE.CHANGE_MAP;
+        myThis.currentCount--;
 
-        if (0 >= currentCount)
+        if (0 >= myThis.currentCount)
         {
-            currentCount = 0;
-            changeSceneType = BattleMapScene.CHANGE_SCENE_TYPE.HOME;
+            myThis.currentCount = 0;
+            myThis.changeSceneType = BattleMapScene.CHANGE_SCENE_TYPE.HOME;
         }
     }
 
     // 現在の階層マップデータ
     static public MapInfoData GetCurrentMapData()
     {
-        return currentMapData;
+        return myThis.currentMapData;
     }
 
     // 切り替えるシーンの種類を取得
     // 通知用に使います。
     static public BattleMapScene.CHANGE_SCENE_TYPE GetChangeSceneType()
     {
-        return changeSceneType;
+        return myThis.changeSceneType;
     }
 
 
