@@ -56,7 +56,7 @@ public class UIWeaponInfo : UIBase
             WeaponParam weapon = weaponList[i];
 
             weaponInfoData[i].iconImage.sprite = UIManager.GetWeaponIcon(weapon.id);
-            weaponInfoData[i].nameText.text= weapon.name;
+            weaponInfoData[i].nameText.text = weapon.name;
         }
     }
 

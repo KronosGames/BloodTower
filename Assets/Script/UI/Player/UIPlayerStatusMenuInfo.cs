@@ -47,7 +47,7 @@ public class UIPlayerStatusMenuData
 }
 
 // 武器説明
-public class UIWeaponExlpainInfo
+public class UIWeaponExplainInfo
 {
     public Transform trans = null;
     public Image iconImage = null;
@@ -65,7 +65,7 @@ public class UIPlayerStatusMenuInfo : UIBase {
 
     UIPlayerStatusMenuData statusData = new UIPlayerStatusMenuData();
     UIWeaponStatusData weaponStatusData = new UIWeaponStatusData();
-    UIWeaponExlpainInfo[] weaponExlpainList = new UIWeaponExlpainInfo[WEAPON_MAX];
+    UIWeaponExplainInfo[] weaponExplainList = new UIWeaponExplainInfo[WEAPON_MAX];
 
     int animationHandle = -1;
 
@@ -101,17 +101,17 @@ public class UIPlayerStatusMenuInfo : UIBase {
         trans = UIUtility.GetTrans(weaponStatusData.trans, "Info01");
         weaponStatusData.spearValueText = UIUtility.GetText(trans, "Text_Value");
 
-        trans = UIUtility.GetTrans(weaponStatusData.trans, "Info01");
+        trans = UIUtility.GetTrans(weaponStatusData.trans, "Info02");
         weaponStatusData.clubValueText = UIUtility.GetText(trans, "Text_Value");
 
-        trans = UIUtility.GetTrans(weaponStatusData.trans, "Info01");
+        trans = UIUtility.GetTrans(weaponStatusData.trans, "Info03");
         weaponStatusData.daggerValueText = UIUtility.GetText(trans, "Text_Value");
 
         // 武器説明
         trans = UIUtility.GetTrans(transform, "Info02");
         for (int i = 0; i < WEAPON_MAX; i++)
         {
-            UIWeaponExlpainInfo data = new UIWeaponExlpainInfo();
+            UIWeaponExplainInfo data = new UIWeaponExplainInfo();
             Transform dataTrans = null;
 
             data.trans = UIUtility.GetTrans(trans,"Info" + i.ToString("00"));
@@ -135,7 +135,7 @@ public class UIPlayerStatusMenuInfo : UIBase {
             dataTrans = UIUtility.GetTrans(data.trans, "Exlpain");
             data.exlpainText = UIUtility.GetText(dataTrans, "Text_Value");
 
-            weaponExlpainList[i] = data;
+            weaponExplainList[i] = data;
         }
 
     }
@@ -164,8 +164,76 @@ public class UIPlayerStatusMenuInfo : UIBase {
         }
     }
 
+    void SetOffsetParameter(ref UIPlayerStatusParamData statusParam, int value)
+    {
+        bool isActive = value != 0;
+
+        statusParam.addValueText.enabled = isActive;
+        for (int i = 0; i < statusParam.arcText.Length; i++)
+        {
+            statusParam.arcText[i].enabled = isActive;
+        }
+
+        if (value > 0)
+        {
+            statusParam.addValueText.text = "+" + value.ToString();
+            statusParam.addValueText.color = Color.red;
+        }
+        if (value < 0)
+        {
+            statusParam.addValueText.text = "-" + value.ToString();
+            statusParam.addValueText.color = Color.blue;
+        }
+    }
+
+    void SetParameter(UI_PARAM_ID id,int value,int offset)
+    {
+        UIPlayerStatusParamData statusParam = statusData.statusParamList[(int)id];
+        statusParam.valueText.text = value.ToString();
+        SetOffsetParameter(ref statusParam, offset);
+    }
+
     public override void SetupUI()
     {
+        WeaponParam[] equipWeaponParamList = GameCharacterParam.GetEquipWeaponParam();
+        for (int i = 0; i < equipWeaponParamList.Length; i++)
+        {
+            WeaponParam param = equipWeaponParamList[i];
+            bool isActive = param.id != WEAPON_ID.NULL;
+
+            UIWeaponExplainInfo weaponExplain = weaponExplainList[i];
+            weaponExplain.trans.gameObject.SetActive(isActive);
+
+            if (isActive)
+            {
+                weaponExplain.nameText.text = param.name;
+                weaponExplain.exlpainText.text = param.explain;
+
+                SkillParam skillParam = SkillDatabase.GetSkillById(param.skillID);
+                weaponExplain.skillText.text = skillParam.name;
+
+                weaponExplain.typeText.text = WeaponDatabase.GetWeaponTypeName(param.type);
+                weaponExplain.durabilityValueText.text = param.durability.ToString();
+                weaponExplain.durabilityMaxValueText.text = "0";
+
+                // IconDB
+                //weaponExplain.iconImage.sprite = ;
+            }
+        }
+
+        statusData.userNameData.nameText.text = GameParam.GetUserName();
+
+        SetParameter(UI_PARAM_ID.HP,        GameCharacterParam.GetHp(),         GameCharacterParam.GetOffsetHp());
+        SetParameter(UI_PARAM_ID.STAMINA,   GameCharacterParam.GetStamin(),     GameCharacterParam.GetOffsetStamina());
+        SetParameter(UI_PARAM_ID.ATTACK,    GameCharacterParam.GetAttackPower(),    GameCharacterParam.GetOffsetAttackPower());
+        SetParameter(UI_PARAM_ID.DEFENSE,   GameCharacterParam.GetDefense(),        GameCharacterParam.GetOffsetDefense());
+        SetParameter(UI_PARAM_ID.ATTACK_SPEED,  GameCharacterParam.GetAttackSpeed(),    GameCharacterParam.GetOffsetAttackSpeed());
+        SetParameter(UI_PARAM_ID.MOVE_SPEED,    GameCharacterParam.GetMoveSpeed(),      GameCharacterParam.GetOffsetMoveSpeed());
+
+        weaponStatusData.clubValueText.text = GameCharacterParam.GetClubLevel().ToString();
+        weaponStatusData.daggerValueText.text = GameCharacterParam.GetDaggerLevel().ToString();
+        weaponStatusData.spearValueText.text = GameCharacterParam.GetSpearLevel().ToString();
+        weaponStatusData.swordValueText.text = GameCharacterParam.GetSwordLevel().ToString();
 
     }
 

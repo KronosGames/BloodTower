@@ -28,6 +28,10 @@ public class WeaponDatabase : MonoBehaviour
             addData.defence = data.GetInt("defence");
             addData.moveSpeed = data.GetInt("moveSpeed");
             addData.attackSpeed = data.GetInt("attackSpeed");
+            addData.stamina = data.GetInt("stamina");
+            addData.durability = data.GetInt("durability");
+
+            addData.durabilityMax = addData.durability;
 
             UIWeaponIconData uiWeaponIconData = new UIWeaponIconData();
             uiWeaponIconData.id = addData.id;
@@ -43,6 +47,23 @@ public class WeaponDatabase : MonoBehaviour
     // --------------------------------------------
     // 公開用関数
     // --------------------------------------------
+
+    static public string GetWeaponTypeName(WEAPON_TYPE id)
+    {
+        switch (id)
+        {
+            case WEAPON_TYPE.SWORD:
+                return "ソード";
+            case WEAPON_TYPE.DAGGER:
+                return "ダガー";
+            case WEAPON_TYPE.SPEAR:
+                return "スピア";
+            case WEAPON_TYPE.ROD:
+                return "クラブ";
+        }
+
+        return "";
+    }
 
     static public WeaponParam GetWeapon(WEAPON_ID id)
     {

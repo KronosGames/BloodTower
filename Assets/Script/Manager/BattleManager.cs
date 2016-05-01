@@ -63,6 +63,10 @@ public class BattleManager : ManagerBase
                 break;
             case SEQ_STATE.UPDATE:
                 // TEST CODE
+                if (Input.GetKeyDown(KeyCode.K))
+                {
+                    UIScreenControl.AdditiveScreen(UI_SCREEN_TYPE.PLAYER_STATUS_MENU_INFO);
+                }
                 if (Input.GetKeyDown(KeyCode.L))
                 {
                     UIScreenControl.AdditiveScreen(UI_SCREEN_TYPE.YOU_DIED_INFO);

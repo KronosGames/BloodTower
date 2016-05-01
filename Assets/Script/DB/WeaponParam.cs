@@ -34,4 +34,7 @@ public class WeaponParam
     public int defence;
     public int attackSpeed;
     public int moveSpeed;
+    public int stamina;
+    public int durability;
+    public int durabilityMax;
 }

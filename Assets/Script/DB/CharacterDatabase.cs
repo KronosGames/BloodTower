@@ -17,6 +17,11 @@ public class CharacterTable
     public int holyWaterNum;
     public int maxHolyWaterNum;
 
+    public int clubLevel;
+    public int daggerLevel;
+    public int spearLevel;
+    public int swordLevel;
+
     public int[] equipWeaponID = new int[EQUIP_WEAPON_MAX];
     public int[] equipWeaponSkillID = new int[EQUIP_WEAPON_MAX];
 }
@@ -40,6 +45,11 @@ public class CharacterDatabase : MonoBehaviour
         tableData.attackSpeed = data.GetInt("attackSpeed");
         tableData.moveSpeed = data.GetInt("moveSpeed");
         tableData.holyWaterNum = data.GetInt("holyWaterNum");
+
+        tableData.clubLevel = data.GetInt("clubLevel");
+        tableData.daggerLevel = data.GetInt("daggerLevel");
+        tableData.swordLevel = data.GetInt("swordLevel");
+        tableData.spearLevel = data.GetInt("spearLevel");
 
         tableData.equipWeaponID[0] = data.GetInt("equipWeaponID00");
         tableData.equipWeaponID[1] = data.GetInt("equipWeaponID01");

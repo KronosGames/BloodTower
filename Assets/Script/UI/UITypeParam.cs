@@ -16,6 +16,11 @@ public enum UI_TYPE_ID
     HOLYWATER_INFO,
     PLAYER_STATUS_MENU_INFO,
 
+    // 鍛冶屋
+    BLACKSMITH_MENU_INFO,               //< 鍛冶屋メニュー
+    BLACKSMITH_ITEM_SELECT_INFO,        //< 鍛冶屋アイテム選択
+
+
     // Battle
     BOSS_ENEMY_INFO,
     NOTIFICATION_WINDOW_INFO,
@@ -33,6 +38,9 @@ public enum UI_SCREEN_TYPE
     PLAYER_INFO,
     PLAYER_STATUS_MENU_INFO,
     YOU_DIED_INFO,              //< 死亡した画面情報
+
+    BLACKSMITH_MENU_INFO,       //< 鍛冶屋メニュー
+    BLACKSMITH_ITEM_SELECT_INFO,        //< 鍛冶屋アイテム選択
 
     MAX,
 }

@@ -102,11 +102,19 @@ public static class GameCharacterParam
     static public void RemoveEquipWeapon(EQUIP_WEAPON_TYPE type)
     {
         int index = (int)type;
-        equipWeaponParam[index] = null;
+        equipWeaponParam[index] = new WeaponParam();
+        equipWeaponParam[index].id = WEAPON_ID.NULL;
+        equipWeaponParam[index].skillID = SKILL_ID.NULL;
 
         characterParam.equipWeaponID[index] = -1;
         characterParam.equipWeaponSkillID[index] = -1;
     }
+
+
+    static public int GetClubLevel() { return characterParam.clubLevel; }
+    static public int GetDaggerLevel() { return characterParam.daggerLevel; }
+    static public int GetSpearLevel() { return characterParam.spearLevel; }
+    static public int GetSwordLevel() { return characterParam.swordLevel; }
 
     static public int GetHolyWaterNum() { return characterParam.holyWaterNum; }
     static public int GetMaxHolyWaterNum() { return characterParam.maxHolyWaterNum; }
@@ -119,6 +127,89 @@ public static class GameCharacterParam
     static public int GetMoveSpeed() { return characterParam.moveSpeed; }
     static public int GetAttackSpeed() { return characterParam.attackSpeed; }
 
+    static public int GetOffsetHp()
+    {
+        int offset = 0;
+        WeaponParam[] weaponParamList = GetEquipWeaponParam();
+        for (int i = 0; i < weaponParamList.Length; i++)
+        {
+            if (weaponParamList[i] == null) continue;
+
+            offset += weaponParamList[i].hp;
+        }
+
+        return offset;
+    }
+
+    static public int GetOffsetAttackPower()
+    {
+        int offset = 0;
+        WeaponParam[] weaponParamList = GetEquipWeaponParam();
+        for (int i = 0; i < weaponParamList.Length; i++)
+        {
+            if (weaponParamList[i] == null) continue;
+
+            offset += weaponParamList[i].attack;
+        }
+
+        return offset;
+    }
+
+    static public int GetOffsetDefense()
+    {
+        int offset = 0;
+        WeaponParam[] weaponParamList = GetEquipWeaponParam();
+        for (int i = 0; i < weaponParamList.Length; i++)
+        {
+            if (weaponParamList[i] == null) continue;
+
+            offset += weaponParamList[i].defence;
+        }
+
+        return offset;
+    }
+
+    static public int GetOffsetAttackSpeed()
+    {
+        int offset = 0;
+        WeaponParam[] weaponParamList = GetEquipWeaponParam();
+        for (int i = 0; i < weaponParamList.Length; i++)
+        {
+            if (weaponParamList[i] == null) continue;
+
+            offset += weaponParamList[i].attackSpeed;
+        }
+
+        return offset;
+    }
+
+    static public int GetOffsetMoveSpeed()
+    {
+        int offset = 0;
+        WeaponParam[] weaponParamList = GetEquipWeaponParam();
+        for (int i = 0; i < weaponParamList.Length; i++)
+        {
+            if (weaponParamList[i] == null) continue;
+
+            offset += weaponParamList[i].moveSpeed;
+        }
+
+        return offset;
+    }
+
+    static public int GetOffsetStamina()
+    {
+        int offset = 0;
+        WeaponParam[] weaponParamList = GetEquipWeaponParam();
+        for (int i = 0; i < weaponParamList.Length; i++)
+        {
+            if (weaponParamList[i] == null) continue;
+
+            offset += weaponParamList[i].stamina;
+        }
+
+        return offset;
+    }
     static public WeaponParam[] GetEquipWeaponParam()
     {
         return equipWeaponParam;
