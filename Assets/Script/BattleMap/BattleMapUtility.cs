@@ -41,10 +41,10 @@ public static class BattleMapUtility
         float distance = float.MaxValue;
         Transform nearsetEnnemyTrans = null;
 
-        Transform[] enemyTransList = EnemyManager.GetEnemyTransList();
-        for (int i = 0; i < enemyTransList.Length; i++)
+        EnemyInfo[] enemyInfoList = EnemyManager.GetEnemyList();
+        for (int i = 0; i < enemyInfoList.Length; i++)
         {
-            Transform enemyTrans = enemyTransList[i];
+            Transform enemyTrans = enemyInfoList[i].transform;
             if (enemyTrans == null) continue;
 
             float tempDist = Vector3.Distance(trans.position, enemyTrans.position);

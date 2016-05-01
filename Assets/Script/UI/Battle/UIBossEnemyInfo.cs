@@ -58,8 +58,8 @@ public class UIBossEnemyInfo : UIBase
                 break;
             case STATE.UPDATE:
 
-                float hp = BossEnemyManager.GetHp();
-                float maxHp = BossEnemyManager.GetMaxHp();
+                float hp = BossEnemyManager.GetParam().hp;
+                float maxHp = BossEnemyManager.GetParam().maxHp;
                 infoData.hpBarImage.fillAmount = hp / maxHp;
 
                 break;
@@ -82,7 +82,7 @@ public class UIBossEnemyInfo : UIBase
 
     public override void SetupUI()
     {
-        infoData.nameText.text = BossEnemyManager.GetName();
+        infoData.nameText.text = BossEnemyManager.GetParam().name;
     }
 
     public override void Open()

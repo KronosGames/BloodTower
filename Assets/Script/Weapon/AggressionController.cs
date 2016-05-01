@@ -110,13 +110,6 @@ public class AggressionController : MonoBehaviour {
                     Debug.Log(coll.name + "に" + MyWeaponParam.attack + "のダメージ！");
                     esm.AddHealth(-MyWeaponParam.attack);
                 }
-
-                BossEnemyStatusManager besm = coll.GetComponent<BossEnemyStatusManager>();
-                if(besm != null)
-                {
-                    Debug.Log(coll.name + "に" + MyWeaponParam.attack + "のダメージ！");
-                    besm.AddHealth(-MyWeaponParam.attack);
-                }
                 break;
         }
     }

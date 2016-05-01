@@ -25,14 +25,17 @@ public class EnemyStatusManager : MonoBehaviour {
     /// </summary>
     EnemyParam thisParam = null;
 
-    void Start () {
+    public void Setup(EnemyInfo enemyInfo)
+    {
         IsAlive = true;
-        InitializeParams();
-
+        InitializeParams(ref enemyInfo);
         InitializeHealth();
     }
 	
-	void FixedUpdate () {
+	void FixedUpdate ()
+    {
+        if (!IsAlive) return;
+
         CheckDead();
 
     }
@@ -42,9 +45,8 @@ public class EnemyStatusManager : MonoBehaviour {
     /// <summary>
     /// 各種パラメータ初期化
     /// </summary>
-    public void InitializeParams()
+    void InitializeParams(ref EnemyInfo enemyInfo)
     {
-        EnemyInfo enemyInfo = GetComponent<EnemyInfo>();
         if(enemyInfo == null)
         {
             Debug.LogError("EnemyInfo is null!");
@@ -124,7 +126,7 @@ public class EnemyStatusManager : MonoBehaviour {
 
     int nowHealth = int.MaxValue;
 
-    public void InitializeHealth()
+    void InitializeHealth()
     {
         maxHealth = thisParam.maxHp;
         nowHealth = thisParam.hp;

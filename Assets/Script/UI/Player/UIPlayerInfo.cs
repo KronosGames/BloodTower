@@ -43,7 +43,7 @@ public class UIPlayerInfo : UIBase
         infoData.hpBarImage.fillAmount = hp / maxHp;
 
         float stamina = (float)GameCharacterParam.GetStamin();
-        float maxStamin = (float)GameCharacterParam.GetMaxStamin();
+        float maxStamin = (float)GameCharacterParam.GetMaxStamina();
         infoData.staminaBarImage.fillAmount = stamina / maxStamin;
     }
 

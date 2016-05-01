@@ -25,6 +25,12 @@ public class HomeScene : MonoBehaviour {
         switch (seqState)
         {
             case SEQ_STATE.SETUP:
+                if (!GameCharacterParam.IsAlive())
+                {
+                    GameCharacterParam.InitHp();
+                    GameCharacterParam.InitStamina();
+                }
+
                 seqState = SEQ_STATE.OPEN;
                 break;
             case SEQ_STATE.OPEN:

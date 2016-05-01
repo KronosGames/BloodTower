@@ -6,13 +6,19 @@ public class EnemyInfo : MonoBehaviour
     [SerializeField]
     ENEMY_ID id = ENEMY_ID.NULL;
 
+    [SerializeField]
+    bool isBoss = false;
+
     EnemyParam param = null;
+    EnemyStatusManager statusManager = null;
 
     //  ----------------------------------------------
     //  公開用 関数
     //  ----------------------------------------------
 
     public EnemyParam GetParam() { return param; }
+    public bool IsBoss() { return isBoss; }
+
 
     public void Setup()
     {
@@ -33,8 +39,15 @@ public class EnemyInfo : MonoBehaviour
             param.canInTheStatus[index] = temp.canInTheStatus[index];
             param.statusResistance[index] = temp.statusResistance[index];
         }
-    }
 
+        statusManager = GetComponent<EnemyStatusManager>();
+        if (statusManager == null)
+        {
+            Debug.LogError("EnemyStatusManager is NULL ");
+        }
+
+        statusManager.Setup(this);
+    }
 
 
 }

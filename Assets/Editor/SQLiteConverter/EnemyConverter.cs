@@ -65,6 +65,17 @@ public class EnemyConverter : EditorWindow {
 
                     sw.WriteLine("");
 
+                    sw.WriteLine("public enum ENEMY_STATUS");
+                    sw.WriteLine("{");
+                    sw.WriteLine("    Burn = 0,   //< やけど、燃焼");
+                    sw.WriteLine("    Poison = 1,   //< 毒");
+                    sw.WriteLine("    Frozen = 2,   //< 凍結");
+                    sw.WriteLine("    BloodLoss = 3,   //< 出血");
+                    sw.WriteLine("    SENTINEL = 4,   //< 番兵");
+                    sw.WriteLine("}");
+
+                    sw.WriteLine("");
+
                     sw.WriteLine("public class EnemyParam");
                     sw.WriteLine("{");
                     sw.WriteLine("    public ENEMY_ID id;");
@@ -74,7 +85,8 @@ public class EnemyConverter : EditorWindow {
                     sw.WriteLine("    public int attack;");
                     sw.WriteLine("    public int defense;");
                     sw.WriteLine("    public int moveSpeed;");
-
+                    sw.WriteLine("    public bool[] canInTheStatus = new bool[(int)ENEMY_STATUS.SENTINEL];   //< 状態異常にかかるかどうか");
+                    sw.WriteLine("    public int[] statusResistance = new int[(int)ENEMY_STATUS.SENTINEL];   //< 状態異常耐性値(この値を超えると状態異常になる)");
                     sw.WriteLine("}");
                 }
 

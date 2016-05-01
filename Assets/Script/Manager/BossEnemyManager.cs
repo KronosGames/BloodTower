@@ -3,7 +3,7 @@ using System.Collections;
 
 public class BossEnemyManager : ManagerBase
 {
-    static BossEnemyInfo currentBossEnemy = null;
+    static EnemyInfo currentBossEnemy = null;
     static bool isNone = true;
 
 	void Start ()
@@ -17,7 +17,7 @@ public class BossEnemyManager : ManagerBase
     //  公開用関数
     //  --------------------------------------
 
-    static public void Setup(ref BossEnemyInfo infoData)
+    static public void Register(ref EnemyInfo infoData)
     {
         currentBossEnemy = infoData;
 
@@ -31,68 +31,28 @@ public class BossEnemyManager : ManagerBase
 
         currentBossEnemy.Setup();
         UIScreenControl.AdditiveScreen(UI_SCREEN_TYPE.BOSS_ENEMY_INFO);
-
     }
 
-    static public void SetHp(int hp)
+    static public void Damage(int damageValue)
     {
         if (isNone) return;
 
-        currentBossEnemy.GetParam().hp = hp;
+        EnemyParam param = currentBossEnemy.GetParam();
+        param.hp -= damageValue;
+
+        param.hp = System.Math.Max(param.hp, 0);
     }
 
-    static public BOSS_ENEMY_ID GetID()
+    static public EnemyParam GetParam()
     {
-        if (isNone) return BOSS_ENEMY_ID.NULL;
+        if (isNone) return null;
 
-        return currentBossEnemy.GetParam().id;
+        return currentBossEnemy.GetParam();
     }
-
-    static public string GetName()
-    {
-        if (isNone) return "存在しない";
-
-        return currentBossEnemy.GetParam().name;
-    }
-
-    static public int GetHp()
-    {
-        if (isNone) return 0;
-
-        return currentBossEnemy.GetParam().hp;
-    }
-
-    static public int GetMaxHp()
-    {
-        if (isNone) return 0;
-
-        return currentBossEnemy.GetParam().maxHp;
-    }
-
-    static public int GetAttackPower()
-    {
-        if (isNone) return 0;
-
-        return currentBossEnemy.GetParam().attack;
-    }
-
-    static public int GetDefense()
-    {
-        if (isNone) return 0;
-
-        return currentBossEnemy.GetParam().defense;
-    }
-
-    static public int GetMoveSpeed()
-    {
-        if (isNone) return 0;
-
-        return currentBossEnemy.GetParam().moveSpeed;
-    }
-
+    
     // 死亡したかどうか
     static public bool IsDead()
     {
-        return GetHp() <= 0;
+        return GetParam().hp <= 0;
     }
 }

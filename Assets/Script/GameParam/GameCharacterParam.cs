@@ -39,6 +39,18 @@ public static class GameCharacterParam
         }
     }
 
+    // 体力の初期化
+    static public void InitHp()
+    {
+        SetHp(GetMaxHp());
+    }
+
+    // Staminaの初期化
+    static public void InitStamina()
+    {
+        SetStamina(GetMaxStamina());
+    }
+
     static public void SetHp(int hp)
     {
         characterParam.hp = hp;
@@ -49,12 +61,12 @@ public static class GameCharacterParam
         characterParam.maxHP = maxHp;
     }
 
-    static public void SetStamin(int stamina)
+    static public void SetStamina(int stamina)
     {
         characterParam.stamina = stamina;
     }
 
-    static public void SetMaxStamin(int maxStamina)
+    static public void SetMaxStamina(int maxStamina)
     {
         characterParam.maxStamina = maxStamina;
     }
@@ -110,6 +122,8 @@ public static class GameCharacterParam
         characterParam.equipWeaponSkillID[index] = -1;
     }
 
+    // 生きているかどうか
+    static public bool IsAlive() { return GetHp() >= 1; }
 
     static public int GetClubLevel() { return characterParam.clubLevel; }
     static public int GetDaggerLevel() { return characterParam.daggerLevel; }
@@ -121,7 +135,7 @@ public static class GameCharacterParam
     static public int GetHp() { return characterParam.hp; }
     static public int GetMaxHp() { return characterParam.maxHP; }
     static public int GetStamin() { return characterParam.stamina; }
-    static public int GetMaxStamin() { return characterParam.maxStamina; }
+    static public int GetMaxStamina() { return characterParam.maxStamina; }
     static public int GetAttackPower() { return characterParam.attack; }
     static public int GetDefense() { return characterParam.defense; }
     static public int GetMoveSpeed() { return characterParam.moveSpeed; }
@@ -215,3 +229,4 @@ public static class GameCharacterParam
         return equipWeaponParam;
     }
 }
+

@@ -44,13 +44,23 @@ public class BattleManager : ManagerBase
         WeaponInfo[] weaponList = myThis.currentMapData.trans.GetComponentsInChildren<WeaponInfo>();
         WeaponManager.Setup(ref weaponList);
 
-        // ボス
-        BossEnemyInfo bossEnemyInfo = myThis.currentMapData.trans.GetComponentInChildren<BossEnemyInfo>();
-        BossEnemyManager.Setup(ref bossEnemyInfo);
+        EnemyManager.Clear();
 
-        // エネミーリスト
         EnemyInfo[] enemyList = myThis.currentMapData.trans.GetComponentsInChildren<EnemyInfo>();
-        EnemyManager.Setup(ref enemyList);
+        for (int i = 0; i < enemyList.Length; i++)
+        {
+            EnemyInfo enemy = enemyList[i];
+            if (enemy.IsBoss())
+            {
+                // ボス
+                BossEnemyManager.Register(ref enemy);
+            }
+            else
+            {
+                // エネミーリスト
+                EnemyManager.Register(ref enemy);
+            }
+        }
     }
 
     void Update()
@@ -62,12 +72,12 @@ public class BattleManager : ManagerBase
                 myThis.seqState = SEQ_STATE.UPDATE;
                 break;
             case SEQ_STATE.UPDATE:
-                // TEST CODE
-                if (Input.GetKeyDown(KeyCode.K))
-                {
-                    UIScreenControl.AdditiveScreen(UI_SCREEN_TYPE.PLAYER_STATUS_MENU_INFO);
-                }
                 if (Input.GetKeyDown(KeyCode.L))
+                {
+                    GameCharacterParam.SetHp(GameCharacterParam.GetHp() - 10);
+                }
+
+                if (!GameCharacterParam.IsAlive())
                 {
                     UIScreenControl.AdditiveScreen(UI_SCREEN_TYPE.YOU_DIED_INFO);
                     myThis.seqState = SEQ_STATE.YOU_DIED;
