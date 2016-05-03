@@ -97,8 +97,8 @@ public class WeaponConverter : EditorWindow
                     sw.WriteLine("    public int attackSpeed;");
                     sw.WriteLine("    public int moveSpeed;");
                     sw.WriteLine("    public int stamina;");
-                    sw.WriteLine("    public int durability;");
-                    sw.WriteLine("    public int durabilityMax;");
+                    sw.WriteLine("    public int hardness;");
+                    sw.WriteLine("    public int hardnessMax;");
                     
                     sw.WriteLine("}");
                 }

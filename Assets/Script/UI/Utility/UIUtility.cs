@@ -141,4 +141,11 @@ public class UIUtility
     }
 
 
+    // 指定した文字列から数字を抽出
+    static public int GetStringToNumber(string convertString)
+    {
+        string count = convertString.Substring(0, convertString.Length - 2);
+        return int.Parse(count);
+    }
+
 }

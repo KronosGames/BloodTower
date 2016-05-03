@@ -24,7 +24,17 @@ public class UIBlacksmithItemSelectInfo : UIBase {
 
     protected override void OnButtonClickProcess(Button clickButton)
     {
+        if (clickButton.name == "Button_Back")
+        {
+            UIScreenControl.BackScreen();
+            return;
+        }
 
+        int count = UIUtility.GetStringToNumber(clickButton.name);
+        if (clickButton.name == "Button_Item" + count.ToString("00"))
+        {
+            UIScreenControl.BackScreen();
+        }
     }
 
     public override void Open()

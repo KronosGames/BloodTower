@@ -77,6 +77,7 @@ public class BattleManager : ManagerBase
                     GameCharacterParam.SetHp(GameCharacterParam.GetHp() - 10);
                 }
 
+
                 if (!GameCharacterParam.IsAlive())
                 {
                     UIScreenControl.AdditiveScreen(UI_SCREEN_TYPE.YOU_DIED_INFO);

@@ -38,6 +38,10 @@ public class HomeScene : MonoBehaviour {
                 seqState = SEQ_STATE.UPDATE;
                 break;
             case SEQ_STATE.UPDATE:
+                if (Input.GetKeyDown(KeyCode.K))
+                {
+                    UIScreenControl.AdditiveScreen(UI_SCREEN_TYPE.BLACKSMITH_MENU_INFO);
+                }
                 break;
             case SEQ_STATE.CLOSE:
                 seqState = SEQ_STATE.END;

@@ -29,9 +29,9 @@ public class WeaponDatabase : MonoBehaviour
             addData.moveSpeed = data.GetInt("moveSpeed");
             addData.attackSpeed = data.GetInt("attackSpeed");
             addData.stamina = data.GetInt("stamina");
-            addData.durability = data.GetInt("durability");
+            addData.hardness = data.GetInt("hardness");
 
-            addData.durabilityMax = addData.durability;
+            addData.hardnessMax = addData.hardness;
 
             UIWeaponIconData uiWeaponIconData = new UIWeaponIconData();
             uiWeaponIconData.id = addData.id;

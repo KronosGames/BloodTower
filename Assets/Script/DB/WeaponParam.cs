@@ -35,6 +35,6 @@ public class WeaponParam
     public int attackSpeed;
     public int moveSpeed;
     public int stamina;
-    public int durability;
-    public int durabilityMax;
+    public int hardness;
+    public int hardnessMax;
 }

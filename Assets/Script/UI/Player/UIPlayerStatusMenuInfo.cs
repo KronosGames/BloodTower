@@ -54,8 +54,8 @@ public class UIWeaponExplainInfo
     public Text nameText = null;
     public Text typeText = null;
     public Text skillText = null;
-    public Text durabilityValueText = null;
-    public Text durabilityMaxValueText = null;
+    public Text hardnessValueText = null;
+    public Text hardnessMaxValueText = null;
     public Text exlpainText = null;
 }
 
@@ -129,8 +129,8 @@ public class UIPlayerStatusMenuInfo : UIBase {
             data.skillText = UIUtility.GetText(dataTrans, "Text_Value");
 
             dataTrans = UIUtility.GetTrans(data.trans, "Durability");
-            data.durabilityValueText = UIUtility.GetText(dataTrans, "Text_Value");
-            data.durabilityMaxValueText = UIUtility.GetText(dataTrans, "Text_MaxValue");
+            data.hardnessValueText = UIUtility.GetText(dataTrans, "Text_Value");
+            data.hardnessMaxValueText = UIUtility.GetText(dataTrans, "Text_MaxValue");
 
             dataTrans = UIUtility.GetTrans(data.trans, "Exlpain");
             data.exlpainText = UIUtility.GetText(dataTrans, "Text_Value");
@@ -213,8 +213,8 @@ public class UIPlayerStatusMenuInfo : UIBase {
                 weaponExplain.skillText.text = skillParam.name;
 
                 weaponExplain.typeText.text = WeaponDatabase.GetWeaponTypeName(param.type);
-                weaponExplain.durabilityValueText.text = param.durability.ToString();
-                weaponExplain.durabilityMaxValueText.text = "0";
+                weaponExplain.hardnessValueText.text = param.hardness.ToString();
+                weaponExplain.hardnessMaxValueText.text = "0";
 
                 // IconDB
                 //weaponExplain.iconImage.sprite = ;
