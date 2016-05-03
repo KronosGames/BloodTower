@@ -1,8 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class EntryScene : MonoBehaviour
-{
+public class TitleScene : MonoBehaviour {
 
     enum SEQ_STATE
     {
@@ -32,14 +31,17 @@ public class EntryScene : MonoBehaviour
                 seqState = SEQ_STATE.UPDATE;
                 break;
             case SEQ_STATE.UPDATE:
-                seqState = SEQ_STATE.CLOSE;
+                if (InputManager.IsAnyDown())
+                {
+                    seqState = SEQ_STATE.CLOSE;
+                }
                 break;
             case SEQ_STATE.CLOSE:
                 seqState = SEQ_STATE.END;
                 break;
             case SEQ_STATE.END:
                 // 次のシーンに移行
-                GameMain.ChangeSequence(GAME_SEQUENCE.TITLE);
+                GameMain.ChangeSequence(GAME_SEQUENCE.HOME);
                 break;
         }
     }

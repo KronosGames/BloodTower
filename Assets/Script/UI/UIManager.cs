@@ -61,6 +61,12 @@ public class UIManager : ManagerBase
         screenControl.Rigster(screenType,uiBase);
     }
 
+    // UIBaseの配列を取得
+    static public UIBase[] GetUIBaseList()
+    {
+        return baseList.ToArray();
+    }
+
     // UIBaseを取得
     static public UIBase GetUIBase(UI_TYPE_ID id)
     {

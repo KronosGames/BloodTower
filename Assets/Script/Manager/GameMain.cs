@@ -154,7 +154,6 @@ public class GameMain : ManagerBase
 
                 break;
             case GAME_SEQUENCE.HOME:
-                SceneManager.LoadScene(PLAYER_STATUS_MENU_SCENE, LoadSceneMode.Additive);
 
                 break;
             case GAME_SEQUENCE.BATTLE_MAP:
@@ -200,10 +199,9 @@ public class GameMain : ManagerBase
             case GAME_SEQUENCE.SETUP:
                 ChangeSequence(GAME_SEQUENCE.ENTRY);
                 break;
-            case GAME_SEQUENCE.TITLE:
-
-                break;
             case GAME_SEQUENCE.ENTRY:
+                break;
+            case GAME_SEQUENCE.TITLE:
 
                 break;
             case GAME_SEQUENCE.HOME:
@@ -239,6 +237,7 @@ public class GameMain : ManagerBase
     // ----------------------------------------------------
 
     static public bool IsEntryScene() { return sequence == GAME_SEQUENCE.ENTRY; }
+    static public bool IsTitleScene() { return sequence == GAME_SEQUENCE.TITLE; }
     static public bool IsHomeScene() { return sequence == GAME_SEQUENCE.HOME; }
     static public bool IsBattleMapScene() { return sequence == GAME_SEQUENCE.BATTLE_MAP; }
     static public bool IsCampScene() { return sequence == GAME_SEQUENCE.CAMP; }
@@ -248,6 +247,15 @@ public class GameMain : ManagerBase
         if (isChanging) return;
 
         sequence = changeSeq;
+
+        if (sequence == GAME_SEQUENCE.SETUP || sequence == GAME_SEQUENCE.ENTRY)
+        {
+            GameMain instance = GetManager<GameMain>(MANAGER_ID.GAME_MAIN);
+            instance.UnloadScene();
+            instance.LoadScene();
+            return;
+        }
+
         isChanging = true;
         tranState = TRANSACTION_STATE.In;
         transactionTween = uTween.Play("TransactionTween");

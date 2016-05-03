@@ -9,6 +9,7 @@ public enum UI_TYPE_ID
 
     // Common
     SCROLL_CONTENT,
+    DIALOG,
 
     // Player
     PLAYER_INFO,

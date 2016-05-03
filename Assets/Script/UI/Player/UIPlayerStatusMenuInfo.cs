@@ -155,8 +155,7 @@ public class UIPlayerStatusMenuInfo : UIBase {
         AnimationWaitStop();
     }
 
-
-    protected override void OnButtonClickProcess(Button clickButton)
+    protected override void ButtonClickProccess(Button clickButton)
     {
         if (clickButton.name == "Button_Close")
         {

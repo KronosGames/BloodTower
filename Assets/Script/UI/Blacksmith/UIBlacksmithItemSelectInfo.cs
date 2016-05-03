@@ -22,18 +22,20 @@ public class UIBlacksmithItemSelectInfo : UIBase {
         }
     }
 
-    protected override void OnButtonClickProcess(Button clickButton)
+    protected override void ButtonClickSelect(Button clickButton, int count)
+    {
+        if(clickButton.name == "Button_Item" + count.ToString("00"))
+        {
+            UIScreenControl.BackScreen();
+        }
+    }
+
+    protected override void ButtonClickProccess(Button clickButton)
     {
         if (clickButton.name == "Button_Back")
         {
             UIScreenControl.BackScreen();
             return;
-        }
-
-        int count = UIUtility.GetStringToNumber(clickButton.name);
-        if (clickButton.name == "Button_Item" + count.ToString("00"))
-        {
-            UIScreenControl.BackScreen();
         }
     }
 

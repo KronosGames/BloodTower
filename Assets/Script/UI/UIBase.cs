@@ -11,9 +11,6 @@ public class UIBase : MonoBehaviour
     List<Button> buttonList = new List<Button>();
     List<UIInput> inputList = new List<UIInput>();
 
-    // ボタンが押されたらこの処理が実行させる。
-    protected virtual void OnButtonClickProcess(Button clickButton) { }
-
     // 毎フレーム処理させる
     protected virtual void UpdateUI() { }
 
@@ -49,6 +46,28 @@ public class UIBase : MonoBehaviour
         UIAnimation.Remove(this);
     }
 
+    // ボタンが押されたらこの処理が実行させる。
+    protected virtual void ButtonClickProccess(Button clickButton) { }
+    protected virtual void ButtonClickSelect(Button clickButton, int count) { }
+
+    // ボタンが押されたらこの処理が実行させる。
+    void OnButtonClickProcess(Button clickButton)
+    {
+        int length = clickButton.name.Length;
+        string strCount = clickButton.name.Substring(length - 2);
+        int count = 0;
+        bool isParse = int.TryParse(strCount, out count);
+        if (isParse)
+        {
+            ButtonClickSelect(clickButton, count);
+        }
+        else
+        {
+            ButtonClickProccess(clickButton);
+        }
+
+    }
+
     protected void ResetButton(UIBase root)
     {
         for (int i = 0; i < buttonList.Count; i++)
@@ -80,6 +99,29 @@ public class UIBase : MonoBehaviour
         inputList.Add(cObj.AddComponent<UIInput>());
     }
 
+
+
+    // ボタンロックを設定する。
+    // 引数 : buttonRootを設定すると、そのBaseのボタンは有効化にならない。
+    protected void SetButtonLock(bool isLock, UIBase buttonRoot = null)
+    {
+        UIBase[] list = UIManager.GetUIBaseList();
+        for (int i = 0; i < list.Length; i++)
+        {
+            if (buttonRoot != null)
+            {
+                if (list[i] == buttonRoot) continue;
+            }
+
+            int buttonCount = list[i].buttonList.Count;
+
+            for (int ii = 0; ii < buttonCount; ii++)
+            {
+                list[i].buttonList[ii].enabled = !isLock;
+            }
+        }
+    }
+
     // ---------------------------------------------------------
     // 公開用関数
     // ---------------------------------------------------------
@@ -96,7 +138,6 @@ public class UIBase : MonoBehaviour
     {
         UpdateUI();
     }
-
 
     // UIのセットアップ
     public virtual void SetupUI() { }

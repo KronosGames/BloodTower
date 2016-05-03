@@ -20,7 +20,17 @@ public class UIBlacksmithMenuInfo : UIBase
 
     int animHandle = -1;
 
-	void Start ()
+    enum STATE
+    {
+        NONE,
+        OPEN,
+        UPDATE,
+        DIALOG,
+        CLOSE,
+    }
+    STATE state = STATE.NONE;
+
+    void Start ()
     {
         InitUI(this, UI_TYPE_ID.BLACKSMITH_MENU_INFO, UI_SCREEN_TYPE.BLACKSMITH_MENU_INFO);
 
@@ -41,24 +51,47 @@ public class UIBlacksmithMenuInfo : UIBase
 
     protected override void UpdateUI()
     {
-        if (animHandle != -1)
+        switch (state)
         {
-            if (UIAnimation.IsStop(animHandle))
-            {
-                UIAnimation.Stop(ref animHandle);
-            }
+            case STATE.OPEN:
+                if (UIAnimation.IsStop(animHandle))
+                {
+                    UIAnimation.Stop(ref animHandle);
+                    state = STATE.UPDATE;
+                }
+                break;
+            case STATE.UPDATE:
+                break;
+            case STATE.DIALOG:
+                if (UIEvent.GetDialogPushType() == UIDialog.PUSH_TYPE.OK)
+                {
+                    UIEvent.CloseDialog();
+                    UIScreenControl.CloseScreen(UI_SCREEN_TYPE.BLACKSMITH_MENU_INFO);
+                    state = STATE.NONE;
+                    return;
+                }
+                break;
+            case STATE.CLOSE:
+                if (UIAnimation.IsStop(animHandle))
+                {
+                    UIAnimation.Stop(ref animHandle);
+                    state = STATE.NONE;
+                }
+                break;
         }
     }
 
-    protected override void OnButtonClickProcess(Button clickButton)
+    protected override void ButtonClickProccess(Button clickButton)
     {
         if (clickButton.name == "Button_Back")
         {
             UIScreenControl.CloseScreen(UI_SCREEN_TYPE.BLACKSMITH_MENU_INFO);
             return;
         }
+    }
 
-        int count = UIUtility.GetStringToNumber(clickButton.name);
+    protected override void ButtonClickSelect(Button clickButton, int count)
+    {
         if (clickButton.name == "Weapon_Info" + count.ToString("00"))
         {
             UIScreenControl.AdditiveScreen(UI_SCREEN_TYPE.BLACKSMITH_ITEM_SELECT_INFO);
@@ -67,22 +100,52 @@ public class UIBlacksmithMenuInfo : UIBase
 
     public override void Open()
     {
+        if (state != STATE.NONE) return;
+
         animHandle = UIAnimation.Play(this,"anim_blacksmith_menu_open");
+        state = STATE.OPEN;
     }
 
     public override void Close()
     {
+        if (state == STATE.NONE) return;
+
         animHandle = UIAnimation.Play(this, "anim_blacksmith_menu_close");
+        state = STATE.CLOSE;
+    }
+
+    // 武器を装備しているかどうか
+    bool IsEquipWeapon()
+    {
+        WeaponParam[] weaponParams = GameCharacterParam.GetEquipWeaponParam();
+        for (int i = 0; i < WEAPON_CONTENT_COUNT; i++)
+        {
+            if (weaponParams[i].id != WEAPON_ID.NULL)
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public override void SetupUI()
     {
+        if (!IsEquipWeapon())
+        {
+            string titleDialog = "Warning is Equip Weapon";
+            string infoDialog = "なにも装備されていません。\n装備してからもう一度　来てください";
+
+            UIEvent.OpenDialog(UIDialog.BUTTON_TYPE.OK, ref titleDialog, ref infoDialog);
+            state = STATE.DIALOG;
+            return;
+        }
+
         WeaponParam[] weaponParams = GameCharacterParam.GetEquipWeaponParam();
         for (int i = 0; i < WEAPON_CONTENT_COUNT; i++)
         {
             UIBlacksmithWeaponContent data = weaponContents[i];
             WeaponParam equipWeapon = weaponParams[i];
-            if (equipWeapon == null) continue;
 
             bool isActive = equipWeapon.id != WEAPON_ID.NULL;
             data.m_cTrans.gameObject.SetActive(isActive);

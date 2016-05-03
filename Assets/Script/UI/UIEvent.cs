@@ -40,4 +40,40 @@ public class UIEvent
             info.ChangeWeapon();
         }
     }
+    
+    // ダイアログを開く
+    static public void OpenDialog(UIDialog.BUTTON_TYPE buttonType, ref string title, ref string explain)
+    {
+        UIBase cBase = UIManager.GetUIBase(UI_TYPE_ID.DIALOG);
+        UIDialog info = cBase as UIDialog;
+        if (info != null)
+        {
+            info.OpenDialog(buttonType,ref title,ref explain);
+        }
+    }
+
+    // ダイアログを閉じる
+    static public void CloseDialog()
+    {
+        UIBase cBase = UIManager.GetUIBase(UI_TYPE_ID.DIALOG);
+        UIDialog info = cBase as UIDialog;
+        if (info != null)
+        {
+            info.Close();
+        }
+    }
+
+    // ダイアログ 押したボタンを取得
+    static public UIDialog.PUSH_TYPE GetDialogPushType()
+    {
+        UIBase cBase = UIManager.GetUIBase(UI_TYPE_ID.DIALOG);
+        UIDialog info = cBase as UIDialog;
+        if (info != null)
+        {
+            return info.GetPushType();
+        }
+
+        return UIDialog.PUSH_TYPE.NONE;
+    }
+
 }
