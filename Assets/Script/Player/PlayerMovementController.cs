@@ -46,15 +46,16 @@ public class PlayerMovementController : MonoBehaviour {
         Active = 1,
     }
 
-    enum MOVE_TYPE
+    public enum MOVE_TYPE
     {
         IDOLING,
         WALKING,
+        SPRINT,
         ROLLING,
         JUMPING,
     }
 
-    MOVE_TYPE moveType = MOVE_TYPE.IDOLING;
+    public MOVE_TYPE moveType = MOVE_TYPE.IDOLING;
 
 
     /// <summary>
@@ -105,11 +106,13 @@ public class PlayerMovementController : MonoBehaviour {
     /// </summary>
     float verticalInput = 0;
 
+    PlayerStateManager playerState = null;
 
     void Start() {
 
         Physics.gravity = new Vector3(0, gravityPower, 0);
 
+        playerState = GetComponent<PlayerStateManager>();
 
         AttachComponents();
         LoadParameters();
@@ -144,7 +147,12 @@ public class PlayerMovementController : MonoBehaviour {
             else
             {
                 RefreshVelocity();
+                Rotate();
                 moveType = MOVE_TYPE.WALKING;
+                if(InputManager.IsPress(INPUT_ID.PLAYER_SPRINT))
+                {
+                    moveType = MOVE_TYPE.SPRINT;
+                }
 
                 if (InputManager.IsUp(INPUT_ID.PLAYER_ROLLING))
                 {
@@ -157,12 +165,31 @@ public class PlayerMovementController : MonoBehaviour {
         }
 
     }
+    [SerializeField]
+    float lerpRate = 0.5f;
+
+    void Rotate()
+    {
+        Vector3 lerpedForward = Vector3.Lerp(transform.forward, moveVelocity, lerpRate);
+        while(lerpedForward == Vector3.zero)
+        {
+            lerpedForward = Vector3.Lerp(transform.forward, lerpedForward, lerpRate);
+        }
+        transform.forward = lerpedForward;
+    }
 
     void FixedUpdate()
     {
+        if (!playerState.IsAlive)
+        {
+            return;
+        }
+
         if (state == STATE.Unactive) return;
 
+
         RefreshInputValues();
+
 
         switch (moveType)
         {
@@ -173,19 +200,17 @@ public class PlayerMovementController : MonoBehaviour {
 
             case MOVE_TYPE.WALKING:
 
-                if (InputManager.IsPress(INPUT_ID.PLAYER_SPRINT))
-                {
-                    Move(moveSpeed * sprintRate);
-                }
-                else
-                {
-                    Move(moveSpeed);
-                }
-
+                Move(moveSpeed);
                 Jump();
 
-                break;
 
+                break;
+            case MOVE_TYPE.SPRINT:
+                Move(moveSpeed * sprintRate);
+                Jump();
+
+
+                break;
             case MOVE_TYPE.ROLLING:
                 Rolling();
                 break;
@@ -239,7 +264,6 @@ public class PlayerMovementController : MonoBehaviour {
     void Move(float _speed)
     {
         myRigid.AddForce(moveVelocity * _speed, ForceMode.VelocityChange);
-
     }
 
 
