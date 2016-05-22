@@ -9,42 +9,18 @@ public class PlayerAnimationController : MonoBehaviour
 
     Animation myAnimation = null;
 
-    // アニメーションID、名前(string)、ブレンドするか、ブレンド時間をまとめたデータ構造を作るべきかも
-    // 外部データで読み込む？
-    enum AnimationID
-    {
-        Idling = 0,
-        Walking,
-        Run,
-        Jump,
-        Attack00,
-        Attack01,
-        Dead,
-        Hit
-    }
-
-    [System.Serializable]
-    class AnimationBlendData
-    {
-        public AnimationID animationID;
-        public string animationName;
-        public bool isBlend;
-        public float blendTime = 1.0f;
-    }
-
     [SerializeField]
-    AnimationBlendData[] animationArray;
-
+    AnimationDatabase database = null;
 
     /// <summary>
     /// 前フレームのアニメーションを記憶する
     /// </summary>
-    AnimationID lastAnimationID = AnimationID.Idling;
+    PlayerAnimationParam.ANIMATION_ID lastAnimationID = PlayerAnimationParam.ANIMATION_ID.Idling;
 
     /// <summary>
     /// 現在のアニメーションを意味する
     /// </summary>
-    AnimationID nowAnimationID = AnimationID.Idling;
+    PlayerAnimationParam.ANIMATION_ID nowAnimationID = PlayerAnimationParam.ANIMATION_ID.Idling;
 
     // Use this for initialization
     void Start()
@@ -60,8 +36,8 @@ public class PlayerAnimationController : MonoBehaviour
     /// </summary>
     void BeginWithIdling()
     {
-        lastAnimationID = nowAnimationID = AnimationID.Idling;
-        myAnimation.Play("Idling");
+        lastAnimationID = nowAnimationID = PlayerAnimationParam.ANIMATION_ID.Idling;
+        myAnimation.Play(database.animationList[(int)nowAnimationID].clip.name);
     }
 
     float animationCoolTime = 0;
@@ -75,7 +51,7 @@ public class PlayerAnimationController : MonoBehaviour
     {
         if (animationCoolTime < 0f)
         {
-            nowAnimationID = AnimationID.Hit;
+            nowAnimationID = PlayerAnimationParam.ANIMATION_ID.Hit;
             animationCoolTime = knockBackSecond;
         }
     }
@@ -89,11 +65,11 @@ public class PlayerAnimationController : MonoBehaviour
         switch(attackID)
         {
             case 0:
-                nowAnimationID = AnimationID.Attack00;
+                nowAnimationID = PlayerAnimationParam.ANIMATION_ID.Attack00;
                 break;
 
             case 1:
-                nowAnimationID = AnimationID.Attack01;
+                nowAnimationID = PlayerAnimationParam.ANIMATION_ID.Attack01;
                 break;
 
             default:
@@ -111,7 +87,7 @@ public class PlayerAnimationController : MonoBehaviour
     {
         if(!playerState.IsAlive)
         {
-            nowAnimationID = AnimationID.Dead;
+            nowAnimationID = PlayerAnimationParam.ANIMATION_ID.Dead;
         }
 
         UpdateState();
@@ -138,19 +114,19 @@ public class PlayerAnimationController : MonoBehaviour
         switch (movementController.moveType)
         {
             case PlayerMovementController.MOVE_TYPE.IDOLING:
-                nowAnimationID = AnimationID.Idling;
+                nowAnimationID = PlayerAnimationParam.ANIMATION_ID.Idling;
                 break;
 
             case PlayerMovementController.MOVE_TYPE.WALKING:
-                nowAnimationID = AnimationID.Walking;
+                nowAnimationID = PlayerAnimationParam.ANIMATION_ID.Walking;
                 break;
 
             case PlayerMovementController.MOVE_TYPE.SPRINT:
-                nowAnimationID = AnimationID.Run;
+                nowAnimationID = PlayerAnimationParam.ANIMATION_ID.Run;
                 break;
 
             case PlayerMovementController.MOVE_TYPE.JUMPING:
-                nowAnimationID = AnimationID.Jump;
+                nowAnimationID = PlayerAnimationParam.ANIMATION_ID.Jump;
                 break;
 
         }
@@ -168,16 +144,15 @@ public class PlayerAnimationController : MonoBehaviour
             return;
         }
 
-        AnimationBlendData nextAnimation = animationArray[(int)nowAnimationID];
-
+        AnimationData nextAnimation = database.animationList[(int)nowAnimationID];
 
         if (nextAnimation.isBlend)
         {
-            myAnimation.CrossFade(nextAnimation.animationName, nextAnimation.blendTime);
+            myAnimation.CrossFade(nextAnimation.clip.name, nextAnimation.blendTime);
         }
         else
         {
-            myAnimation.Play(nextAnimation.animationName);
+            myAnimation.Play(nextAnimation.clip.name);
         }
 
         //for (int index = 0; index < animationArray.Length; ++index)
