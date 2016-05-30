@@ -83,10 +83,10 @@ public class PlayerStateManager : MonoBehaviour {
     /// 生きている状態にする
     /// </summary>
     /// <param name="health">生きている状態にした際のHP</param>
-    public void Revive(int health)
+    public void Revive()
     {
         IsAlive = true;
-        nowHealth = health;
+        GameCharacterParam.SetHp(maxHealth);
     }
 
     /// <summary>
@@ -104,27 +104,20 @@ public class PlayerStateManager : MonoBehaviour {
 
     int maxHealth = int.MaxValue;
 
-    int nowHealth = int.MaxValue;
-
     public void InitializeHealth()
     {
         maxHealth = GameCharacterParam.GetMaxHp();
-        nowHealth = GameCharacterParam.GetHp();
     }
-
 
     /// <summary>
     /// HPに加算する
     /// </summary>
     /// <param name="addValue"></param>
     /// <returns>計算後のHP量</returns>
-    public int AddHealth(int addValue)
+    public void AddHealth(int addValue)
     {
-        nowHealth += addValue;
-
-
-        return ClipHealth();
-
+        int nowHealth = GameCharacterParam.GetHp() + addValue;
+        GameCharacterParam.SetHp(nowHealth);
     }
 
     /// <summary>
@@ -133,8 +126,7 @@ public class PlayerStateManager : MonoBehaviour {
     /// <returns></returns>
     bool IsHealthUnderZero()
     {
-
-        if (nowHealth <= 0)
+        if (GameCharacterParam.GetHp() <= 0)
         {
             return true;
         }
@@ -142,15 +134,4 @@ public class PlayerStateManager : MonoBehaviour {
         return false;
     }
 
-    /// <summary>
-    /// HPを0から最大値の間に合わせる
-    /// </summary>
-    /// <returns>合わせた後の数値</returns>
-    int ClipHealth()
-    {
-        nowHealth = Mathf.Min(nowHealth, maxHealth);
-        nowHealth = Mathf.Max(nowHealth, 0);
-
-        return nowHealth;
-    }
 }

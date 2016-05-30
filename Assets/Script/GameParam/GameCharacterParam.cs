@@ -53,6 +53,9 @@ public static class GameCharacterParam
 
     static public void SetHp(int hp)
     {
+        hp = Mathf.Min(hp, characterParam.maxHP);
+        hp = Mathf.Max(hp, 0);
+
         characterParam.hp = hp;
     }
 
