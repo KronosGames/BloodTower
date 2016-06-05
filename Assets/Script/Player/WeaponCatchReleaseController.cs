@@ -24,9 +24,6 @@ public class WeaponCatchReleaseController : MonoBehaviour {
     /// </summary>
     public bool IsEquiped { get; set; }
 
-    [SerializeField]
-    Transform weaponTransform = null;
-
     /// <summary>
     /// 拾った武器の過去の親
     /// </summary>
@@ -35,7 +32,10 @@ public class WeaponCatchReleaseController : MonoBehaviour {
     [SerializeField]
     float inputThreshold = 0.3f;
 
-    PlayerAttackController attackController = null;
+	[SerializeField]
+	CharacterRigRegister characterRig = null;
+
+	PlayerAttackController attackController = null;
 
     // Use this for initialization
     void Start () {
@@ -52,7 +52,6 @@ public class WeaponCatchReleaseController : MonoBehaviour {
             {
                 CatchWeapon();
             }
-
         }
         else
         {
@@ -60,7 +59,6 @@ public class WeaponCatchReleaseController : MonoBehaviour {
             {
                 ReleaseWeapon();
             }
-
         }
 
 
@@ -89,7 +87,9 @@ public class WeaponCatchReleaseController : MonoBehaviour {
                 }
 
             }
-            equipedWeapon.transform.position = weaponTransform.position;
+
+			Transform weaponTransform = characterRig.GetRigTransform(RIG_ID.RIGHT_HAND);
+			equipedWeapon.transform.position = weaponTransform.position;
             weaponPrevParent = equipedWeapon.transform.parent;
             equipedWeapon.transform.SetParent(weaponTransform);
             equipedWeapon.transform.localRotation = Quaternion.identity;
