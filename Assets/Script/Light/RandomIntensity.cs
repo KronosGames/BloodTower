@@ -15,8 +15,16 @@ public class RandomIntensity : MonoBehaviour {
 
     float changedCoolTime = 0f;
 
+    [SerializeField]
+    float lerpRate = 0.95f;
 
     Light thisLight = null;
+
+    /// <summary>
+    /// 変更先に光の強さ
+    /// </summary>
+    float changeToIntensity = 0f;
+
 
     void Start()
     {
@@ -30,8 +38,11 @@ public class RandomIntensity : MonoBehaviour {
 
 	    if(changedCoolTime >= changeInterval)
         {
-            thisLight.intensity = Random.Range(minIntensity, maxIntensity);
+            changeToIntensity = Random.Range(minIntensity, maxIntensity);
             changedCoolTime = 0f;
         }
-	}
+
+        thisLight.intensity = Mathf.Lerp(thisLight.intensity, changeToIntensity, lerpRate);
+
+    }
 }
