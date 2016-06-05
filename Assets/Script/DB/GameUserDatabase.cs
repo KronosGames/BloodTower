@@ -24,12 +24,12 @@ public class GameUserDatabase : MonoBehaviour
 
         for (int itemIndex = 0; itemIndex < GameUserTable.ITEM_NUM; itemIndex++)
         {
-            tableData.itemList[itemIndex] = data.GetInt("itemID_" + itemIndex.ToString("00"));
+            tableData.itemList[itemIndex] = data.GetInt("item_" + itemIndex.ToString("00"));
         }
 
         gameUserTable = tableData;
 
-        GameParam.Setup(ref gameUserTable);
+        GameUserParam.Setup(ref gameUserTable);
     }
 
 

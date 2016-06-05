@@ -220,7 +220,7 @@ public class UIPlayerStatusMenuInfo : UIBase {
             }
         }
 
-        statusData.userNameData.nameText.text = GameParam.GetUserName();
+        statusData.userNameData.nameText.text = GameUserParam.GetUserName();
 
         SetParameter(UI_PARAM_ID.HP,        GameCharacterParam.GetHp(),         GameCharacterParam.GetOffsetHp());
         SetParameter(UI_PARAM_ID.STAMINA,   GameCharacterParam.GetStamin(),     GameCharacterParam.GetOffsetStamina());

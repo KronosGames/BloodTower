@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public static class GameParam
+public static class GameUserParam
 {
     static GameUserTable gameUserData = new GameUserTable();
 
