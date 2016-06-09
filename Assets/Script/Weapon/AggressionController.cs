@@ -25,6 +25,8 @@ public class AggressionController : MonoBehaviour {
 
     public WeaponParam MyWeaponParam { get; set; }
 
+    string attackerTag;
+
     void Start()
     {
         IsFlying = IsActive = false;
@@ -34,7 +36,7 @@ public class AggressionController : MonoBehaviour {
     /// 武器の攻撃能力を有効化する
     /// </summary>
     /// <param name="_time">有効にする時間</param>
-    public void ActivateWeapon(float _time)
+    public void ActivateWeapon(float _time,string _attackerTag)
     {
         if(_time <= 0)
         {
@@ -43,7 +45,7 @@ public class AggressionController : MonoBehaviour {
 
         activeTime = _time;
         IsActive = true;
-
+        attackerTag = _attackerTag;
 
     }
 
@@ -100,6 +102,11 @@ public class AggressionController : MonoBehaviour {
             return;
         }
 
+        if (attackerTag == coll.tag)
+        {
+            return;
+        }
+
         switch (coll.tag)
         {
             case "Enemy":
@@ -109,6 +116,17 @@ public class AggressionController : MonoBehaviour {
                 {
                     Debug.Log(coll.name + "に" + MyWeaponParam.attack + "のダメージ！");
                     esm.AddHealth(-MyWeaponParam.attack);
+                    Debug.Log("EnemyHP:" + esm.NowHealth);
+                }
+                break;
+            case "Player":
+                Debug.Log(coll.name + "に当たった！");
+                PlayerStateManager psm = coll.GetComponent<PlayerStateManager>();
+                if (psm != null)
+                {
+                    Debug.Log(coll.name + "に" + MyWeaponParam.attack + "のダメージ！");
+                    psm.AddHealth(-MyWeaponParam.attack);
+                    Debug.Log("PlayerHP:" + GameCharacterParam.GetHp());
                 }
                 break;
         }

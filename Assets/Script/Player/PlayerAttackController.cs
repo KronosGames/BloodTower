@@ -14,7 +14,7 @@ public class PlayerAttackController : MonoBehaviour {
         {
             if(aggressionController != null)
             {
-                aggressionController.ActivateWeapon(1 /*武器に応じた攻撃時間を与える*/);
+                aggressionController.ActivateWeapon(1 /*武器に応じた攻撃時間を与える*/,transform.tag);
                 playerAnimationController.BeginAttack(1, 1.3f/*武器に応じた攻撃時間を与える*/);
             }
             else

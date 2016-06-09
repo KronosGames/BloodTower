@@ -16,6 +16,16 @@ public class MarionetteAttackBrain : MonoBehaviour {
     /// </summary>
     NavMeshAgent navMeshAgent = null;
 
+    [SerializeField]
+    Transform weapon;
+
+    AggressionController aggressionController = null;
+
+    [SerializeField]
+    MarionetteAnimationController marionetteAnimationController = null;
+
+    WeaponInfo weaponInfo = null;
+
     enum AttackID
     {
         Normal01 = 0,
@@ -27,29 +37,44 @@ public class MarionetteAttackBrain : MonoBehaviour {
     // Use this for initialization
     void Start () {
         navMeshAgent = GetComponent<NavMeshAgent>();
-	}
+        aggressionController = weapon.GetComponent<AggressionController>();
+        weaponInfo = weapon.GetComponent<WeaponInfo>();
+
+        
+
+    }
 	
 	// Update is called once per frame
-	void Update () {
+	void FixedUpdate ()
+    {
 	    if(null == Target)
         {
             return;
         }
 
-        if(navMeshAgent.stoppingDistance > Vector3.Distance(Target.position,transform.position))
+        if(null == aggressionController.MyWeaponParam)
+        {
+            aggressionController.MyWeaponParam = weaponInfo.GetParam();
+        }
+
+        if (navMeshAgent.stoppingDistance > Vector3.Distance(Target.position,transform.position))
         {
             int mask = CheckInsideAttackArea();
-            Debug.Log("mask:" + mask);
+
             // 通常攻撃01       
             if ((mask & (1 << (int)AttackID.Normal01)) != 0)
             {
                 Debug.Log("通常攻撃01の実行");
+                aggressionController.ActivateWeapon(1.0f,transform.tag);
+                marionetteAnimationController.BeginAttack(0, 1.0f);
             }
 
             // 通常攻撃02
             if ((mask & (1 << (int)AttackID.Normal02)) != 0)
             {
                 Debug.Log("通常攻撃02の実行");
+                aggressionController.ActivateWeapon(1.5f, transform.tag);
+                marionetteAnimationController.BeginAttack(1, 1.5f);
             }
 
             // 通常攻撃03

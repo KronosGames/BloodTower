@@ -124,12 +124,12 @@ public class EnemyStatusManager : MonoBehaviour {
 
     int maxHealth = int.MaxValue;
 
-    int nowHealth = int.MaxValue;
+    public int NowHealth { get; set; }
 
     void InitializeHealth()
     {
         maxHealth = thisParam.maxHp;
-        nowHealth = thisParam.hp;
+        NowHealth = thisParam.hp;
     }
 
 
@@ -140,7 +140,7 @@ public class EnemyStatusManager : MonoBehaviour {
     /// <returns>計算後のHP量</returns>
     public int AddHealth(int addValue)
     {
-        nowHealth += addValue;
+        NowHealth += addValue;
 
 
         return ClipHealth();
@@ -150,11 +150,11 @@ public class EnemyStatusManager : MonoBehaviour {
     /// <summary>
     /// HPが0以下かどうか
     /// </summary>
-    /// <returns></returns>
+    /// <returns>true...0以下 false...0より大きい</returns>
     bool IsHealthUnderZero()
     {
 
-        if (nowHealth <= 0)
+        if (NowHealth <= 0)
         {
             return true;
         }
@@ -168,10 +168,10 @@ public class EnemyStatusManager : MonoBehaviour {
     /// <returns>合わせた後の数値</returns>
     int ClipHealth()
     {
-        nowHealth = Mathf.Min(nowHealth, maxHealth);
-        nowHealth = Mathf.Max(nowHealth, 0);
+        NowHealth = Mathf.Min(NowHealth, maxHealth);
+        NowHealth = Mathf.Max(NowHealth, 0);
 
-        return nowHealth;
+        return NowHealth;
     }
 
 

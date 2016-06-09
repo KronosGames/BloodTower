@@ -109,7 +109,7 @@ public class WeaponCatchReleaseController : MonoBehaviour {
         if (nearestWeapon.distance <= catchableArea)
         {
             GameObject weaponObj = nearestWeapon.weaponInfo.gameObject;
-
+            weaponObj.transform.rotation = Quaternion.identity;
             return weaponObj;
         }
 
