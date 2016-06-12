@@ -56,7 +56,8 @@ public class UIDialog : UIBase
     protected override void ButtonClickSelect(Button clickButton, int count)
     {
         pushType = (PUSH_TYPE)count;
-    }
+		Close();
+	}
 
     public override void Close()
     {

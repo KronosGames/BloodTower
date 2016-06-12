@@ -11,6 +11,7 @@ public class EnemyInfo : MonoBehaviour
 
     EnemyParam param = null;
     EnemyStatusManager statusManager = null;
+	int hierarchyCount = -1;
 
     //  ----------------------------------------------
     //  公開用 関数
@@ -18,11 +19,13 @@ public class EnemyInfo : MonoBehaviour
 
     public EnemyParam GetParam() { return param; }
     public bool IsBoss() { return isBoss; }
+	public int GetHierarchyCount() { return hierarchyCount; }
 
-
-    public void Setup()
+    public void Setup(int hierarchyCount)
     {
-        EnemyParam temp = EnemyDatabase.GetEnemyParam(id);
+		this.hierarchyCount = hierarchyCount;
+
+		EnemyParam temp = EnemyDatabase.GetEnemyParam(id);
 
         param = new EnemyParam();
         param.id = temp.id;

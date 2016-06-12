@@ -2,68 +2,47 @@
 using System.Collections;
 using System.Collections.Generic;
 
+public class WeaponMapHierarchyData
+{
+    public WeaponInfo[] weaponList = null;
+	public int hierarchyCount = -1;
+}
 public class WeaponManager : ManagerBase
 {
-    static WeaponInfo[] weaponList = null;
+	List<WeaponMapHierarchyData> weaponHierarchyList = new List<WeaponMapHierarchyData>();
 
     void Start()
     {
         InitManager(this, MANAGER_ID.WEAPON);
     }
 
-    //  -----------------------------------------
-    //  公開用関数
-    //  -----------------------------------------
-    
-    // 初期化
-    static public void Setup(ref WeaponInfo[] infoList)
-    {
-        weaponList = infoList;
+	//  -----------------------------------------
+	//  公開用関数
+	//  -----------------------------------------
 
-        for (int i = 0; i < weaponList.Length; i++)
-        {
-            WeaponInfo info = weaponList[i];
-            info.Setup();
-        }
-    }
+	// 初期化
+	public void Setup()
+	{
+		weaponHierarchyList.Clear();
+	}
 
-    static public WeaponInfo GetWeapon(WEAPON_ID id)
-    {
-        for (int i = 0; i < weaponList.Length; i++)
-        {
-            WeaponInfo info = weaponList[i];
-            WeaponParam param = info.GetParam();
-            if (param.id == id)
-            {
-                return info;
-            }
-        }
+	public void Register(ref WeaponInfo[] weaponList,int hierarchyCount)
+	{
+		WeaponMapHierarchyData addData = new WeaponMapHierarchyData();
+		addData.weaponList = weaponList;
 
-        return null;
+		for (int i = 0; i < addData.weaponList.Length; i++)
+		{
+			addData.weaponList[i].Setup(hierarchyCount);
+		}
+
+		addData.hierarchyCount = hierarchyCount;
+		weaponHierarchyList.Add(addData);
     }
 
     // 現在の階層の武器一覧が取得できる。
-    static public WeaponInfo[] GetWeaponList()
+    public WeaponInfo[] GetWeaponList(int hierarchyCount)
     {
-        return weaponList;
+        return weaponHierarchyList[hierarchyCount].weaponList;
     }
-
-    // 配置された武器の種類リスト
-    static public WeaponInfo[] GetWeaponTypeList(WEAPON_TYPE type)
-    {
-        List<WeaponInfo> infoList = new List<WeaponInfo>();
-
-        for (int i = 0; i < weaponList.Length; i++)
-        {
-            WeaponInfo info = weaponList[i];
-            WeaponParam param = info.GetParam();
-            if (param.type == type)
-            {
-                infoList.Add(info);
-            }
-        }
-
-        return infoList.ToArray();
-    }
-
 }

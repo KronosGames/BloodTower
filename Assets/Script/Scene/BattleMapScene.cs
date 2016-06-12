@@ -34,7 +34,7 @@ public class BattleMapScene : MonoBehaviour
         switch (seqState)
         {
             case SEQ_STATE.SETUP:
-                BattleManager.Setup();
+				BattleMapUtility.BattleSetup();
                 seqState = SEQ_STATE.OPEN;
                 break;
             case SEQ_STATE.OPEN:
@@ -42,9 +42,9 @@ public class BattleMapScene : MonoBehaviour
                 seqState = SEQ_STATE.UPDATE;
                 break;
             case SEQ_STATE.UPDATE:
-                if (BattleManager.GetChangeSceneType() != CHANGE_SCENE_TYPE.NONE)
+                if (BattleMapUtility.GetChangeSceneType() != CHANGE_SCENE_TYPE.NONE)
                 {
-                    Close(BattleManager.GetChangeSceneType());
+                    Close(BattleMapUtility.GetChangeSceneType());
                 }
                 break;
             case SEQ_STATE.CLOSE:

@@ -3,10 +3,10 @@ using System.Collections;
 
 public class GameUserTable
 {
-    public const int ITEM_NUM = 5;
-
-    public string name;
-    public int[] itemList = new int[ITEM_NUM];
+    public string name;				//< ユーザー名
+    public int gold_stone;			//< 金石
+    public int silver_stone;		//< 銀石
+    public int copper_stone;		//< 銅石
 }
 
 public class GameUserDatabase : MonoBehaviour
@@ -21,13 +21,11 @@ public class GameUserDatabase : MonoBehaviour
         GameUserTable tableData = new GameUserTable();
 
         tableData.name = data.GetString("name");
+		tableData.gold_stone = data.GetInt("gold_stone");
+		tableData.silver_stone = data.GetInt("silver_stone");
+		tableData.copper_stone = data.GetInt("copper_stone");
 
-        for (int itemIndex = 0; itemIndex < GameUserTable.ITEM_NUM; itemIndex++)
-        {
-            tableData.itemList[itemIndex] = data.GetInt("item_" + itemIndex.ToString("00"));
-        }
-
-        gameUserTable = tableData;
+		gameUserTable = tableData;
 
         GameUserParam.Setup(ref gameUserTable);
     }

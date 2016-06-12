@@ -57,11 +57,6 @@ public class UIBossEnemyInfo : UIBase
                 }
                 break;
             case STATE.UPDATE:
-
-                float hp = BossEnemyManager.GetParam().hp;
-                float maxHp = BossEnemyManager.GetParam().maxHp;
-                infoData.hpBarImage.fillAmount = hp / maxHp;
-
                 break;
             case STATE.CLOSE:
                 SetAllDirty();
@@ -82,8 +77,9 @@ public class UIBossEnemyInfo : UIBase
 
     public override void SetupUI()
     {
-        infoData.nameText.text = BossEnemyManager.GetParam().name;
-    }
+		EnemyInfo enemy = BattleMapUtility.GetBossEnemyInfo();
+        infoData.nameText.text = enemy.GetParam().name;
+	}
 
     public override void Open()
     {
@@ -96,4 +92,9 @@ public class UIBossEnemyInfo : UIBase
         animHandle = UIAnimation.Play(this,"anim_bossenemy_out");
         state = STATE.CLOSE;
     }
+
+	public void SetHpGauge(float fillAmount)
+	{
+		infoData.hpBarImage.fillAmount = fillAmount;
+	}
 }

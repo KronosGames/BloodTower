@@ -9,7 +9,17 @@ using System.Reflection;
 // UIBaseを継承したクラスの関数(データ)をまとめる。
 public class UIEvent
 {
-    static public void SetScrollViewSize(int createNum)
+	static public void SetBossEnemyHpGauge(float fillAmount)
+	{
+		UIBase cBase = UIManager.GetUIBase(UI_TYPE_ID.BOSS_ENEMY_INFO);
+		UIBossEnemyInfo info = cBase as UIBossEnemyInfo;
+		if (info != null)
+		{
+			info.SetHpGauge(fillAmount);
+		}
+	}
+
+	static public void SetScrollViewSize(int createNum)
     {
         UIBase cBase = UIManager.GetUIBase(UI_TYPE_ID.SCROLL_CONTENT);
         UIScrollContentCreator info = cBase as UIScrollContentCreator;

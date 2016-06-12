@@ -12,19 +12,22 @@ public class WeaponInfo : MonoBehaviour {
     SKILL_ID skillID = SKILL_ID.NULL;
 
     WeaponParam param = new WeaponParam();
+	int hierarchyCount = -1;
 
-    //  -----------------------------------------------------
-    //  公開用関数
-    //  -----------------------------------------------------
+	//  -----------------------------------------------------
+	//  公開用関数
+	//  -----------------------------------------------------
 
-    public WeaponParam GetParam() { return param; }
+	public WeaponParam GetParam() { return param; }
     public SKILL_ID GetSkillID() { return skillID; }
+	public int GetHierarchyCount() { return hierarchyCount; }
 
-    public void Setup()
+	public void Setup(int hierarchyCount)
     {
         param = WeaponDatabase.GetWeapon(weaponID);
         param.skillID = skillID;
-    }
+		this.hierarchyCount = hierarchyCount;
+	}
 
     // 見た目を変更
     public void ChangeDraw()

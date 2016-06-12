@@ -1,58 +1,72 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
+
+public class BossEnemyMapHierarchyData
+{
+	public EnemyInfo enemy = null;
+    public bool isNone = true;
+	public int hierarchyCount = -1;
+}
 
 public class BossEnemyManager : ManagerBase
 {
-    static EnemyInfo currentBossEnemy = null;
-    static bool isNone = true;
+	List<BossEnemyMapHierarchyData> hierarchyList = new List<BossEnemyMapHierarchyData>();
 
 	void Start ()
     {
         InitManager(this, MANAGER_ID.BOSS_ENEMY);
-        currentBossEnemy = null;
-        isNone = true;
     }
 
-    //  --------------------------------------
-    //  公開用関数
-    //  --------------------------------------
+	//  --------------------------------------
+	//  公開用関数
+	//  --------------------------------------
 
-    static public void Register(ref EnemyInfo infoData)
+	public void Setup()
+	{
+		hierarchyList.Clear();
+
+	}
+
+	// 登録する。
+	public void Register(ref EnemyInfo bossEnemy,int hierarchyCount)
     {
-        currentBossEnemy = infoData;
+		BossEnemyMapHierarchyData addData = new BossEnemyMapHierarchyData();
+		addData.isNone = bossEnemy == null;
+		if (!addData.isNone)
+		{
+			addData.enemy = bossEnemy;
+			addData.enemy.Setup(hierarchyCount);
+		}
+		addData.hierarchyCount = hierarchyCount;
+		hierarchyList.Add(addData);
+	}
 
-        isNone = currentBossEnemy == null;
+	// 現在の階層の武器一覧が取得できる。
+	public EnemyInfo GetBossEnemyInfo(int hierarchyCount)
+	{
+		return hierarchyList[hierarchyCount].enemy;
+	}
 
-        // 存在しない
-        if (isNone)
-        {
-            return;
-        }
+	public EnemyParam GetParam(int hierarchyCount)
+	{
+		return GetBossEnemyInfo(hierarchyCount).GetParam();
+	}
 
-        currentBossEnemy.Setup();
-        UIScreenControl.AdditiveScreen(UI_SCREEN_TYPE.BOSS_ENEMY_INFO);
-    }
-
-    static public void Damage(int damageValue)
+	public void Damage(int hierarchyCount,int damageValue)
     {
-        if (isNone) return;
+		EnemyInfo info = GetBossEnemyInfo(hierarchyCount);
+		if (info == null) return;
 
-        EnemyParam param = currentBossEnemy.GetParam();
+        EnemyParam param = info.GetParam();
         param.hp -= damageValue;
 
         param.hp = System.Math.Max(param.hp, 0);
     }
 
-    static public EnemyParam GetParam()
-    {
-        if (isNone) return null;
-
-        return currentBossEnemy.GetParam();
-    }
-    
     // 死亡したかどうか
-    static public bool IsDead()
+    public bool IsDead(int hierarchyCount)
     {
-        return GetParam().hp <= 0;
+        return GetParam(hierarchyCount).hp <= 0;
     }
 }
